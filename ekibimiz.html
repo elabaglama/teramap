@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekibimiz - TERA MAP</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .team-section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .team-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #333;
+            text-align: center;
+        }
+        
+        .team-section p {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .team-member {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 40px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            text-align: left !important;
+            gap: 40px;
+        }
+        
+        .member-content {
+            flex: 1;
+            text-align: left !important;
+        }
+        
+        .member-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0;
+            border: 3px solid #f0f0f0;
+            flex-shrink: 0;
+        }
+        
+        .member-name {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .member-title {
+            color: #91796e;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .member-title a {
+            color: #91796e;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .member-title a:hover {
+            color: #6a574f;
+            text-decoration: underline;
+        }
+        
+        .member-bio {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            text-align: left !important;
+        }
+        
+        @media (max-width: 768px) {
+            .team-member {
+                padding: 25px;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .member-image {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 15px;
+            }
+            
+            .member-name {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TERA MAP</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="venues.html">Mekanlar</a></li>
+                <li><a href="genclik-ekipleri.html">Gençlik Ekipleri</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="team-section">
+        <h1>Ekibimiz</h1>
+        <p>TERA MAP, tutkulu ve yetenekli ekip üyeleri tarafından geliştirilmektedir. İşte bu vizyonu hayata geçiren ekibimiz.</p>
+        
+        <div class="team-member">
+            <img src="ela.jpg" alt="Ela Bağlama" class="member-image">
+            <div class="member-content">
+                <h2 class="member-name" style="text-align: left;">Ela Bağlama</h2>
+                <div class="member-title" style="text-align: left;">
+                    Kurucu - <a href="https://www.linkedin.com/in/elabaglama" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+                <p class="member-bio" style="text-align: left;">
+                    14 yaşından beri girişimcilik dünyasında yer almakta ve İstanbul'da ilk kez gerçekleştirilen Birleşmiş Milletler ile Local Conference of Youth Turkey ve TEDxBesiktas Countdown gibi etkinlikler organize etmiştir. Dijital araçlar ve veri haritalama ile ilgilenmeyi her zaman sevmiştir. Yetkin Gençler, Nobel Explorers, Buildspace, Microsoft, Useinsider gibi yerlerden eğitim almıştır. Büyürken, sosyal alanda gençlerin ne kadar pasif rol aldığını gördüğü için diğer gençleri geliştirmeyi hedefleyen adımlar atmaktadır. Şu anda 18 yaşında olup, 8 aydır Türkiye Girişimcilik Vakfı'nda çalışmaktadır.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo">TERA MAP</div>
+                <p class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <ul>
+                        <li><a href="#">Hakkımızda</a></li>
+                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <ul>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="#">Gizlilik Politikası</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 TERA MAP. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Check if user is logged in and update navigation
+        fetch('/api/user')
+            .then(response => {
+                if (response.ok) return response.json();
+                return null;
+            })
+            .then(user => {
+                const authLink = document.getElementById('auth-link');
+                if (user) {
+                    authLink.href = 'profile.html';
+                    authLink.textContent = 'Profilim';
+                }
+            })
+            .catch(error => {
+                console.error('Auth check error:', error);
+            });
+    </script>
+</body>
+</html> 

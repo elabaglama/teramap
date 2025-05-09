@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "id": "1746646037472",
+      "name": "brother",
+      "email": "elabaglama2017@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "createdAt": "2025-05-07T19:27:17.478Z"
+    },
+    {
+      "id": "1746646295714",
+      "name": "e",
+      "email": "semihciragan@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "isOrganizer": true,
+      "hasPaid": false,
+      "createdAt": "2025-05-07T19:31:35.714Z"
+    },
+    {
+      "id": "1746646618423",
+      "name": "brother",
+      "email": "elabaglamaa@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "isOrganizer": true,
+      "hasPaid": false,
+      "createdAt": "2025-05-07T19:36:58.424Z"
+    },
+    {
+      "id": "1746646839967",
+      "name": "laugh",
+      "email": "bbbbbbbbb@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "isOrganizer": false,
+      "hasPaid": false,
+      "createdAt": "2025-05-07T19:40:39.968Z"
+    },
+    {
+      "id": "1746646861905",
+      "name": "aaaaaa aaaaa",
+      "email": "aaaaaaa@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "isOrganizer": true,
+      "hasPaid": false,
+      "createdAt": "2025-05-07T19:41:01.907Z"
+    },
+    {
+      "id": "1746647002333",
+      "name": "kkkkk",
+      "email": "kkkkkkk@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "isOrganizer": true,
+      "hasPaid": false,
+      "createdAt": "2025-05-07T19:43:22.333Z"
+    },
+    {
+      "id": "1746815557071",
+      "name": "brother",
+      "email": "jkkkkkkkkk@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "isOrganizer": false,
+      "hasPaid": false,
+      "createdAt": "2025-05-09T18:32:37.077Z"
+    },
+    {
+      "id": "1746817611409",
+      "name": "brother mm",
+      "email": "qqqqqqqqqq@gmail.com",
+      "password": "4ad7b8dc6ecc79efa4d26aa33e47ef1880ce294fb8c287c9f19f4dc9934d83c2",
+      "isOrganizer": false,
+      "hasPaid": false,
+      "createdAt": "2025-05-09T19:06:51.412Z"
+    }
+  ]
+}

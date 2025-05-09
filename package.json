@@ -1,0 +1,21 @@
+{
+  "name": "venus-landing-page",
+  "version": "1.0.0",
+  "description": "Landing page for a private database product",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "landing-page",
+    "database",
+    "private-club"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+} 

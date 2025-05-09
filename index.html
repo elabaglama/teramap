@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özel Etkinlik Mekan Ağı</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TERA MAP</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Ana Sayfa</a></li>
+                <li><a href="venues.html">Mekanlar</a></li>
+                <li><a href="genclik-ekipleri.html">Gençlik Ekipleri</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-image-container">
+                <div class="hero-overlay">
+                    <h1 class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</h1>
+                    <p>Tera Map, İstanbul'daki küçük ve orta ölçekli etkinlik alanlarını kapsamlı bir şekilde özetleyen özel bir listeyi ve insan ağını üreten bir sosyal girişimdir.</p>
+                    <a href="iletisim.html" class="cta-button">Ağ'a katılın</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="what-we-do" id="what-we-do">
+        <div class="container">
+            <h2>Ne Yapıyoruz?</h2>
+            <p>İstanbul'da fiziksel etkinlik düzenleyen ekiplerin/bireylerin mekân bulma yükünü oluşturduğumuz küçük-orta ölçekli mekan ağı ile azaltıyoruz. Bunu yaparken de, gençlik ekiplerine bu mekanların belirli günlerinde ücretsiz kullanım imkânı sunuyoruz.</p>
+        </div>
+    </section>
+
+    <section class="audience-options">
+        <div class="container">
+            <div class="audience-grid">
+                <div class="audience-card">
+                    <h3>Etkinlik Organizatörü Müsünüz?</h3>
+                    <p>Etkinliğiniz için uygun bir mekan bulmakta zorlanıyorsanız, bizimle iletişime geçin ve İstanbul'daki eşsiz etkinlik mekanları listemizden faydalanın, araştırma yükünüz hafiflesin.</p>
+                    <a href="signup.html" class="cta-button">Üye Ol</a>
+                </div>
+                <div class="audience-card">
+                    <h3>Mekan Sahibi Misiniz?</h3>
+                    <p>İstediğiniz kadar kâr edemiyorsanız, hazırladığımız özel mekan listemize katılın ve alanınızı hak ettiği özenle değerlendirelim. Profesyonel bir fotoğraf çekimi gerçekleştirelim ve etkinliklerle uyumlu eşleşmeler bulalım.</p>
+                    <a href="iletisim.html" class="cta-button">Listeye Katılın</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contact">
+        <h2>Siz de özel ağımıza katılın</h2>
+        <p>Sadece seçilmiş üyelerin yer aldığı özel ağımıza katılın.</p>
+        <a href="iletisim.html" class="cta-button">Ağ'a katılın</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo">TERA MAP</div>
+                <p class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <ul>
+                        <li><a href="#">Hakkımızda</a></li>
+                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <ul>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="#">Gizlilik Politikası</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 TERA MAP. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/nav-fix.js"></script>
+    
+    <script>
+        // Check if user is logged in and update navigation
+        fetch('/api/user')
+            .then(response => {
+                if (response.ok) return response.json();
+                return null;
+            })
+            .then(user => {
+                const authLink = document.getElementById('auth-link');
+                if (user) {
+                    authLink.href = 'profile.html';
+                    authLink.textContent = 'Profilim';
+                }
+            })
+            .catch(error => {
+                console.error('Auth check error:', error);
+            });
+    </script>
+</body>
+</html> 

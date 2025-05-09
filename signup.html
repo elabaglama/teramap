@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol | Tera Map</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 100px auto 60px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-container h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .auth-form button {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .auth-links a {
+            color: #91796e;
+            text-decoration: underline;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TERA MAP</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="venues.html">Mekanlar</a></li>
+                <li><a href="genclik-ekipleri.html">Gençlik Ekipleri</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="auth-container">
+        <h1>Kayıt Ol</h1>
+        <div class="error-message" id="error-message"></div>
+        <form class="auth-form" id="signup-form" action="/api/signup" method="post">
+            <div class="form-group">
+                <label for="name">Ad Soyad</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-posta Adresi</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="password-confirm">Şifre Tekrar</label>
+                <input type="password" id="password-confirm" required minlength="6">
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">Etkinlik organizatörü olduğumu kabul ediyorum</label>
+            </div>
+            <button type="submit" class="cta-button">Kayıt Ol</button>
+        </form>
+        <div class="auth-links">
+            <p>Zaten hesabınız var mı? <a href="signin.html">Giriş Yap</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo">TERA MAP</div>
+                <p class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <ul>
+                        <li><a href="#">Hakkımızda</a></li>
+                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <ul>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="#">Gizlilik Politikası</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 TERA MAP. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signup-form');
+            const errorMessage = document.getElementById('error-message');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Basic validation
+                const password = document.getElementById('password').value;
+                const passwordConfirm = document.getElementById('password-confirm').value;
+                const terms = document.getElementById('terms');
+                
+                if (password !== passwordConfirm) {
+                    errorMessage.textContent = 'Şifreler eşleşmiyor.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                if (!terms.checked) {
+                    errorMessage.textContent = 'Lütfen etkinlik organizatörü olduğunuzu kabul edin.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                // Submit the form
+                this.submit();
+            });
+        });
+    </script>
+</body>
+</html> 
