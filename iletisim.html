@@ -188,11 +188,11 @@
         <nav>
             <div class="logo">TERA MAP</div>
             <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="venues.html">Mekanlar</a></li>
-                <li><a href="genclik-ekipleri.html">Gençlik Ekipleri</a></li>
-                <li><a href="iletisim.html" class="active">İletişim</a></li>
-                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+                <li><a href="/">Ana Sayfa</a></li>
+                <li><a href="/venues">Mekanlar</a></li>
+                <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
+                <li><a href="/iletisim" class="active">İletişim</a></li>
+                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
             </ul>
         </nav>
     </header>
@@ -224,7 +224,7 @@
                 <h2 class="section-subtitle">Bireysel Organizatörler</h2>
                 <p>Etkinlikleriniz için mekanları keşfetmeye başlamak istiyorsanız direkt ağ'a katılabilirsiniz.</p>
                 
-                <a href="signup.html" class="calendly-button" style="display: inline-block; text-align: center; width: 100%;">
+                <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button">
                     <i class="fas fa-user-plus"></i> Hemen Üye Ol
                 </a>
                 
@@ -260,13 +260,13 @@
                 <div class="link-group">
                     <ul>
                         <li><a href="#">Hakkımızda</a></li>
-                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="/ekibimiz">Ekibimiz</a></li>
                         <li><a href="#">Blog</a></li>
                     </ul>
                 </div>
                 <div class="link-group">
                     <ul>
-                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="/iletisim">İletişim</a></li>
                         <li><a href="#">Sıkça Sorulan Sorular</a></li>
                         <li><a href="#">Gizlilik Politikası</a></li>
                     </ul>
@@ -299,7 +299,7 @@
             .then(user => {
                 const authLink = document.getElementById('auth-link');
                 if (user) {
-                    authLink.href = 'profile.html';
+                    authLink.href = '/profile';
                     authLink.textContent = 'Profilim';
                 }
             })

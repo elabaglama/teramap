@@ -12,6 +12,11 @@ body {
     background-color: #fbfbfb;
 }
 
+/* Hide the "Üye Ol" link in navigation */
+#auth-link {
+    display: none !important;
+}
+
 /* Special text size reduction */
 .tagline {
     font-size: calc(1em - 8px);

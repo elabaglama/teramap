@@ -15,11 +15,11 @@
         <nav>
             <div class="logo">TERA MAP</div>
             <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="venues.html">Mekanlar</a></li>
-                <li><a href="genclik-ekipleri.html" class="active">Gençlik Ekipleri</a></li>
-                <li><a href="iletisim.html">İletişim</a></li>
-                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+                <li><a href="/">Ana Sayfa</a></li>
+                <li><a href="/venues">Mekanlar</a></li>
+                <li><a href="/genclik-ekipleri" class="active">Gençlik Ekipleri</a></li>
+                <li><a href="/iletisim">İletişim</a></li>
+                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
             </ul>
         </nav>
     </header>
@@ -157,7 +157,7 @@
         <div class="container">
             <h2>Siz de Ekip Olarak Katılın</h2>
             <p>Etkinlikleriniz için mekan desteği almak ve ağımıza katılmak için başvurun.</p>
-            <a href="iletisim.html" class="cta-button">Başvuru Yap</a>
+            <a href="/iletisim" class="cta-button">Başvuru Yap</a>
         </div>
     </section>
 
@@ -171,13 +171,13 @@
                 <div class="link-group">
                     <ul>
                         <li><a href="#">Hakkımızda</a></li>
-                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="/ekibimiz">Ekibimiz</a></li>
                         <li><a href="#">Blog</a></li>
                     </ul>
                 </div>
                 <div class="link-group">
                     <ul>
-                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="/iletisim">İletişim</a></li>
                         <li><a href="#">Sıkça Sorulan Sorular</a></li>
                         <li><a href="#">Gizlilik Politikası</a></li>
                     </ul>
@@ -210,7 +210,7 @@
             .then(user => {
                 const authLink = document.getElementById('auth-link');
                 if (user) {
-                    authLink.href = 'profile.html';
+                    authLink.href = '/profile';
                     authLink.textContent = 'Profilim';
                 }
             })

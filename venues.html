@@ -298,11 +298,11 @@
         <nav>
             <div class="logo">TERA MAP</div>
             <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="venues.html" class="active">Mekanlar</a></li>
-                <li><a href="genclik-ekipleri.html">Gençlik Ekipleri</a></li>
-                <li><a href="iletisim.html">İletişim</a></li>
-                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+                <li><a href="/">Ana Sayfa</a></li>
+                <li><a href="/venues" class="active">Mekanlar</a></li>
+                <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
+                <li><a href="/iletisim">İletişim</a></li>
+                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
             </ul>
         </nav>
     </header>
@@ -311,6 +311,32 @@
         <div class="venues-list">
             <h1 style="margin-bottom: 2rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
             <p style="margin-bottom: 2.5rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
+            
+            <!-- Added Postane Galata as the first card -->
+            <div class="venue-card">
+                <div class="venue-image" style="background-image: url('postane.jpg')"></div>
+                <div class="venue-details">
+                    <h3>Postane Galata</h3>
+                    <div class="venue-meta">
+                        <div><i class="fas fa-map-marker-alt"></i> Galata, Beyoğlu</div>
+                        <div><i class="fas fa-users"></i> 60-80 kişi</div>
+                        <div><i class="fas fa-ruler-combined"></i> 210 m²</div>
+                    </div>
+                    <p class="venue-description">Galata'nın kalbinde, tarihi bir binada konumlanmış çok amaçlı kültür ve sanat mekanı. Yüksek tavanları ve geniş atmosferiyle sergiler, performanslar ve özel etkinlikler için ideal bir ortam sunuyor.</p>
+                    <div class="venue-tags">
+                        <span class="venue-tag">Sergi</span>
+                        <span class="venue-tag">Performans</span>
+                        <span class="venue-tag">Kültür</span>
+                        <span class="venue-tag">Tarihi</span>
+                        <span class="venue-tag">Sanat</span>
+                    </div>
+                    <div class="venue-actions">
+                        <button class="btn-outline venue-detail">Detaylar</button>
+                        <a href="/iletisim" class="cta-button">İletişim</a>
+                    </div>
+                </div>
+            </div>
+            
             <div class="venue-card">
                 <div class="venue-image" style="background-image: url('images/venues/airbnb1.png')"></div>
                 <div class="venue-details">
@@ -329,7 +355,7 @@
                     </div>
                     <div class="venue-actions">
                         <button class="btn-outline venue-detail">Detaylar</button>
-                        <a href="iletisim.html" class="cta-button">İletişim</a>
+                        <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
             </div>
@@ -352,7 +378,7 @@
                     </div>
                     <div class="venue-actions">
                         <button class="btn-outline venue-detail">Detaylar</button>
-                        <a href="iletisim.html" class="cta-button">İletişim</a>
+                        <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
             </div>
@@ -375,7 +401,7 @@
                     </div>
                     <div class="venue-actions">
                         <button class="btn-outline venue-detail">Detaylar</button>
-                        <a href="iletisim.html" class="cta-button">İletişim</a>
+                        <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
             </div>
@@ -403,7 +429,47 @@
         </div>
     </div>
     
-    <!-- Venue Detail Modals -->
+    <!-- Add Postane Galata popup before the other popups -->
+    <div class="popup-overlay" id="venueDetailPopup0">
+        <div class="popup-content" style="max-width: 700px;">
+            <span class="popup-close venue-close">&times;</span>
+            <h2>Postane Galata</h2>
+            <div style="display: flex; margin-bottom: 20px;">
+                <img src="postane.jpg" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+            </div>
+            <div class="venue-meta" style="margin-bottom: 20px;">
+                <div><i class="fas fa-map-marker-alt"></i> Galata, Beyoğlu</div>
+                <div><i class="fas fa-users"></i> 60-80 kişi</div>
+                <div><i class="fas fa-ruler-combined"></i> 210 m²</div>
+                <div><i class="fas fa-building"></i> Tarihi bina</div>
+            </div>
+            <p>Galata'nın kalbinde, tarihi bir binada konumlanmış çok amaçlı kültür ve sanat mekanı. Yüksek tavanları ve geniş atmosferiyle sergiler, performanslar ve özel etkinlikler için ideal bir ortam sunuyor.</p>
+            <p>Tarihi dokusunu koruyan Postane Galata, Beyoğlu'nun merkezinde kültür-sanat etkinlikleri için özgün ve etkileyici bir mekandır. Galeri alanı, performans alanı ve sosyal alan olarak farklı düzenleme imkanları sunmaktadır.</p>
+            <h3 style="margin-top: 20px;">Özellikler</h3>
+            <ul style="list-style: disc; padding-left: 20px; margin-bottom: 20px;">
+                <li>Tarihi mimari</li>
+                <li>Yüksek tavanlar</li>
+                <li>Sergi alanları</li>
+                <li>Profesyonel ışık sistemi</li>
+                <li>Ses sistemi</li>
+                <li>Etkinlik mobilyaları</li>
+            </ul>
+            <h3>Uygun Etkinlikler</h3>
+            <div class="venue-tags" style="margin-top: 10px;">
+                <span class="venue-tag">Sergi</span>
+                <span class="venue-tag">Performans</span>
+                <span class="venue-tag">Konser</span>
+                <span class="venue-tag">Özel Etkinlikler</span>
+                <span class="venue-tag">Söyleşi</span>
+                <span class="venue-tag">Lansman</span>
+                <span class="venue-tag">Workshop</span>
+            </div>
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="/iletisim" class="cta-button">İletişime Geç</a>
+            </div>
+        </div>
+    </div>
+    
     <div class="popup-overlay" id="venueDetailPopup1">
         <div class="popup-content" style="max-width: 700px;">
             <span class="popup-close venue-close">&times;</span>
@@ -437,7 +503,7 @@
                 <span class="venue-tag">Özel Etkinlik</span>
             </div>
             <div style="margin-top: 30px; text-align: center;">
-                <a href="iletisim.html" class="cta-button">İletişime Geç</a>
+                <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
         </div>
     </div>
@@ -476,7 +542,7 @@
                 <span class="venue-tag">Küçük Toplantılar</span>
             </div>
             <div style="margin-top: 30px; text-align: center;">
-                <a href="iletisim.html" class="cta-button">İletişime Geç</a>
+                <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
         </div>
     </div>
@@ -516,7 +582,7 @@
                 <span class="venue-tag">Ödül Töreni</span>
             </div>
             <div style="margin-top: 30px; text-align: center;">
-                <a href="iletisim.html" class="cta-button">İletişime Geç</a>
+                <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
         </div>
     </div>
@@ -531,13 +597,13 @@
                 <div class="link-group">
                     <ul>
                         <li><a href="#">Hakkımızda</a></li>
-                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="/ekibimiz">Ekibimiz</a></li>
                         <li><a href="#">Blog</a></li>
                     </ul>
                 </div>
                 <div class="link-group">
                     <ul>
-                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="/iletisim">İletişim</a></li>
                         <li><a href="#">Sıkça Sorulan Sorular</a></li>
                         <li><a href="#">Gizlilik Politikası</a></li>
                     </ul>
@@ -565,6 +631,7 @@
             const contactButtons = document.querySelectorAll('.venue-actions .cta-button');
             const detailButtons = document.querySelectorAll('.venue-detail');
             const venuePopups = [
+                document.getElementById('venueDetailPopup0'),
                 document.getElementById('venueDetailPopup1'),
                 document.getElementById('venueDetailPopup2'),
                 document.getElementById('venueDetailPopup3')
@@ -587,7 +654,7 @@
                     const authLink = document.getElementById('auth-link');
                     if (user) {
                         // User is logged in
-                        authLink.href = 'profile.html';
+                        authLink.href = '/profile';
                         authLink.textContent = 'Profilim';
                         
                         // Show all venues
@@ -623,8 +690,7 @@
                             loginNotice.id = 'login-notice';
                             loginNotice.className = 'login-notice';
                             loginNotice.innerHTML = `
-                                <h3>Daha fazla mekan görmek için giriş yapın</h3>
-                                <p>Tüm mekanlarımızı görmek ve detaylı bilgilere erişmek için lütfen <a href="signin.html">giriş yapın</a> veya <a href="signup.html">üye olun</a>.</p>
+                                <h3>Daha fazla mekanı görmek için <a href="https://elabaglama.notion.site/?pvs=105">giriş yapın</a> veya <a href="https://elabaglama.notion.site/?pvs=105">üye olun</a>.</h3>
                             `;
                             
                             // Add login notice after the third venue or at the end of the venues list
@@ -637,7 +703,7 @@
                         
                         // Modify contact buttons to redirect to login
                         contactButtons.forEach(button => {
-                            button.href = 'signin.html';
+                            button.href = 'https://elabaglama.notion.site/?pvs=105';
                             button.setAttribute('data-original-href', button.getAttribute('href'));
                             button.removeEventListener('click', showPopupHandler);
                         });
@@ -696,7 +762,7 @@
                 button.addEventListener('click', function(e) {
                     if (!isLoggedIn) {
                         // If not logged in, redirect to login page
-                        window.location.href = 'signin.html';
+                        window.location.href = 'https://elabaglama.notion.site/?pvs=105';
                         e.preventDefault();
                     } else {
                         // If logged in, show the venue popup

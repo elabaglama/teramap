@@ -29,6 +29,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
+    // Make external links open in a new window
+    const setupExternalLinks = () => {
+        const allLinks = document.querySelectorAll('a');
+        
+        allLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && (href.startsWith('http') || href.startsWith('https'))) {
+                // This is an external link
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+            }
+        });
+    };
+    
+    // Initialize external links
+    setupExternalLinks();
+    
     // Animate elements when they come into view
     const animateOnScroll = () => {
         const elements = document.querySelectorAll('.card, .about-feature, .testimonial');

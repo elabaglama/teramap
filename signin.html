@@ -74,11 +74,11 @@
         <nav>
             <div class="logo">TERA MAP</div>
             <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="venues.html">Mekanlar</a></li>
-                <li><a href="genclik-ekipleri.html">Gençlik Ekipleri</a></li>
-                <li><a href="iletisim.html">İletişim</a></li>
-                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+                <li><a href="/">Ana Sayfa</a></li>
+                <li><a href="/venues">Mekanlar</a></li>
+                <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
+                <li><a href="/iletisim">İletişim</a></li>
+                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
             </ul>
         </nav>
     </header>
@@ -98,7 +98,7 @@
             <button type="submit" class="cta-button">Giriş Yap</button>
         </form>
         <div class="auth-links">
-            <p>Hesabınız yok mu? <a href="signup.html">Kayıt Ol</a></p>
+            <p>Hesabınız yok mu? <a href="/signup">Kayıt Ol</a></p>
         </div>
     </div>
 
@@ -112,13 +112,13 @@
                 <div class="link-group">
                     <ul>
                         <li><a href="#">Hakkımızda</a></li>
-                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="/ekibimiz">Ekibimiz</a></li>
                         <li><a href="#">Blog</a></li>
                     </ul>
                 </div>
                 <div class="link-group">
                     <ul>
-                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="/iletisim">İletişim</a></li>
                         <li><a href="#">Sıkça Sorulan Sorular</a></li>
                         <li><a href="#">Gizlilik Politikası</a></li>
                     </ul>
@@ -156,6 +156,23 @@
                 // Form will submit normally
             });
         });
+        
+        // Check if user is logged in and update navigation
+        fetch('/api/user')
+            .then(response => {
+                if (response.ok) return response.json();
+                return null;
+            })
+            .then(user => {
+                const authLink = document.getElementById('auth-link');
+                if (user) {
+                    authLink.href = '/profile';
+                    authLink.textContent = 'Profilim';
+                }
+            })
+            .catch(error => {
+                console.error('Auth check error:', error);
+            });
     </script>
 </body>
 </html> 

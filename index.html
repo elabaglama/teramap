@@ -15,11 +15,11 @@
         <nav>
             <div class="logo">TERA MAP</div>
             <ul class="nav-links">
-                <li><a href="index.html" class="active">Ana Sayfa</a></li>
-                <li><a href="venues.html">Mekanlar</a></li>
-                <li><a href="genclik-ekipleri.html">Gençlik Ekipleri</a></li>
-                <li><a href="iletisim.html">İletişim</a></li>
-                <li><a href="signin.html" id="auth-link">Üye Ol</a></li>
+                <li><a href="/" class="active">Ana Sayfa</a></li>
+                <li><a href="/venues">Mekanlar</a></li>
+                <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
+                <li><a href="/iletisim">İletişim</a></li>
+                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
             </ul>
         </nav>
     </header>
@@ -30,7 +30,7 @@
                 <div class="hero-overlay">
                     <h1 class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</h1>
                     <p>Tera Map, İstanbul'daki küçük ve orta ölçekli etkinlik alanlarını kapsamlı bir şekilde özetleyen özel bir listeyi ve insan ağını üreten bir sosyal girişimdir.</p>
-                    <a href="iletisim.html" class="cta-button">Ağ'a katılın</a>
+                    <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button">Ağ'a katılın</a>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
     <section class="what-we-do" id="what-we-do">
         <div class="container">
             <h2>Ne Yapıyoruz?</h2>
-            <p>İstanbul'da fiziksel etkinlik düzenleyen ekiplerin/bireylerin mekân bulma yükünü oluşturduğumuz küçük-orta ölçekli mekan ağı ile azaltıyoruz. Bunu yaparken de, gençlik ekiplerine bu mekanların belirli günlerinde ücretsiz kullanım imkânı sunuyoruz.</p>
+            <p>İstanbul'da fiziksel etkinlik düzenleyen ekiplerin/bireylerin mekân bulma yükünü oluşturduğumuz küçük-orta ölçekli mekan ağı ile azaltıyoruz. Bunu yaparken de, gençlik ekiplerine bu mekanların belirli günlerini ücretsiz sunuyoruz.</p>
         </div>
     </section>
 
@@ -49,12 +49,12 @@
                 <div class="audience-card">
                     <h3>Etkinlik Organizatörü Müsünüz?</h3>
                     <p>Etkinliğiniz için uygun bir mekan bulmakta zorlanıyorsanız, bizimle iletişime geçin ve İstanbul'daki eşsiz etkinlik mekanları listemizden faydalanın, araştırma yükünüz hafiflesin.</p>
-                    <a href="signup.html" class="cta-button">Üye Ol</a>
+                    <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button">Üye Ol</a>
                 </div>
                 <div class="audience-card">
                     <h3>Mekan Sahibi Misiniz?</h3>
-                    <p>İstediğiniz kadar kâr edemiyorsanız, hazırladığımız özel mekan listemize katılın ve alanınızı hak ettiği özenle değerlendirelim. Profesyonel bir fotoğraf çekimi gerçekleştirelim ve etkinliklerle uyumlu eşleşmeler bulalım.</p>
-                    <a href="iletisim.html" class="cta-button">Listeye Katılın</a>
+                    <p>Mekanınızı daha fazla kişiye açmak istiyorsanız, hazırladığımız özel mekan listemize katılın ve alanınızı özenle değerlendirelim. Profesyonel bir fotoğraf çekimi gerçekleştirelim, rezarvasyon sistemi sağlayalım ve görünürlüğünüzü artıralım.</p>
+                    <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button">Listeye Katılın</a>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
     <section class="cta" id="contact">
         <h2>Siz de özel ağımıza katılın</h2>
         <p>Sadece seçilmiş üyelerin yer aldığı özel ağımıza katılın.</p>
-        <a href="iletisim.html" class="cta-button">Ağ'a katılın</a>
+        <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button">Ağ'a katılın</a>
     </section>
 
     <footer>
@@ -76,13 +76,13 @@
                 <div class="link-group">
                     <ul>
                         <li><a href="#">Hakkımızda</a></li>
-                        <li><a href="ekibimiz.html">Ekibimiz</a></li>
+                        <li><a href="/ekibimiz">Ekibimiz</a></li>
                         <li><a href="#">Blog</a></li>
                     </ul>
                 </div>
                 <div class="link-group">
                     <ul>
-                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="/iletisim">İletişim</a></li>
                         <li><a href="#">Sıkça Sorulan Sorular</a></li>
                         <li><a href="#">Gizlilik Politikası</a></li>
                     </ul>
@@ -115,7 +115,7 @@
             .then(user => {
                 const authLink = document.getElementById('auth-link');
                 if (user) {
-                    authLink.href = 'profile.html';
+                    authLink.href = '/profile';
                     authLink.textContent = 'Profilim';
                 }
             })
