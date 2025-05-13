@@ -675,10 +675,10 @@
                     } else {
                         // User is not logged in
                         
-                        // Hide venues beyond the first 3
+                        // Hide venues beyond the first 4
                         const allVenueCards = document.querySelectorAll('.venue-card');
                         allVenueCards.forEach((card, index) => {
-                            if (index >= 3) {
+                            if (index >= 4) {
                                 card.style.display = 'none';
                             }
                         });
@@ -693,9 +693,9 @@
                                 <h3>Daha fazla mekanı görmek için <a href="https://elabaglama.notion.site/?pvs=105">giriş yapın</a> veya <a href="https://elabaglama.notion.site/?pvs=105">üye olun</a>.</h3>
                             `;
                             
-                            // Add login notice after the third venue or at the end of the venues list
-                            if (allVenueCards.length > 3) {
-                                venuesList.insertBefore(loginNotice, allVenueCards[3]);
+                            // Add login notice after the fourth venue or at the end of the venues list
+                            if (allVenueCards.length > 4) {
+                                venuesList.insertBefore(loginNotice, allVenueCards[4]);
                             } else {
                                 venuesList.appendChild(loginNotice);
                             }
