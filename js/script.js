@@ -1,7 +1,69 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Immediately set up the mobile menu toggle
-    setupMobileMenu();
+    // Mobile menu functionality - Improved version
+    function initMobileMenu() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (!menuToggle || !navLinks) return;
+        
+        // First remove any existing click handlers by cloning
+        const newMenuToggle = menuToggle.cloneNode(true);
+        if (menuToggle.parentNode) {
+            menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+        }
+        
+        // Add click event to toggle menu
+        newMenuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            navLinks.classList.toggle('show');
+            
+            // Update icon
+            if (navLinks.classList.contains('show')) {
+                newMenuToggle.innerHTML = '<i class="fas fa-times"></i>';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            } else {
+                newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = ''; // Enable scrolling
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (navLinks.classList.contains('show') && 
+                !navLinks.contains(e.target) && 
+                !newMenuToggle.contains(e.target)) {
+                navLinks.classList.remove('show');
+                newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = ''; // Enable scrolling
+            }
+        });
+        
+        // Close menu when link is clicked
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('show');
+                newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = ''; // Enable scrolling
+            });
+        });
+        
+        // Prevent clicks inside the menu from closing it
+        navLinks.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    // Initialize mobile menu
+    initMobileMenu();
+    
+    // Re-initialize on window resize
+    window.addEventListener('resize', function() {
+        initMobileMenu();
+    });
     
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-links a');
@@ -27,16 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         top: targetSection.offsetTop - 80,
                         behavior: 'smooth'
                     });
-                }
-            }
-            
-            // Close mobile menu when a link is clicked
-            const navLinks = document.querySelector('.nav-links');
-            const menuToggle = document.querySelector('.menu-toggle');
-            if (navLinks && navLinks.classList.contains('show')) {
-                navLinks.classList.remove('show');
-                if (menuToggle) {
-                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             }
         });
@@ -79,45 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check on scroll
     window.addEventListener('scroll', animateOnScroll);
     
-    // Mobile menu toggle function
-    function setupMobileMenu() {
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if (menuToggle && navLinks) {
-            // Remove any existing event listeners before adding new ones
-            const newMenuToggle = menuToggle.cloneNode(true);
-            menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
-            
-            // Add event listener to the new toggle button
-            newMenuToggle.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent the document click handler from firing
-                navLinks.classList.toggle('show');
-                
-                if (navLinks.classList.contains('show')) {
-                    newMenuToggle.innerHTML = '<i class="fas fa-times"></i>';
-                } else {
-                    newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-            });
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (navLinks && !navLinks.contains(e.target) && 
-                    !newMenuToggle.contains(e.target) && 
-                    navLinks.classList.contains('show')) {
-                    navLinks.classList.remove('show');
-                    newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-            });
-            
-            // Prevent clicks inside the menu from closing it
-            navLinks.addEventListener('click', (e) => {
-                e.stopPropagation();
-            });
-        }
-    }
-    
     // CTA Buttons animation
     const ctaButtons = document.querySelectorAll('.cta-button');
     
@@ -143,23 +156,4 @@ document.addEventListener('DOMContentLoaded', () => {
             button.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         });
     });
-
-    // Ensure menu toggle is initialized on resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth <= 768) {
-            // Check if the menu toggle exists
-            const menuToggle = document.querySelector('.menu-toggle');
-            if (!menuToggle) {
-                // Recreate it if it doesn't exist
-                const nav = document.querySelector('nav');
-                const menuToggleEl = document.createElement('div');
-                menuToggleEl.className = 'menu-toggle';
-                menuToggleEl.innerHTML = '<i class="fas fa-bars"></i>';
-                nav.appendChild(menuToggleEl);
-                setupMobileMenu();
-            }
-        }
-    });
-
-    // No additional JavaScript needed for the new orbital network visualization
 }); 
