@@ -1,5 +1,8 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Immediately set up the mobile menu toggle
+    setupMobileMenu();
+    
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-links a');
     
@@ -24,6 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         top: targetSection.offsetTop - 80,
                         behavior: 'smooth'
                     });
+                }
+            }
+            
+            // Close mobile menu when a link is clicked
+            const navLinks = document.querySelector('.nav-links');
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (navLinks && navLinks.classList.contains('show')) {
+                navLinks.classList.remove('show');
+                if (menuToggle) {
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             }
         });
@@ -66,45 +79,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check on scroll
     window.addEventListener('scroll', animateOnScroll);
     
-    // Mobile menu toggle
-    const createMobileMenu = () => {
-        const header = document.querySelector('header');
-        const nav = document.querySelector('nav');
-        
-        const menuButton = document.createElement('div');
-        menuButton.classList.add('menu-toggle');
-        menuButton.innerHTML = '<i class="fas fa-bars"></i>';
-        
-        nav.appendChild(menuButton);
-        
-        menuButton.addEventListener('click', () => {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.classList.toggle('show');
-            
-            if (navLinks.classList.contains('show')) {
-                menuButton.innerHTML = '<i class="fas fa-times"></i>';
-            } else {
-                menuButton.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-    };
-    
-    // Check if mobile view
-    if (window.innerWidth <= 768) {
-        createMobileMenu();
-    }
-    
-    // Adjust on window resize
-    window.addEventListener('resize', () => {
+    // Mobile menu toggle function
+    function setupMobileMenu() {
         const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
         
-        if (window.innerWidth <= 768 && !menuToggle) {
-            createMobileMenu();
-        } else if (window.innerWidth > 768 && menuToggle) {
-            menuToggle.remove();
-            document.querySelector('.nav-links').classList.remove('show');
+        if (menuToggle && navLinks) {
+            // Remove any existing event listeners before adding new ones
+            const newMenuToggle = menuToggle.cloneNode(true);
+            menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+            
+            // Add event listener to the new toggle button
+            newMenuToggle.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent the document click handler from firing
+                navLinks.classList.toggle('show');
+                
+                if (navLinks.classList.contains('show')) {
+                    newMenuToggle.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (navLinks && !navLinks.contains(e.target) && 
+                    !newMenuToggle.contains(e.target) && 
+                    navLinks.classList.contains('show')) {
+                    navLinks.classList.remove('show');
+                    newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            // Prevent clicks inside the menu from closing it
+            navLinks.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
         }
-    });
+    }
     
     // CTA Buttons animation
     const ctaButtons = document.querySelectorAll('.cta-button');
@@ -119,6 +131,34 @@ document.addEventListener('DOMContentLoaded', () => {
             button.style.transform = 'translateY(0)';
             button.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         });
+        
+        // Add touch support for mobile devices
+        button.addEventListener('touchstart', () => {
+            button.style.transform = 'translateY(-2px)';
+            button.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.15)';
+        });
+        
+        button.addEventListener('touchend', () => {
+            button.style.transform = 'translateY(0)';
+            button.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+        });
+    });
+
+    // Ensure menu toggle is initialized on resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 768) {
+            // Check if the menu toggle exists
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (!menuToggle) {
+                // Recreate it if it doesn't exist
+                const nav = document.querySelector('nav');
+                const menuToggleEl = document.createElement('div');
+                menuToggleEl.className = 'menu-toggle';
+                menuToggleEl.innerHTML = '<i class="fas fa-bars"></i>';
+                nav.appendChild(menuToggleEl);
+                setupMobileMenu();
+            }
+        }
     });
 
     // No additional JavaScript needed for the new orbital network visualization

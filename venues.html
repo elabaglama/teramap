@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seçkin Mekanlarımız | Tera Map</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -42,7 +42,7 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/main-hero.jpeg');
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/general/main-image.jpg');
             background-size: cover;
             background-position: center;
             position: relative;
@@ -297,6 +297,9 @@
     <header>
         <nav>
             <div class="logo">TERA MAP</div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
             <ul class="nav-links">
                 <li><a href="/">Ana Sayfa</a></li>
                 <li><a href="/venues" class="active">Mekanlar</a></li>
@@ -314,7 +317,7 @@
             
             <!-- Added Postane Galata as the first card -->
             <div class="venue-card">
-                <div class="venue-image" style="background-image: url('postane.jpg')"></div>
+                <div class="venue-image" style="background-image: url('images/venues/postane.jpg'); background-size: cover; background-position: center;"></div>
                 <div class="venue-details">
                     <h3>Postane Galata</h3>
                     <div class="venue-meta">
@@ -338,7 +341,7 @@
             </div>
             
             <div class="venue-card">
-                <div class="venue-image" style="background-image: url('images/venues/airbnb1.png')"></div>
+                <div class="venue-image" style="background-image: url('images/venues/airbnb1.png'); background-size: cover; background-position: center;"></div>
                 <div class="venue-details">
                     <h3>Rahat ve Bahçeli Ev</h3>
                     <div class="venue-meta">
@@ -361,7 +364,7 @@
             </div>
             
             <div class="venue-card">
-                <div class="venue-image" style="background-image: url('halic.jpg')"></div>
+                <div class="venue-image" style="background-image: url('images/venues/halic.jpg'); background-size: cover; background-position: center;"></div>
                 <div class="venue-details">
                     <h3>Fener Evleri 1: Haliç Sanat</h3>
                     <div class="venue-meta">
@@ -384,7 +387,7 @@
             </div>
             
             <div class="venue-card">
-                <div class="venue-image" style="background-image: url('borusan.jpg')"></div>
+                <div class="venue-image" style="background-image: url('images/venues/borusan.jpg'); background-size: cover; background-position: center;"></div>
                 <div class="venue-details">
                     <h3>Borusan Müzik Evi</h3>
                     <div class="venue-meta">
@@ -434,8 +437,8 @@
         <div class="popup-content" style="max-width: 700px;">
             <span class="popup-close venue-close">&times;</span>
             <h2>Postane Galata</h2>
-            <div style="display: flex; margin-bottom: 20px;">
-                <img src="postane.jpg" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+            <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
+                <img src="images/venues/postane.jpg" style="width: 100%; object-fit: cover; border-radius: 8px;" alt="Postane Galata" loading="lazy">
             </div>
             <div class="venue-meta" style="margin-bottom: 20px;">
                 <div><i class="fas fa-map-marker-alt"></i> Galata, Beyoğlu</div>
@@ -474,8 +477,8 @@
         <div class="popup-content" style="max-width: 700px;">
             <span class="popup-close venue-close">&times;</span>
             <h2>Rahat ve Bahçeli Ev</h2>
-            <div style="display: flex; margin-bottom: 20px;">
-                <img src="images/venues/airbnb1.png" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+            <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
+                <img src="images/venues/airbnb1.png" style="width: 100%; object-fit: cover; border-radius: 8px;" alt="Rahat ve Bahçeli Ev" loading="lazy">
             </div>
             <div class="venue-meta" style="margin-bottom: 20px;">
                 <div><i class="fas fa-map-marker-alt"></i> Sarıyer, İstanbul</div>
@@ -512,8 +515,8 @@
         <div class="popup-content" style="max-width: 700px;">
             <span class="popup-close venue-close">&times;</span>
             <h2>Fener Evleri 1: Haliç Sanat</h2>
-            <div style="display: flex; margin-bottom: 20px;">
-                <img src="halic.jpg" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+            <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
+                <img src="images/venues/halic.jpg" style="width: 100%; object-fit: cover; border-radius: 8px;" alt="Fener Evleri 1: Haliç Sanat" loading="lazy">
             </div>
             <div class="venue-meta" style="margin-bottom: 20px;">
                 <div><i class="fas fa-map-marker-alt"></i> Fener, Fatih</div>
@@ -551,8 +554,8 @@
         <div class="popup-content" style="max-width: 700px;">
             <span class="popup-close venue-close">&times;</span>
             <h2>Borusan Müzik Evi</h2>
-            <div style="display: flex; margin-bottom: 20px;">
-                <img src="borusan.jpg" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+            <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
+                <img src="images/venues/borusan.jpg" style="width: 100%; object-fit: cover; border-radius: 8px;" alt="Borusan Müzik Evi" loading="lazy">
             </div>
             <div class="venue-meta" style="margin-bottom: 20px;">
                 <div><i class="fas fa-map-marker-alt"></i> Beyoğlu, İstanbul</div>
