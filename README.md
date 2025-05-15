@@ -50,3 +50,5 @@ Sayfayı özelleştirmek için HTML, CSS ve JavaScript dosyalarını düzenleyeb
 ## Lisans
 
 MIT 
+
+# Trigger Vercel redeploy 
