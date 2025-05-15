@@ -241,7 +241,7 @@ const server = http.createServer(async (req, res) => {
                         fs.writeFileSync(USERS_FILE, JSON.stringify(usersData, null, 2), 'utf-8');
                         
                         // Redirect to venues page
-                        res.writeHead(302, { 'Location': '/venues.html' });
+                        res.writeHead(302, { 'Location': '/mekanlar.html' });
                         res.end();
                         return;
                     }
@@ -282,8 +282,8 @@ const server = http.createServer(async (req, res) => {
         // API veya diğer içerik isteklerinde yönlendirme yapma
         const referer = req.headers.referer || '';
         
-        // Eğer venues.html sayfasındaysak yönlendirme yapma
-        if (referer.includes('venues.html')) {
+        // Eğer mekanlar.html sayfasındaysak yönlendirme yapma
+        if (referer.includes('mekanlar.html')) {
             // Venues sayfasından yapılan isteklerde yönlendirme yapma
         } else {
             // Doğrudan erişim durumunda yönlendirme mantığını uygula

@@ -51,18 +51,26 @@
         .cta .cta-button:hover {
             background-color: #f0f0f0;
         }
+
+        .logo-img {
+            max-height: 40px;
+            max-width: 100%;
+            width: auto;
+            vertical-align: middle;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">TERA MAP</div>
+            <div class="logo"><img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></div>
             <button class="menu-toggle" aria-label="Menüyü aç/kapat" type="button">
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="nav-links">
                 <li><a href="/" class="active">Ana Sayfa</a></li>
-                <li><a href="/venues">Mekanlar</a></li>
+                <li><a href="/mekanlar">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
                 <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
@@ -119,7 +127,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                <div class="logo">TERA MAP</div>
+                <div class="logo"><img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></div>
                 <p class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</p>
             </div>
             <div class="footer-links">
