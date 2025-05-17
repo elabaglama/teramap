@@ -594,11 +594,11 @@ nav {
     background: #fbfbfb !important;
     padding: 3rem 5%;
     text-align: center;
-    color: #91796e;
+    color: #333;
 }
 
 .cta h2, .cta p {
-    color: #91796e;
+    color: #333;
 }
 
 .cta .cta-button {
