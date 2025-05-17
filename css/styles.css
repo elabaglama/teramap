@@ -591,25 +591,25 @@ nav {
 
 /* CTA Section */
 .cta {
-    background: #91796e !important;
-    padding: 6rem 5%;
+    background: #fbfbfb !important;
+    padding: 3rem 5%;
     text-align: center;
-    color: #fbfbfb;
+    color: #91796e;
 }
 
 .cta h2, .cta p {
-    color: #fbfbfb;
+    color: #91796e;
 }
 
 .cta .cta-button {
-    background-color: #fbfbfb;
-    color: #91796e;
+    background-color: #91796e;
+    color: #fbfbfb;
     border: none;
 }
 
 .cta .cta-button:hover {
-    background-color: #e5e5e5;
-    color: #91796e;
+    background-color: #7d6961;
+    color: #fbfbfb;
 }
 
 /* Footer */
