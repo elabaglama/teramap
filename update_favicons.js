@@ -5,13 +5,16 @@ const path = require('path');
 const htmlFiles = fs.readdirSync('.')
   .filter(file => file.endsWith('.html'));
 
+// Add version query parameter to force browser cache refresh
+const version = Date.now();
+
 // Favicon code to insert
 const faviconCode = `
     <!-- Favicon -->
-    <link rel="icon" href="favicon.ico">
-    <link rel="icon" href="favicon/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="images/favicon/logo.png">
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.ico?v=${version}">
+    <link rel="icon" href="favicon/favicon.svg?v=${version}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon/favicon.png?v=${version}">
+    <link rel="manifest" href="site.webmanifest?v=${version}">
 `;
 
 // Process each HTML file
@@ -53,10 +56,10 @@ htmlFiles.forEach(file => {
     // Replace existing favicon code
     content = content.replace(/<!-- Favicon -->[\s\S]*?(<style>|<\/head>)/m, 
       `<!-- Favicon -->
-    <link rel="icon" href="favicon.ico">
-    <link rel="icon" href="favicon/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="images/favicon/logo.png">
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.ico?v=${version}">
+    <link rel="icon" href="favicon/favicon.svg?v=${version}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon/favicon.png?v=${version}">
+    <link rel="manifest" href="site.webmanifest?v=${version}">
     $1`);
     
     // Write the updated content back to the file
