@@ -1,0 +1,19 @@
+{
+  "name": "Tera Map",
+  "short_name": "TeraMap",
+  "icons": [
+    {
+      "src": "images/favicon/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/favicon/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#91796e",
+  "background_color": "#fbfbfb",
+  "display": "standalone"
+} 
