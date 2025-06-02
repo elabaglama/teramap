@@ -22,7 +22,7 @@ htmlFiles.forEach(file => {
   let content = fs.readFileSync(file, 'utf8');
   
   // Update the title
-  content = content.replace(/<title>.*?<\/title>/g, '<title>En özel bağımsız etkinlik mekan ağı</title>');
+  content = content.replace(/<title>.*?<\/title>/g, '<title>Tera Map</title>');
   
   // Check if the file already has favicon code
   if (!content.includes('<!-- Favicon -->')) {
