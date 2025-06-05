@@ -87,7 +87,7 @@
             display: flex;
             max-width: 1600px;
             margin: 0 auto;
-            padding: 8rem 5% 3rem;
+            padding: 4rem 5% 2rem;
             gap: 2rem;
         }
         
@@ -108,8 +108,6 @@
         
         .venues-map {
             flex: 0 0 300px;
-            position: sticky;
-            top: 100px;
             height: 400px;
             background-color: #eee;
             border-radius: 12px;
@@ -282,8 +280,6 @@
             }
             
             .venues-map {
-                position: relative;
-                top: 0;
                 height: 350px;
                 width: 100%;
                 flex: none;
@@ -327,8 +323,8 @@
 
         /* Filter styles */
         .venue-filters {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
             background-color: #f9f7f6;
             border-radius: 12px;
             border: 1px solid #e0d8d5;
@@ -337,7 +333,6 @@
         .filter-toggle {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1rem;
         }
 
         .filter-button {
@@ -384,7 +379,8 @@
         }
 
         .venue-type-tag.both {
-            background: linear-gradient(45deg, #28a745, #d4851a);
+            background-color: #ffd700;
+            color: #333;
         }
 
         /* Availability calendar styles */
@@ -487,12 +483,12 @@
 
     <div class="venues-container">
         <div class="venues-list">
-            <h1 style="margin-bottom: 2rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
-            <p style="margin-bottom: 2.5rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
+            <h1 style="margin-bottom: 1rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
+            <p style="margin-bottom: 1.5rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
             
             <!-- Venue Filters -->
             <div class="venue-filters">
-                <h3 style="margin-bottom: 1rem; color: #333; font-size: 1.2rem;">Mekan Türü</h3>
+                <h3 style="margin-bottom: 0.8rem; color: #333; font-size: 1.2rem;">Mekan Türü</h3>
                 <div class="filter-toggle">
                     <button class="filter-button active" data-filter="all">
                         Tümü
@@ -504,9 +500,6 @@
                         Gençlik Ekiplerine Ücretsiz
                     </button>
                 </div>
-                <p style="color: #666; font-size: 0.9rem; margin: 0;">
-                    Filtrelere göre mekanları görüntüleyin. Gençlik ekipleri için ücretsiz seçeneklere özel dikkat edin.
-                </p>
             </div>
             
             <!-- Added Postane Galata as the first card -->
