@@ -132,6 +132,7 @@
             height: 180px;
             background-size: cover;
             background-position: center;
+            position: relative;
         }
         
         .venue-details {
@@ -305,6 +306,147 @@
             vertical-align: middle;
             object-fit: contain;
         }
+
+        /* Filter styles */
+        .venue-filters {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f9f7f6;
+            border-radius: 12px;
+            border: 1px solid #e0d8d5;
+        }
+
+        .filter-toggle {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-button {
+            padding: 0.7rem 1.5rem;
+            border: 2px solid #91796e;
+            background-color: white;
+            color: #91796e;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-button.active {
+            background-color: #91796e;
+            color: white;
+        }
+
+        .filter-button:hover {
+            background-color: #91796e;
+            color: white;
+        }
+
+        .venue-type-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            z-index: 10;
+        }
+
+        .venue-type-tag.paid {
+            background-color: #d4851a;
+        }
+
+        .venue-type-tag.free {
+            background-color: #28a745;
+        }
+
+        .venue-type-tag.both {
+            background: linear-gradient(45deg, #28a745, #d4851a);
+        }
+
+        /* Availability calendar styles */
+        .availability-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .availability-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .calendar-day {
+            padding: 8px 4px;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-day.available {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .calendar-day.busy {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .calendar-day.header {
+            background-color: #91796e;
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-legend {
+            display: flex;
+            gap: 1rem;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .pricing-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #91796e;
+        }
+
+        .pricing-info h4 {
+            margin-bottom: 5px;
+            color: #91796e;
+            font-size: 0.9rem;
+        }
+
+        .price-item {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 3px;
+        }
     </style>
 </head>
 <body>
@@ -329,9 +471,34 @@
             <h1 style="margin-bottom: 2rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
             <p style="margin-bottom: 2.5rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
             
+            <!-- Venue Filters -->
+            <div class="venue-filters">
+                <h3 style="margin-bottom: 1rem; color: #333; font-size: 1.2rem;">Mekan Türü</h3>
+                <div class="filter-toggle">
+                    <button class="filter-button active" data-filter="all">
+                        <i class="fas fa-list"></i> Tümü
+                    </button>
+                    <button class="filter-button" data-filter="paid">
+                        <i class="fas fa-credit-card"></i> Ücretli Kiralar
+                    </button>
+                    <button class="filter-button" data-filter="free">
+                        <i class="fas fa-gift"></i> Gençlik Ekiplerine Ücretsiz
+                    </button>
+                    <button class="filter-button" data-filter="both">
+                        <i class="fas fa-handshake"></i> Her İkisi de
+                    </button>
+                </div>
+                <p style="color: #666; font-size: 0.9rem; margin: 0;">
+                    <i class="fas fa-info-circle"></i> 
+                    Filtrelere göre mekanları görüntüleyin. Gençlik ekipleri için ücretsiz seçeneklere özel dikkat edin.
+                </p>
+            </div>
+            
             <!-- Added Postane Galata as the first card -->
-            <div class="venue-card">
-                <div class="venue-image" style="background-image: url('images/venues/postane.jpg'); background-size: cover; background-position: center;"></div>
+            <div class="venue-card" data-venue-type="paid">
+                <div class="venue-image" style="background-image: url('images/venues/postane.jpg'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag paid">Ücretli Kiralama</div>
+                </div>
                 <div class="venue-details">
                     <h3>Postane Galata</h3>
                     <div class="venue-meta">
@@ -354,8 +521,10 @@
                 </div>
             </div>
             
-            <div class="venue-card">
-                <div class="venue-image" style="background-image: url('images/venues/airbnb1.png'); background-size: cover; background-position: center;"></div>
+            <div class="venue-card" data-venue-type="both">
+                <div class="venue-image" style="background-image: url('images/venues/airbnb1.png'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag both">Ücretli & Ücretsiz</div>
+                </div>
                 <div class="venue-details">
                     <h3>Rahat ve Bahçeli Ev</h3>
                     <div class="venue-meta">
@@ -377,8 +546,10 @@
                 </div>
             </div>
             
-            <div class="venue-card">
-                <div class="venue-image" style="background-image: url('images/venues/halic.jpg'); background-size: cover; background-position: center;"></div>
+            <div class="venue-card" data-venue-type="free">
+                <div class="venue-image" style="background-image: url('images/venues/halic.jpg'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag free">Gençlik Ekiplerine Ücretsiz</div>
+                </div>
                 <div class="venue-details">
                     <h3>Fener Evleri 1: Haliç Sanat</h3>
                     <div class="venue-meta">
@@ -400,8 +571,10 @@
                 </div>
             </div>
             
-            <div class="venue-card">
-                <div class="venue-image" style="background-image: url('images/venues/borusan.jpg'); background-size: cover; background-position: center;"></div>
+            <div class="venue-card" data-venue-type="both">
+                <div class="venue-image" style="background-image: url('images/venues/borusan.jpg'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag both">Ücretli & Ücretsiz</div>
+                </div>
                 <div class="venue-details">
                     <h3>Borusan Müzik Evi</h3>
                     <div class="venue-meta">
@@ -481,6 +654,76 @@
                 <span class="venue-tag">Lansman</span>
                 <span class="venue-tag">Workshop</span>
             </div>
+            
+            <div class="pricing-info">
+                <h4><i class="fas fa-euro-sign"></i> Fiyatlandırma</h4>
+                <div class="price-item"><strong>Günlük kiralama:</strong> ₺3,500 - ₺5,000</div>
+                <div class="price-item"><strong>Yarım gün:</strong> ₺2,000 - ₺3,000</div>
+                <div class="price-item"><strong>Saatlik:</strong> ₺400 - ₺600</div>
+                <div class="price-item" style="color: #91796e; font-weight: bold;">
+                    <i class="fas fa-info-circle"></i> Fiyatlar etkinlik türüne göre değişiklik gösterebilir
+                </div>
+            </div>
+
+            <div class="availability-section">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
+                <div class="availability-calendar">
+                    <div class="calendar-day header">Pzt</div>
+                    <div class="calendar-day header">Sal</div>
+                    <div class="calendar-day header">Çar</div>
+                    <div class="calendar-day header">Per</div>
+                    <div class="calendar-day header">Cum</div>
+                    <div class="calendar-day header">Cmt</div>
+                    <div class="calendar-day header">Paz</div>
+                    
+                    <div class="calendar-day available">1</div>
+                    <div class="calendar-day busy">2</div>
+                    <div class="calendar-day available">3</div>
+                    <div class="calendar-day available">4</div>
+                    <div class="calendar-day busy">5</div>
+                    <div class="calendar-day available">6</div>
+                    <div class="calendar-day available">7</div>
+                    
+                    <div class="calendar-day available">8</div>
+                    <div class="calendar-day available">9</div>
+                    <div class="calendar-day busy">10</div>
+                    <div class="calendar-day available">11</div>
+                    <div class="calendar-day available">12</div>
+                    <div class="calendar-day busy">13</div>
+                    <div class="calendar-day available">14</div>
+                    
+                    <div class="calendar-day busy">15</div>
+                    <div class="calendar-day available">16</div>
+                    <div class="calendar-day available">17</div>
+                    <div class="calendar-day busy">18</div>
+                    <div class="calendar-day available">19</div>
+                    <div class="calendar-day available">20</div>
+                    <div class="calendar-day busy">21</div>
+                    
+                    <div class="calendar-day available">22</div>
+                    <div class="calendar-day available">23</div>
+                    <div class="calendar-day available">24</div>
+                    <div class="calendar-day busy">25</div>
+                    <div class="calendar-day available">26</div>
+                    <div class="calendar-day busy">27</div>
+                    <div class="calendar-day available">28</div>
+                    
+                    <div class="calendar-day available">29</div>
+                    <div class="calendar-day available">30</div>
+                    <div class="calendar-day busy">31</div>
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <span>Müsait</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <span>Dolu</span>
+                    </div>
+                </div>
+            </div>
+            
             <div style="margin-top: 30px; text-align: center;">
                 <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
@@ -519,6 +762,79 @@
                 <span class="venue-tag">Networking</span>
                 <span class="venue-tag">Özel Etkinlik</span>
             </div>
+            
+            <div class="pricing-info">
+                <h4><i class="fas fa-euro-sign"></i> Fiyatlandırma</h4>
+                <div class="price-item"><strong>Günlük kiralama:</strong> ₺2,500 - ₺3,500</div>
+                <div class="price-item"><strong>Yarım gün:</strong> ₺1,500 - ₺2,000</div>
+                <div class="price-item"><strong>Saatlik:</strong> ₺300 - ₺450</div>
+                <div class="price-item" style="color: #28a745; font-weight: bold;">
+                    <i class="fas fa-gift"></i> Gençlik ekipleri için özel indirimler mevcut
+                </div>
+                <div class="price-item" style="color: #91796e; font-weight: bold;">
+                    <i class="fas fa-info-circle"></i> Proje bazlı ücretsiz kullanım imkanı
+                </div>
+            </div>
+
+            <div class="availability-section">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
+                <div class="availability-calendar">
+                    <div class="calendar-day header">Pzt</div>
+                    <div class="calendar-day header">Sal</div>
+                    <div class="calendar-day header">Çar</div>
+                    <div class="calendar-day header">Per</div>
+                    <div class="calendar-day header">Cum</div>
+                    <div class="calendar-day header">Cmt</div>
+                    <div class="calendar-day header">Paz</div>
+                    
+                    <div class="calendar-day available">1</div>
+                    <div class="calendar-day available">2</div>
+                    <div class="calendar-day available">3</div>
+                    <div class="calendar-day busy">4</div>
+                    <div class="calendar-day available">5</div>
+                    <div class="calendar-day busy">6</div>
+                    <div class="calendar-day available">7</div>
+                    
+                    <div class="calendar-day available">8</div>
+                    <div class="calendar-day available">9</div>
+                    <div class="calendar-day available">10</div>
+                    <div class="calendar-day busy">11</div>
+                    <div class="calendar-day available">12</div>
+                    <div class="calendar-day available">13</div>
+                    <div class="calendar-day busy">14</div>
+                    
+                    <div class="calendar-day available">15</div>
+                    <div class="calendar-day available">16</div>
+                    <div class="calendar-day available">17</div>
+                    <div class="calendar-day available">18</div>
+                    <div class="calendar-day busy">19</div>
+                    <div class="calendar-day available">20</div>
+                    <div class="calendar-day available">21</div>
+                    
+                    <div class="calendar-day busy">22</div>
+                    <div class="calendar-day available">23</div>
+                    <div class="calendar-day available">24</div>
+                    <div class="calendar-day available">25</div>
+                    <div class="calendar-day available">26</div>
+                    <div class="calendar-day busy">27</div>
+                    <div class="calendar-day available">28</div>
+                    
+                    <div class="calendar-day available">29</div>
+                    <div class="calendar-day available">30</div>
+                    <div class="calendar-day available">31</div>
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <span>Müsait</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <span>Dolu</span>
+                    </div>
+                </div>
+            </div>
+            
             <div style="margin-top: 30px; text-align: center;">
                 <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
@@ -558,6 +874,78 @@
                 <span class="venue-tag">Kokteyl</span>
                 <span class="venue-tag">Küçük Toplantılar</span>
             </div>
+            
+            <div class="pricing-info">
+                <h4><i class="fas fa-gift"></i> Gençlik Ekipleri için Özel</h4>
+                <div class="price-item" style="color: #28a745; font-weight: bold;">
+                    <i class="fas fa-heart"></i> Bu mekan gençlik ekipleri için tamamen ücretsizdir!
+                </div>
+                <div class="price-item"><strong>Koşullar:</strong> Nonprofit projeler, sosyal sorumluluk etkinlikleri</div>
+                <div class="price-item"><strong>Başvuru:</strong> Proje detayları ile 2 hafta önceden</div>
+                <div class="price-item" style="color: #91796e; font-weight: bold;">
+                    <i class="fas fa-info-circle"></i> Ticari kullanım için farklı fiyatlandırma uygulanır
+                </div>
+            </div>
+
+            <div class="availability-section">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
+                <div class="availability-calendar">
+                    <div class="calendar-day header">Pzt</div>
+                    <div class="calendar-day header">Sal</div>
+                    <div class="calendar-day header">Çar</div>
+                    <div class="calendar-day header">Per</div>
+                    <div class="calendar-day header">Cum</div>
+                    <div class="calendar-day header">Cmt</div>
+                    <div class="calendar-day header">Paz</div>
+                    
+                    <div class="calendar-day available">1</div>
+                    <div class="calendar-day available">2</div>
+                    <div class="calendar-day busy">3</div>
+                    <div class="calendar-day available">4</div>
+                    <div class="calendar-day available">5</div>
+                    <div class="calendar-day available">6</div>
+                    <div class="calendar-day busy">7</div>
+                    
+                    <div class="calendar-day available">8</div>
+                    <div class="calendar-day busy">9</div>
+                    <div class="calendar-day available">10</div>
+                    <div class="calendar-day available">11</div>
+                    <div class="calendar-day available">12</div>
+                    <div class="calendar-day available">13</div>
+                    <div class="calendar-day available">14</div>
+                    
+                    <div class="calendar-day available">15</div>
+                    <div class="calendar-day available">16</div>
+                    <div class="calendar-day busy">17</div>
+                    <div class="calendar-day available">18</div>
+                    <div class="calendar-day available">19</div>
+                    <div class="calendar-day busy">20</div>
+                    <div class="calendar-day available">21</div>
+                    
+                    <div class="calendar-day available">22</div>
+                    <div class="calendar-day available">23</div>
+                    <div class="calendar-day available">24</div>
+                    <div class="calendar-day available">25</div>
+                    <div class="calendar-day busy">26</div>
+                    <div class="calendar-day available">27</div>
+                    <div class="calendar-day available">28</div>
+                    
+                    <div class="calendar-day available">29</div>
+                    <div class="calendar-day available">30</div>
+                    <div class="calendar-day available">31</div>
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <span>Müsait</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <span>Dolu</span>
+                    </div>
+                </div>
+            </div>
+            
             <div style="margin-top: 30px; text-align: center;">
                 <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
@@ -598,6 +986,80 @@
                 <span class="venue-tag">Performans</span>
                 <span class="venue-tag">Ödül Töreni</span>
             </div>
+            
+            <div class="pricing-info">
+                <h4><i class="fas fa-euro-sign"></i> Fiyatlandırma</h4>
+                <div class="price-item"><strong>Günlük kiralama:</strong> ₺5,000 - ₺8,000</div>
+                <div class="price-item"><strong>Yarım gün:</strong> ₺3,000 - ₺4,500</div>
+                <div class="price-item"><strong>Saatlik:</strong> ₺600 - ₺900</div>
+                <div class="price-item"><strong>Kayıt seansı:</strong> ₺1,200 - ₺1,800 (3 saat)</div>
+                <div class="price-item" style="color: #28a745; font-weight: bold;">
+                    <i class="fas fa-gift"></i> Müzik eğitimi projelerine özel indirimler
+                </div>
+                <div class="price-item" style="color: #91796e; font-weight: bold;">
+                    <i class="fas fa-info-circle"></i> Gençlik orkestraları için sponsorluk imkanları
+                </div>
+            </div>
+
+            <div class="availability-section">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
+                <div class="availability-calendar">
+                    <div class="calendar-day header">Pzt</div>
+                    <div class="calendar-day header">Sal</div>
+                    <div class="calendar-day header">Çar</div>
+                    <div class="calendar-day header">Per</div>
+                    <div class="calendar-day header">Cum</div>
+                    <div class="calendar-day header">Cmt</div>
+                    <div class="calendar-day header">Paz</div>
+                    
+                    <div class="calendar-day available">1</div>
+                    <div class="calendar-day available">2</div>
+                    <div class="calendar-day available">3</div>
+                    <div class="calendar-day available">4</div>
+                    <div class="calendar-day busy">5</div>
+                    <div class="calendar-day busy">6</div>
+                    <div class="calendar-day available">7</div>
+                    
+                    <div class="calendar-day available">8</div>
+                    <div class="calendar-day available">9</div>
+                    <div class="calendar-day available">10</div>
+                    <div class="calendar-day busy">11</div>
+                    <div class="calendar-day busy">12</div>
+                    <div class="calendar-day busy">13</div>
+                    <div class="calendar-day available">14</div>
+                    
+                    <div class="calendar-day available">15</div>
+                    <div class="calendar-day available">16</div>
+                    <div class="calendar-day available">17</div>
+                    <div class="calendar-day available">18</div>
+                    <div class="calendar-day busy">19</div>
+                    <div class="calendar-day busy">20</div>
+                    <div class="calendar-day available">21</div>
+                    
+                    <div class="calendar-day available">22</div>
+                    <div class="calendar-day available">23</div>
+                    <div class="calendar-day available">24</div>
+                    <div class="calendar-day available">25</div>
+                    <div class="calendar-day busy">26</div>
+                    <div class="calendar-day busy">27</div>
+                    <div class="calendar-day available">28</div>
+                    
+                    <div class="calendar-day available">29</div>
+                    <div class="calendar-day available">30</div>
+                    <div class="calendar-day available">31</div>
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <span>Müsait</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <span>Dolu</span>
+                    </div>
+                </div>
+            </div>
+            
             <div style="margin-top: 30px; text-align: center;">
                 <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
@@ -655,8 +1117,51 @@
             ];
             const venueCloseButtons = document.querySelectorAll('.venue-close');
             
+            // Filter elements
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const venueCards = document.querySelectorAll('.venue-card');
+            
             let popupShown = false;
             let isLoggedIn = false;
+            
+            // Initialize filter system
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filterType = this.getAttribute('data-filter');
+                    filterVenues(filterType);
+                });
+            });
+            
+            function filterVenues(filterType) {
+                venueCards.forEach(card => {
+                    const venueType = card.getAttribute('data-venue-type');
+                    
+                    if (filterType === 'all') {
+                        card.style.display = 'block';
+                    } else if (filterType === venueType || (filterType !== 'both' && venueType === 'both')) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Update venue count info
+                updateVenueCount(filterType);
+            }
+            
+            function updateVenueCount(filterType) {
+                const visibleVenues = Array.from(venueCards).filter(card => 
+                    card.style.display !== 'none'
+                ).length;
+                
+                // You can add a venue count display here if needed
+                console.log(`${filterType} filtresi: ${visibleVenues} mekan gösteriliyor`);
+            }
             
             // Check if user is logged in and update UI accordingly
             fetch('/api/user')
