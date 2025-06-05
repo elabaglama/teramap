@@ -85,7 +85,7 @@
         /* Venues layout */
         .venues-container {
             display: flex;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 8rem 5% 3rem;
             gap: 2rem;
@@ -93,14 +93,24 @@
         
         .venues-list {
             flex: 1;
-            max-width: 60%;
+            max-width: 75%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            align-content: start;
+        }
+        
+        .venues-list h1,
+        .venues-list > p,
+        .venue-filters {
+            grid-column: 1 / -1;
         }
         
         .venues-map {
-            flex: 1;
+            flex: 0 0 300px;
             position: sticky;
             top: 100px;
-            height: 600px;
+            height: 400px;
             background-color: #eee;
             border-radius: 12px;
             overflow: hidden;
@@ -119,8 +129,8 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: fit-content;
         }
         
         .venue-card:hover {
@@ -268,13 +278,21 @@
             
             .venues-list {
                 max-width: 100%;
+                grid-template-columns: 1fr;
             }
             
             .venues-map {
                 position: relative;
                 top: 0;
-                height: 400px;
+                height: 350px;
                 width: 100%;
+                flex: none;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .venues-list {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -332,6 +350,7 @@
             font-weight: 500;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         .filter-button.active {
@@ -476,20 +495,16 @@
                 <h3 style="margin-bottom: 1rem; color: #333; font-size: 1.2rem;">Mekan Türü</h3>
                 <div class="filter-toggle">
                     <button class="filter-button active" data-filter="all">
-                        <i class="fas fa-list"></i> Tümü
+                        Tümü
                     </button>
                     <button class="filter-button" data-filter="paid">
-                        <i class="fas fa-credit-card"></i> Ücretli Kiralar
+                        Ücretli Kiralar
                     </button>
                     <button class="filter-button" data-filter="free">
-                        <i class="fas fa-gift"></i> Gençlik Ekiplerine Ücretsiz
-                    </button>
-                    <button class="filter-button" data-filter="both">
-                        <i class="fas fa-handshake"></i> Her İkisi de
+                        Gençlik Ekiplerine Ücretsiz
                     </button>
                 </div>
                 <p style="color: #666; font-size: 0.9rem; margin: 0;">
-                    <i class="fas fa-info-circle"></i> 
                     Filtrelere göre mekanları görüntüleyin. Gençlik ekipleri için ücretsiz seçeneklere özel dikkat edin.
                 </p>
             </div>
@@ -1143,7 +1158,7 @@
                     
                     if (filterType === 'all') {
                         card.style.display = 'block';
-                    } else if (filterType === venueType || (filterType !== 'both' && venueType === 'both')) {
+                    } else if (filterType === venueType || venueType === 'both') {
                         card.style.display = 'block';
                     } else {
                         card.style.display = 'none';
