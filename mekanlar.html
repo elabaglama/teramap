@@ -84,16 +84,12 @@
         
         /* Venues layout */
         .venues-container {
-            display: flex;
             max-width: 1600px;
             margin: 0 auto;
             padding: 4rem 5% 2rem;
-            gap: 2rem;
         }
         
         .venues-list {
-            flex: 1;
-            max-width: 75%;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 2rem;
@@ -104,21 +100,6 @@
         .venues-list > p,
         .venue-filters {
             grid-column: 1 / -1;
-        }
-        
-        .venues-map {
-            flex: 0 0 300px;
-            height: 400px;
-            background-color: #eee;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .venues-map iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
         
         /* Enhanced venue cards */
@@ -270,19 +251,8 @@
         
         /* Responsive styles */
         @media screen and (max-width: 992px) {
-            .venues-container {
-                flex-direction: column;
-            }
-            
             .venues-list {
-                max-width: 100%;
                 grid-template-columns: 1fr;
-            }
-            
-            .venues-map {
-                height: 350px;
-                width: 100%;
-                flex: none;
             }
         }
         
@@ -323,7 +293,7 @@
 
         /* Filter styles */
         .venue-filters {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             padding: 1rem;
             background-color: #f9f7f6;
             border-radius: 12px;
@@ -483,12 +453,12 @@
 
     <div class="venues-container">
         <div class="venues-list">
-            <h1 style="margin-bottom: 1rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
-            <p style="margin-bottom: 1.5rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
+            <h1 style="margin-bottom: 0.5rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
+            <p style="margin-bottom: 0.8rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
             
             <!-- Venue Filters -->
             <div class="venue-filters">
-                <h3 style="margin-bottom: 0.8rem; color: #333; font-size: 1.2rem;">Mekan Türü</h3>
+                <h3 style="margin-bottom: 0.5rem; color: #333; font-size: 1.2rem;">Mekan Türü</h3>
                 <div class="filter-toggle">
                     <button class="filter-button active" data-filter="all">
                         Tümü
@@ -603,10 +573,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="venues-map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48182.38209409883!2d28.93617365!3d41.0055005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab7650656bd63%3A0x8ca058e28f20a1c0!2zxLBzdGFuYnVsLCBUw7xya2l5ZQ!5e0!3m2!1str!2sus!4v1652432548225!5m2!1str!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
 
