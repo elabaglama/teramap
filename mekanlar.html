@@ -318,10 +318,6 @@
 
         /* Filter styles */
         .venue-filters {
-            padding: 1rem;
-            background-color: #f9f7f6;
-            border-radius: 12px;
-            border: 1px solid #e0d8d5;
             flex-shrink: 0;
             min-width: 300px;
         }
@@ -497,9 +493,9 @@
                         <button class="filter-button active" data-filter="all">
                             Tümü
                         </button>
-                        <button class="filter-button" data-filter="paid">
-                            Ücretli Kiralar
-                        </button>
+                                            <button class="filter-button" data-filter="paid">
+                        Ücretli
+                    </button>
                         <button class="filter-button" data-filter="free">
                             Gençlik Ekiplerine Ücretsiz
                         </button>
@@ -508,9 +504,9 @@
             </div>
             
             <!-- Added Postane Galata as the first card -->
-            <div class="venue-card" data-venue-type="paid">
+            <div class="venue-card" data-venue-type="free">
                 <div class="venue-image" style="background-image: url('images/venues/postane.jpg'); background-size: cover; background-position: center;">
-                    <div class="venue-type-tag paid">Ücretli</div>
+                    <div class="venue-type-tag free">Gençlik Ekiplerine Ücretsiz</div>
                 </div>
                 <div class="venue-details">
                     <h3>Postane Galata</h3>
