@@ -287,26 +287,7 @@
             }
         }
 
-        /* Style for login notice */
-        .login-notice {
-            background-color: #f9f5f3;
-            border: 1px solid #91796e;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 30px 0;
-            text-align: center;
-        }
-        
-        .login-notice h3 {
-            color: #91796e;
-            margin-bottom: 10px;
-        }
-        
-        .login-notice a {
-            color: #7d5d53;
-            font-weight: bold;
-            text-decoration: underline;
-        }
+
         
         .logo-img {
             max-height: 40px;
@@ -486,16 +467,15 @@
                     <p style="margin-bottom: 0; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
                 </div>
                 
-                <!-- Venue Filters -->
+                                <!-- Venue Filters -->
                 <div class="venue-filters">
-                    <h3 style="margin-bottom: 0.5rem; color: #333; font-size: 1.2rem;">Mekan Türü</h3>
                     <div class="filter-toggle">
                         <button class="filter-button active" data-filter="all">
                             Tümü
                         </button>
-                                            <button class="filter-button" data-filter="paid">
-                        Ücretli
-                    </button>
+                        <button class="filter-button" data-filter="paid">
+                            Ücretli
+                        </button>
                         <button class="filter-button" data-filter="free">
                             Gençlik Ekiplerine Ücretsiz
                         </button>
@@ -1194,11 +1174,7 @@
                             button.disabled = false;
                         });
                         
-                        // Remove login notice if it exists
-                        const loginNotice = document.getElementById('login-notice');
-                        if (loginNotice) {
-                            loginNotice.style.display = 'none';
-                        }
+
                     } else {
                         // User is not logged in
                         
@@ -1210,23 +1186,7 @@
                             }
                         });
                         
-                        // Show login notice
-                        const venuesList = document.querySelector('.venues-list');
-                        if (venuesList && !document.getElementById('login-notice')) {
-                            const loginNotice = document.createElement('div');
-                            loginNotice.id = 'login-notice';
-                            loginNotice.className = 'login-notice';
-                            loginNotice.innerHTML = `
-                                <h3>Daha fazla mekanı görmek için <a href="https://elabaglama.notion.site/?pvs=105">giriş yapın</a> veya <a href="https://elabaglama.notion.site/?pvs=105">üye olun</a>.</h3>
-                            `;
-                            
-                            // Add login notice after the fourth venue or at the end of the venues list
-                            if (allVenueCards.length > 4) {
-                                venuesList.insertBefore(loginNotice, allVenueCards[4]);
-                            } else {
-                                venuesList.appendChild(loginNotice);
-                            }
-                        }
+
                         
                         // Modify contact buttons to redirect to login
                         contactButtons.forEach(button => {
