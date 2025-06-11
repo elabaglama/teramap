@@ -361,64 +361,255 @@
             color: #333;
         }
 
-        /* Availability calendar styles */
+        /* Enhanced Availability calendar styles */
         .availability-section {
             margin-top: 25px;
             padding-top: 20px;
             border-top: 2px solid #f0f0f0;
         }
 
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            background: #91796e;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .calendar-nav button:hover {
+            background: #7a645a;
+        }
+
+        .calendar-nav button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .calendar-month-year {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
         .availability-calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            gap: 6px;
             margin-top: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .calendar-day {
-            padding: 8px 4px;
+            padding: 12px 8px;
             text-align: center;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-day:hover:not(.header) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .calendar-day.available {
-            background-color: #d4edda;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border: 2px solid #b0d4b8;
+        }
+
+        .calendar-day.available:hover {
+            background: linear-gradient(135deg, #c3e6cb, #b0d4b8);
         }
 
         .calendar-day.busy {
-            background-color: #f8d7da;
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border: 2px solid #f1b3ba;
+        }
+
+        .calendar-day.busy:hover {
+            background: linear-gradient(135deg, #f5c6cb, #f1b3ba);
+        }
+
+        .calendar-day.partially-booked {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            color: #856404;
+            border: 2px solid #fed976;
+        }
+
+        .calendar-day.partially-booked:hover {
+            background: linear-gradient(135deg, #ffeaa7, #fed976);
         }
 
         .calendar-day.header {
-            background-color: #91796e;
+            background: linear-gradient(135deg, #91796e, #7a645a);
             color: white;
             font-weight: bold;
+            cursor: default;
+        }
+
+        .calendar-day.today {
+            position: relative;
+        }
+
+        .calendar-day.today::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #91796e;
+            border-radius: 50%;
+        }
+
+                 .calendar-day.other-month {
+             opacity: 0.3;
+             pointer-events: none;
+         }
+
+         .calendar-day.selected {
+             background: linear-gradient(135deg, #91796e, #7a645a) !important;
+             color: white !important;
+             transform: scale(1.05) !important;
+             border: 2px solid #5d4b41 !important;
+             box-shadow: 0 6px 12px rgba(145, 121, 110, 0.4) !important;
+             z-index: 10;
+             position: relative;
+         }
+
+        .day-status {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .day-status.available {
+            background: #28a745;
+        }
+
+        .day-status.busy {
+            background: #dc3545;
+        }
+
+        .day-status.partial {
+            background: #ffc107;
         }
 
         .calendar-legend {
             display: flex;
-            gap: 1rem;
-            margin-top: 10px;
-            font-size: 0.8rem;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.5rem;
         }
 
         .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-info {
+            margin-top: 15px;
+            padding: 12px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            font-size: 0.9rem;
+        }
+
+        .booking-info.available {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+
+        .booking-info.busy {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
+        /* Quick booking form */
+        .quick-booking {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .quick-booking h4 {
+            margin-bottom: 15px;
+            color: #91796e;
+            font-size: 1rem;
+        }
+
+        .booking-form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .booking-form-row input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .booking-form-row button {
+            padding: 8px 16px;
+            background: #91796e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .booking-form-row button:hover {
+            background: #7a645a;
         }
 
         .pricing-info {
@@ -651,8 +842,17 @@
             </div>
 
             <div class="availability-section">
-                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
-                <div class="availability-calendar">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu</h3>
+                <div class="calendar-header">
+                    <div class="calendar-nav">
+                        <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+                    </div>
+                    <div class="calendar-month-year">Ocak 2024</div>
+                    <div class="calendar-nav">
+                        <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="availability-calendar" id="calendar-postane">
                     <div class="calendar-day header">Pzt</div>
                     <div class="calendar-day header">Sal</div>
                     <div class="calendar-day header">Çar</div>
@@ -699,12 +899,29 @@
                 </div>
                 <div class="calendar-legend">
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #d4edda, #c3e6cb);"></div>
                         <span>Müsait</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb);"></div>
                         <span>Dolu</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);"></div>
+                        <span>Kısmen Dolu</span>
+                    </div>
+                </div>
+                <div class="booking-info available">
+                    <strong><i class="fas fa-info-circle"></i> İpucu:</strong> 
+                    Müsait günlere tıklayarak hızlı rezervasyon yapabilirsiniz.
+                </div>
+                
+                <div class="quick-booking">
+                    <h4><i class="fas fa-clock"></i> Hızlı Rezervasyon</h4>
+                    <div class="booking-form-row">
+                        <input type="date" placeholder="Tarih" id="booking-date">
+                        <input type="time" placeholder="Başlangıç Saati" id="booking-time">
+                        <button onclick="makeQuickBooking()">Rezervasyon Yap</button>
                     </div>
                 </div>
             </div>
@@ -762,8 +979,17 @@
             </div>
 
             <div class="availability-section">
-                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
-                <div class="availability-calendar">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu</h3>
+                <div class="calendar-header">
+                    <div class="calendar-nav">
+                        <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+                    </div>
+                    <div class="calendar-month-year">Ocak 2024</div>
+                    <div class="calendar-nav">
+                        <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="availability-calendar" id="calendar-airbnb">
                     <div class="calendar-day header">Pzt</div>
                     <div class="calendar-day header">Sal</div>
                     <div class="calendar-day header">Çar</div>
@@ -810,12 +1036,29 @@
                 </div>
                 <div class="calendar-legend">
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #d4edda, #c3e6cb);"></div>
                         <span>Müsait</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb);"></div>
                         <span>Dolu</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);"></div>
+                        <span>Kısmen Dolu</span>
+                    </div>
+                </div>
+                <div class="booking-info available">
+                    <strong><i class="fas fa-info-circle"></i> İpucu:</strong> 
+                    Müsait günlere tıklayarak hızlı rezervasyon yapabilirsiniz.
+                </div>
+                
+                <div class="quick-booking">
+                    <h4><i class="fas fa-clock"></i> Hızlı Rezervasyon</h4>
+                    <div class="booking-form-row">
+                        <input type="date" placeholder="Tarih" id="booking-date-2">
+                        <input type="time" placeholder="Başlangıç Saati" id="booking-time-2">
+                        <button onclick="makeQuickBooking(2)">Rezervasyon Yap</button>
                     </div>
                 </div>
             </div>
@@ -873,8 +1116,17 @@
             </div>
 
             <div class="availability-section">
-                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
-                <div class="availability-calendar">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu</h3>
+                <div class="calendar-header">
+                    <div class="calendar-nav">
+                        <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+                    </div>
+                    <div class="calendar-month-year">Ocak 2024</div>
+                    <div class="calendar-nav">
+                        <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="availability-calendar" id="calendar-fener">
                     <div class="calendar-day header">Pzt</div>
                     <div class="calendar-day header">Sal</div>
                     <div class="calendar-day header">Çar</div>
@@ -921,12 +1173,29 @@
                 </div>
                 <div class="calendar-legend">
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #d4edda, #c3e6cb);"></div>
                         <span>Müsait</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb);"></div>
                         <span>Dolu</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);"></div>
+                        <span>Kısmen Dolu</span>
+                    </div>
+                </div>
+                <div class="booking-info available">
+                    <strong><i class="fas fa-gift"></i> Özel Bilgi:</strong> 
+                    Bu mekan gençlik ekipleri için tamamen ücretsizdir!
+                </div>
+                
+                <div class="quick-booking">
+                    <h4><i class="fas fa-clock"></i> Hızlı Rezervasyon</h4>
+                    <div class="booking-form-row">
+                        <input type="date" placeholder="Tarih" id="booking-date-3">
+                        <input type="time" placeholder="Başlangıç Saati" id="booking-time-3">
+                        <button onclick="makeQuickBooking(3)">Rezervasyon Yap</button>
                     </div>
                 </div>
             </div>
@@ -987,8 +1256,17 @@
             </div>
 
             <div class="availability-section">
-                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu - Ocak 2024</h3>
-                <div class="availability-calendar">
+                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu</h3>
+                <div class="calendar-header">
+                    <div class="calendar-nav">
+                        <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+                    </div>
+                    <div class="calendar-month-year">Ocak 2024</div>
+                    <div class="calendar-nav">
+                        <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="availability-calendar" id="calendar-borusan">
                     <div class="calendar-day header">Pzt</div>
                     <div class="calendar-day header">Sal</div>
                     <div class="calendar-day header">Çar</div>
@@ -1035,12 +1313,29 @@
                 </div>
                 <div class="calendar-legend">
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #d4edda;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #d4edda, #c3e6cb);"></div>
                         <span>Müsait</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #f8d7da;"></div>
+                        <div class="legend-color" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb);"></div>
                         <span>Dolu</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);"></div>
+                        <span>Kısmen Dolu</span>
+                    </div>
+                </div>
+                <div class="booking-info available">
+                    <strong><i class="fas fa-music"></i> Müzik Stüdyosu:</strong> 
+                    Profesyonel akustik ve kayıt imkanları mevcuttur.
+                </div>
+                
+                <div class="quick-booking">
+                    <h4><i class="fas fa-clock"></i> Hızlı Rezervasyon</h4>
+                    <div class="booking-form-row">
+                        <input type="date" placeholder="Tarih" id="booking-date-4">
+                        <input type="time" placeholder="Başlangıç Saati" id="booking-time-4">
+                        <button onclick="makeQuickBooking(4)">Rezervasyon Yap</button>
                     </div>
                 </div>
             </div>
@@ -1331,7 +1626,185 @@
             
             // Initialize mobile menu
             initMobileMenu();
+            
+            // Initialize calendars
+            initializeCalendars();
         });
+        
+        // Calendar functionality
+        function initializeCalendars() {
+            const calendars = ['calendar-postane', 'calendar-airbnb', 'calendar-fener', 'calendar-borusan'];
+            const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
+                           'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            
+            calendars.forEach((calendarId, index) => {
+                const calendar = document.getElementById(calendarId);
+                if (!calendar) return;
+                
+                const popup = calendar.closest('.popup-overlay');
+                let currentMonth = 0; // January (0-indexed)
+                let currentYear = 2024;
+                
+                // Get navigation buttons for this calendar
+                const prevBtn = popup.querySelector('.prev-month');
+                const nextBtn = popup.querySelector('.next-month');
+                const monthYearDisplay = popup.querySelector('.calendar-month-year');
+                
+                // Add event listeners for navigation
+                prevBtn.addEventListener('click', () => {
+                    currentMonth--;
+                    if (currentMonth < 0) {
+                        currentMonth = 11;
+                        currentYear--;
+                    }
+                    updateCalendar(calendar, currentMonth, currentYear, monthYearDisplay, months);
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    currentMonth++;
+                    if (currentMonth > 11) {
+                        currentMonth = 0;
+                        currentYear++;
+                    }
+                    updateCalendar(calendar, currentMonth, currentYear, monthYearDisplay, months);
+                });
+                
+                // Add click handlers to available days
+                addDayClickHandlers(calendar, index + 1);
+            });
+        }
+        
+        function updateCalendar(calendar, month, year, display, months) {
+            display.textContent = `${months[month]} ${year}`;
+            
+            // Get all day cells (skip headers)
+            const dayCells = calendar.querySelectorAll('.calendar-day:not(.header)');
+            
+            // Get days in month
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+            const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1; // Adjust for Monday start
+            
+            // Clear existing days
+            dayCells.forEach(cell => cell.remove());
+            
+            // Add new days
+            for (let i = 0; i < adjustedFirstDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-day other-month';
+                calendar.appendChild(emptyCell);
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day';
+                dayCell.textContent = day;
+                
+                // Randomly assign availability (in real app, this would come from API)
+                const availability = Math.random();
+                if (availability > 0.7) {
+                    dayCell.classList.add('available');
+                } else if (availability > 0.4) {
+                    dayCell.classList.add('partially-booked');
+                } else {
+                    dayCell.classList.add('busy');
+                }
+                
+                // Mark today
+                const today = new Date();
+                if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
+                    dayCell.classList.add('today');
+                }
+                
+                calendar.appendChild(dayCell);
+            }
+            
+            // Re-add click handlers
+            addDayClickHandlers(calendar, calendar.id.split('-')[1]);
+        }
+        
+        function addDayClickHandlers(calendar, venueIndex) {
+            const availableDays = calendar.querySelectorAll('.calendar-day.available');
+            
+            availableDays.forEach(day => {
+                day.addEventListener('click', function() {
+                    if (this.classList.contains('available')) {
+                        // Remove previous selections
+                        calendar.querySelectorAll('.calendar-day.selected').forEach(d => {
+                            d.classList.remove('selected');
+                        });
+                        
+                        // Add selection to clicked day
+                        this.classList.add('selected');
+                        this.style.background = 'linear-gradient(135deg, #91796e, #7a645a)';
+                        this.style.color = 'white';
+                        this.style.transform = 'scale(1.1)';
+                        
+                        // Update booking form
+                        const popup = calendar.closest('.popup-overlay');
+                        const monthYearText = popup.querySelector('.calendar-month-year').textContent;
+                        const [monthName, year] = monthYearText.split(' ');
+                        const monthIndex = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
+                                          'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'].indexOf(monthName);
+                        
+                        const selectedDate = new Date(year, monthIndex, parseInt(this.textContent));
+                        const formattedDate = selectedDate.toISOString().split('T')[0];
+                        
+                        const dateInput = popup.querySelector('input[type="date"]');
+                        if (dateInput) {
+                            dateInput.value = formattedDate;
+                        }
+                        
+                        // Show booking confirmation
+                        showBookingConfirmation(this.textContent, monthName, year);
+                    }
+                });
+            });
+        }
+        
+        function showBookingConfirmation(day, month, year) {
+            const popup = event.target.closest('.popup-overlay');
+            const bookingInfo = popup.querySelector('.booking-info');
+            
+            bookingInfo.className = 'booking-info available';
+            bookingInfo.innerHTML = `
+                <strong><i class="fas fa-check-circle"></i> Tarih Seçildi:</strong> 
+                ${day} ${month} ${year} - Rezervasyon formu otomatik olarak dolduruldu.
+            `;
+        }
+        
+        function makeQuickBooking(venueId) {
+            const popup = document.querySelector(`#venueDetailPopup${venueId - 1}`);
+            const dateInput = popup.querySelector('input[type="date"]');
+            const timeInput = popup.querySelector('input[type="time"]');
+            
+            if (!dateInput.value || !timeInput.value) {
+                alert('Lütfen tarih ve saat seçiniz.');
+                return;
+            }
+            
+            const venueNames = ['Postane Galata', 'Rahat ve Bahçeli Ev', 'Fener Evleri 1: Haliç Sanat', 'Borusan Müzik Evi'];
+            const venueName = venueNames[venueId - 1];
+            
+            const bookingDate = new Date(dateInput.value + 'T' + timeInput.value);
+            const formattedDate = bookingDate.toLocaleDateString('tr-TR');
+            const formattedTime = bookingDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+            
+            alert(`Rezervasyon Talebiniz Alındı!\n\nMekan: ${venueName}\nTarih: ${formattedDate}\nSaat: ${formattedTime}\n\nSizinle en kısa sürede iletişime geçeceğiz.`);
+            
+            // Clear form
+            dateInput.value = '';
+            timeInput.value = '';
+            
+            // Remove selection from calendar
+            const calendar = popup.querySelector('.availability-calendar');
+            calendar.querySelectorAll('.calendar-day.selected').forEach(day => {
+                day.classList.remove('selected');
+                day.style.background = '';
+                day.style.color = '';
+                day.style.transform = '';
+            });
+        }
     </script>
 </body>
 </html> 
