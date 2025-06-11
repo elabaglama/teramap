@@ -364,8 +364,22 @@
         /* Enhanced Availability calendar styles */
         .availability-section {
             margin-top: 25px;
-            padding-top: 20px;
-            border-top: 2px solid #f0f0f0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            border: 2px solid #91796e;
+            box-shadow: 0 5px 15px rgba(145, 121, 110, 0.1);
+        }
+        
+        .availability-section h3 {
+            color: #91796e;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .calendar-header {
@@ -921,7 +935,7 @@
                     <div class="booking-form-row">
                         <input type="date" placeholder="Tarih" id="booking-date">
                         <input type="time" placeholder="Başlangıç Saati" id="booking-time">
-                        <button onclick="makeQuickBooking()">Rezervasyon Yap</button>
+                        <button onclick="makeQuickBooking(1)">Rezervasyon Yap</button>
                     </div>
                 </div>
             </div>
@@ -1539,16 +1553,20 @@
                 }
             });
             
-            // Venue detail buttons
+            // Venue detail buttons - always work for testing
             detailButtons.forEach((button, index) => {
                 button.addEventListener('click', function(e) {
-                    if (!isLoggedIn) {
-                        // If not logged in, redirect to login page
-                        window.location.href = 'https://elabaglama.notion.site/?pvs=105';
-                        e.preventDefault();
-                    } else {
-                        // If logged in, show the venue popup
+                    e.preventDefault();
+                    console.log('Detail button clicked for venue', index);
+                    // Always show the popup for testing
+                    if (venuePopups[index]) {
                         showPopup(venuePopups[index]);
+                        // Initialize calendar for this venue
+                        setTimeout(() => {
+                            initializeCalendars();
+                        }, 100);
+                    } else {
+                        console.error('Popup not found for index', index);
                     }
                 });
             });
