@@ -194,6 +194,40 @@
             font-size: 0.85rem;
         }
         
+        /* Venue features grid styles */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 8px;
+            background: rgba(145, 121, 110, 0.1);
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            background: rgba(145, 121, 110, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .feature-item {
+                font-size: 13px;
+                padding: 6px;
+            }
+        }
+
         /* Popup styles */
         .popup-overlay {
             display: none;
@@ -879,15 +913,15 @@
             <p>Galata'nın kalbinde, tarihi bir binada konumlanmış çok amaçlı kültür ve sanat mekanı. Yüksek tavanları ve geniş atmosferiyle sergiler, performanslar ve özel etkinlikler için ideal bir ortam sunuyor.</p>
                     <p>Tarihi dokusunu koruyan Postane Galata, Beyoğlu'nun merkezinde kültür-sanat etkinlikleri için özgün ve etkileyici bir mekandır.</p>
                     
-                                <h3 style="margin-top: 20px;"><i class="fas fa-star"></i> Özellikler</h3>
-                    <ul style="list-style: none; padding-left: 0; margin-bottom: 20px;">
-                        <li style="margin-bottom: 8px;"><i class="fas fa-building" style="color: #91796e; margin-right: 8px;"></i> Tarihi mimari</li>
-                        <li style="margin-bottom: 8px;"><i class="fas fa-arrows-alt-v" style="color: #91796e; margin-right: 8px;"></i> Yüksek tavanlar</li>
-                        <li style="margin-bottom: 8px;"><i class="fas fa-palette" style="color: #91796e; margin-right: 8px;"></i> Sergi alanları</li>
-                        <li style="margin-bottom: 8px;"><i class="fas fa-lightbulb" style="color: #91796e; margin-right: 8px;"></i> Profesyonel ışık sistemi</li>
-                        <li style="margin-bottom: 8px;"><i class="fas fa-volume-up" style="color: #91796e; margin-right: 8px;"></i> Ses sistemi</li>
-                        <li style="margin-bottom: 8px;"><i class="fas fa-couch" style="color: #91796e; margin-right: 8px;"></i> Etkinlik mobilyaları</li>
-                    </ul>
+                                <h3 style="margin-top: 20px;"><i class="fas fa-star" style="color: #91796e; margin-right: 8px;"></i> Özellikler</h3>
+                    <div class="features-grid">
+                        <div class="feature-item"><i class="fas fa-building" style="color: #91796e; margin-right: 8px;"></i> Tarihi mimari</div>
+                        <div class="feature-item"><i class="fas fa-arrows-alt-v" style="color: #91796e; margin-right: 8px;"></i> Yüksek tavanlar</div>
+                        <div class="feature-item"><i class="fas fa-palette" style="color: #91796e; margin-right: 8px;"></i> Sergi alanları</div>
+                        <div class="feature-item"><i class="fas fa-lightbulb" style="color: #91796e; margin-right: 8px;"></i> Profesyonel ışık sistemi</div>
+                        <div class="feature-item"><i class="fas fa-volume-up" style="color: #91796e; margin-right: 8px;"></i> Ses sistemi</div>
+                        <div class="feature-item"><i class="fas fa-couch" style="color: #91796e; margin-right: 8px;"></i> Etkinlik mobilyaları</div>
+                    </div>
                     
             <h3>Uygun Etkinlikler</h3>
             <div class="venue-tags" style="margin-top: 10px;">
@@ -1010,15 +1044,15 @@
             </div>
             <p>Şehrin merkezinde, huzurlu bir bahçeye sahip, modern döşenmiş özel bir mekan. Küçük grup toplantıları, workshop'lar ve özel etkinlikler için ideal bir atmosfer sunuyor.</p>
             <p>Ferah iç mekanı ve özel bahçesi ile şehrin gürültüsünden uzak, samimi bir ortam sağlayan bu mekan, özellikle küçük grup etkinlikleri ve yaratıcı çalışmalar için tercih ediliyor.</p>
-            <h3 style="margin-top: 20px;"><i class="fas fa-star"></i> Özellikler</h3>
-            <ul style="list-style: none; padding-left: 0; margin-bottom: 20px;">
-                <li style="margin-bottom: 8px;"><i class="fas fa-tree" style="color: #91796e; margin-right: 8px;"></i> Özel bahçe</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-utensils" style="color: #91796e; margin-right: 8px;"></i> Tam donanımlı mutfak</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-wifi" style="color: #91796e; margin-right: 8px;"></i> Yüksek hızlı internet</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-tv" style="color: #91796e; margin-right: 8px;"></i> Akıllı TV</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-snowflake" style="color: #91796e; margin-right: 8px;"></i> Klima</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-sun" style="color: #91796e; margin-right: 8px;"></i> Doğal ışık</li>
-            </ul>
+            <h3 style="margin-top: 20px;"><i class="fas fa-star" style="color: #91796e; margin-right: 8px;"></i> Özellikler</h3>
+            <div class="features-grid">
+                <div class="feature-item"><i class="fas fa-tree" style="color: #91796e; margin-right: 8px;"></i> Özel bahçe</div>
+                <div class="feature-item"><i class="fas fa-utensils" style="color: #91796e; margin-right: 8px;"></i> Tam donanımlı mutfak</div>
+                <div class="feature-item"><i class="fas fa-wifi" style="color: #91796e; margin-right: 8px;"></i> Yüksek hızlı internet</div>
+                <div class="feature-item"><i class="fas fa-tv" style="color: #91796e; margin-right: 8px;"></i> Akıllı TV</div>
+                <div class="feature-item"><i class="fas fa-snowflake" style="color: #91796e; margin-right: 8px;"></i> Klima</div>
+                <div class="feature-item"><i class="fas fa-sun" style="color: #91796e; margin-right: 8px;"></i> Doğal ışık</div>
+            </div>
             <h3>Uygun Etkinlikler</h3>
             <div class="venue-tags" style="margin-top: 10px;">
                 <span class="venue-tag">Workshop</span>
@@ -1133,15 +1167,15 @@
             </div>
             <p>Haliç manzarasıyla eşsiz bir sanat ve kültür alanı. Restore edilmiş tarihi Fener evlerinden birinde yer alan bu mekan, sanat sergileri ve küçük ölçekli etkinlikler için ideal.</p>
             <p>Geleneksel mimari öğeleri ve modern tasarım anlayışını bir araya getiren Fener Evleri 1, özellikle kültür-sanat etkinlikleri ve yaratıcı buluşmalar için özel bir atmosfer sunuyor.</p>
-            <h3 style="margin-top: 20px;"><i class="fas fa-star"></i> Özellikler</h3>
-            <ul style="list-style: none; padding-left: 0; margin-bottom: 20px;">
-                <li style="margin-bottom: 8px;"><i class="fas fa-sun" style="color: #91796e; margin-right: 8px;"></i> Doğal aydınlatma</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-lightbulb" style="color: #91796e; margin-right: 8px;"></i> Sergi duvarları ve ışıklandırma</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-wifi" style="color: #91796e; margin-right: 8px;"></i> Kablosuz internet</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-coffee" style="color: #91796e; margin-right: 8px;"></i> Mini mutfak</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-volume-up" style="color: #91796e; margin-right: 8px;"></i> Ses sistemi</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-water" style="color: #91796e; margin-right: 8px;"></i> Haliç manzarası</li>
-            </ul>
+            <h3 style="margin-top: 20px;"><i class="fas fa-star" style="color: #91796e; margin-right: 8px;"></i> Özellikler</h3>
+            <div class="features-grid">
+                <div class="feature-item"><i class="fas fa-sun" style="color: #91796e; margin-right: 8px;"></i> Doğal aydınlatma</div>
+                <div class="feature-item"><i class="fas fa-lightbulb" style="color: #91796e; margin-right: 8px;"></i> Sergi duvarları ve ışıklandırma</div>
+                <div class="feature-item"><i class="fas fa-wifi" style="color: #91796e; margin-right: 8px;"></i> Kablosuz internet</div>
+                <div class="feature-item"><i class="fas fa-coffee" style="color: #91796e; margin-right: 8px;"></i> Mini mutfak</div>
+                <div class="feature-item"><i class="fas fa-volume-up" style="color: #91796e; margin-right: 8px;"></i> Ses sistemi</div>
+                <div class="feature-item"><i class="fas fa-water" style="color: #91796e; margin-right: 8px;"></i> Haliç manzarası</div>
+            </div>
             <h3>Uygun Etkinlikler</h3>
             <div class="venue-tags" style="margin-top: 10px;">
                 <span class="venue-tag">Sergi</span>
@@ -1257,15 +1291,15 @@
             </div>
             <p>Müzik ve sanat odaklı etkinlikler için akustik olarak tasarlanmış özel alan. Modern iç mekan tasarımı ve profesyonel ses sistemleriyle konserler, dinletiler ve toplantılar için mükemmel bir seçenek.</p>
             <p>İstanbul'un kalbinde yer alan Borusan Müzik Evi, profesyonel akustik tasarımı ve üst düzey teknik altyapısıyla özellikle müzik performansları ve ses kayıtları için tercih edilen bir mekan.</p>
-            <h3 style="margin-top: 20px;"><i class="fas fa-star"></i> Özellikler</h3>
-            <ul style="list-style: none; padding-left: 0; margin-bottom: 20px;">
-                <li style="margin-bottom: 8px;"><i class="fas fa-music" style="color: #91796e; margin-right: 8px;"></i> Profesyonel akustik tasarım</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-piano" style="color: #91796e; margin-right: 8px;"></i> Steinway konser piyanosu</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-microphone" style="color: #91796e; margin-right: 8px;"></i> Stüdyo kalitesinde ses sistemi</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-lightbulb" style="color: #91796e; margin-right: 8px;"></i> Profesyonel ışık sistemi</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-door-open" style="color: #91796e; margin-right: 8px;"></i> Green room</li>
-                <li style="margin-bottom: 8px;"><i class="fas fa-warehouse" style="color: #91796e; margin-right: 8px;"></i> Vestiyer ve fuaye alanı</li>
-            </ul>
+            <h3 style="margin-top: 20px;"><i class="fas fa-star" style="color: #91796e; margin-right: 8px;"></i> Özellikler</h3>
+            <div class="features-grid">
+                <div class="feature-item"><i class="fas fa-music" style="color: #91796e; margin-right: 8px;"></i> Profesyonel akustik tasarım</div>
+                <div class="feature-item"><i class="fas fa-piano" style="color: #91796e; margin-right: 8px;"></i> Steinway konser piyanosu</div>
+                <div class="feature-item"><i class="fas fa-microphone" style="color: #91796e; margin-right: 8px;"></i> Stüdyo kalitesinde ses sistemi</div>
+                <div class="feature-item"><i class="fas fa-lightbulb" style="color: #91796e; margin-right: 8px;"></i> Profesyonel ışık sistemi</div>
+                <div class="feature-item"><i class="fas fa-door-open" style="color: #91796e; margin-right: 8px;"></i> Green room</div>
+                <div class="feature-item"><i class="fas fa-warehouse" style="color: #91796e; margin-right: 8px;"></i> Vestiyer ve fuaye alanı</div>
+            </div>
             <h3>Uygun Etkinlikler</h3>
             <div class="venue-tags" style="margin-top: 10px;">
                 <span class="venue-tag">Konser</span>
