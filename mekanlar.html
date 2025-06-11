@@ -211,12 +211,60 @@
         
         .popup-content {
             background-color: white;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 1200px;
+            max-height: 85vh;
             padding: 2rem;
             position: relative;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Venue popup specific styles */
+        .venue-popup-content {
+            max-width: 1400px;
+            max-height: 90vh;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .venue-popup-content .popup-content-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 100%;
+        }
+        
+        .venue-left-content {
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+        
+        .venue-right-content {
+            overflow-y: auto;
+            padding-left: 1rem;
+            border-left: 2px solid #f0f0f0;
+        }
+        
+        @media screen and (max-width: 1024px) {
+            .venue-popup-content .popup-content-inner {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .venue-right-content {
+                border-left: none;
+                border-top: 2px solid #f0f0f0;
+                padding-left: 0;
+                padding-top: 1rem;
+            }
+            
+            .venue-left-content {
+                padding-right: 0;
+            }
         }
         
         .popup-close {
@@ -363,22 +411,22 @@
 
         /* Enhanced Availability calendar styles */
         .availability-section {
-            margin-top: 25px;
-            padding: 25px;
+            margin-top: 15px;
+            padding: 15px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 15px;
+            border-radius: 12px;
             border: 2px solid #91796e;
-            box-shadow: 0 5px 15px rgba(145, 121, 110, 0.1);
+            box-shadow: 0 3px 10px rgba(145, 121, 110, 0.1);
         }
         
         .availability-section h3 {
             color: #91796e;
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
             text-align: center;
             background: white;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
@@ -432,14 +480,14 @@
         }
 
         .calendar-day {
-            padding: 12px 8px;
+            padding: 8px 4px;
             text-align: center;
-            border-radius: 8px;
-            font-size: 0.85rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            min-height: 40px;
+            min-height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -811,143 +859,152 @@
     
     <!-- Add Postane Galata popup before the other popups -->
     <div class="popup-overlay" id="venueDetailPopup0">
-        <div class="popup-content" style="max-width: 700px;">
+        <div class="popup-content venue-popup-content">
             <span class="popup-close venue-close">&times;</span>
-            <h2>Postane Galata</h2>
-            <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
-                <img src="images/venues/postane.jpg" style="width: 100%; object-fit: cover; border-radius: 8px;" alt="Postane Galata" loading="lazy">
-            </div>
-            <div class="venue-meta" style="margin-bottom: 20px;">
-                <div><i class="fas fa-map-marker-alt"></i> Galata, Beyoğlu</div>
-                <div><i class="fas fa-users"></i> 60-80 kişi</div>
-                <div><i class="fas fa-ruler-combined"></i> 210 m²</div>
-                <div><i class="fas fa-building"></i> Tarihi bina</div>
-            </div>
-            <p>Galata'nın kalbinde, tarihi bir binada konumlanmış çok amaçlı kültür ve sanat mekanı. Yüksek tavanları ve geniş atmosferiyle sergiler, performanslar ve özel etkinlikler için ideal bir ortam sunuyor.</p>
-            <p>Tarihi dokusunu koruyan Postane Galata, Beyoğlu'nun merkezinde kültür-sanat etkinlikleri için özgün ve etkileyici bir mekandır. Galeri alanı, performans alanı ve sosyal alan olarak farklı düzenleme imkanları sunmaktadır.</p>
-            <h3 style="margin-top: 20px;">Özellikler</h3>
-            <ul style="list-style: disc; padding-left: 20px; margin-bottom: 20px;">
-                <li>Tarihi mimari</li>
-                <li>Yüksek tavanlar</li>
-                <li>Sergi alanları</li>
-                <li>Profesyonel ışık sistemi</li>
-                <li>Ses sistemi</li>
-                <li>Etkinlik mobilyaları</li>
-            </ul>
-            <h3>Uygun Etkinlikler</h3>
-            <div class="venue-tags" style="margin-top: 10px;">
-                <span class="venue-tag">Sergi</span>
-                <span class="venue-tag">Performans</span>
-                <span class="venue-tag">Konser</span>
-                <span class="venue-tag">Özel Etkinlikler</span>
-                <span class="venue-tag">Söyleşi</span>
-                <span class="venue-tag">Lansman</span>
-                <span class="venue-tag">Workshop</span>
-            </div>
-            
-            <div class="pricing-info">
-                <h4><i class="fas fa-euro-sign"></i> Fiyatlandırma</h4>
-                <div class="price-item"><strong>Günlük kiralama:</strong> ₺3,500 - ₺5,000</div>
-                <div class="price-item"><strong>Yarım gün:</strong> ₺2,000 - ₺3,000</div>
-                <div class="price-item"><strong>Saatlik:</strong> ₺400 - ₺600</div>
-                <div class="price-item" style="color: #91796e; font-weight: bold;">
-                    <i class="fas fa-info-circle"></i> Fiyatlar etkinlik türüne göre değişiklik gösterebilir
-                </div>
-            </div>
-
-            <div class="availability-section">
-                <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu</h3>
-                <div class="calendar-header">
-                    <div class="calendar-nav">
-                        <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+            <div class="popup-content-inner">
+                <!-- Sol taraf: Genel bilgiler -->
+                <div class="venue-left-content">
+                    <h2>Postane Galata</h2>
+                    <div style="margin-bottom: 20px; max-height: 200px; overflow: hidden;">
+                        <img src="images/venues/postane.jpg" style="width: 100%; object-fit: cover; border-radius: 8px;" alt="Postane Galata" loading="lazy">
                     </div>
-                    <div class="calendar-month-year">Ocak 2024</div>
-                    <div class="calendar-nav">
-                        <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+                    
+                    <div class="venue-meta" style="margin-bottom: 20px;">
+                        <div><i class="fas fa-map-marker-alt"></i> Galata, Beyoğlu</div>
+                        <div><i class="fas fa-users"></i> 60-80 kişi</div>
+                        <div><i class="fas fa-ruler-combined"></i> 210 m²</div>
+                        <div><i class="fas fa-building"></i> Tarihi bina</div>
                     </div>
-                </div>
-                <div class="availability-calendar" id="calendar-postane">
-                    <div class="calendar-day header">Pzt</div>
-                    <div class="calendar-day header">Sal</div>
-                    <div class="calendar-day header">Çar</div>
-                    <div class="calendar-day header">Per</div>
-                    <div class="calendar-day header">Cum</div>
-                    <div class="calendar-day header">Cmt</div>
-                    <div class="calendar-day header">Paz</div>
                     
-                    <div class="calendar-day available">1</div>
-                    <div class="calendar-day busy">2</div>
-                    <div class="calendar-day available">3</div>
-                    <div class="calendar-day available">4</div>
-                    <div class="calendar-day busy">5</div>
-                    <div class="calendar-day available">6</div>
-                    <div class="calendar-day available">7</div>
+                    <p>Galata'nın kalbinde, tarihi bir binada konumlanmış çok amaçlı kültür ve sanat mekanı. Yüksek tavanları ve geniş atmosferiyle sergiler, performanslar ve özel etkinlikler için ideal bir ortam sunuyor.</p>
+                    <p>Tarihi dokusunu koruyan Postane Galata, Beyoğlu'nun merkezinde kültür-sanat etkinlikleri için özgün ve etkileyici bir mekandır.</p>
                     
-                    <div class="calendar-day available">8</div>
-                    <div class="calendar-day available">9</div>
-                    <div class="calendar-day busy">10</div>
-                    <div class="calendar-day available">11</div>
-                    <div class="calendar-day available">12</div>
-                    <div class="calendar-day busy">13</div>
-                    <div class="calendar-day available">14</div>
+                    <h3 style="margin-top: 20px;">Özellikler</h3>
+                    <ul style="list-style: disc; padding-left: 20px; margin-bottom: 20px;">
+                        <li>Tarihi mimari</li>
+                        <li>Yüksek tavanlar</li>
+                        <li>Sergi alanları</li>
+                        <li>Profesyonel ışık sistemi</li>
+                        <li>Ses sistemi</li>
+                        <li>Etkinlik mobilyaları</li>
+                    </ul>
                     
-                    <div class="calendar-day busy">15</div>
-                    <div class="calendar-day available">16</div>
-                    <div class="calendar-day available">17</div>
-                    <div class="calendar-day busy">18</div>
-                    <div class="calendar-day available">19</div>
-                    <div class="calendar-day available">20</div>
-                    <div class="calendar-day busy">21</div>
-                    
-                    <div class="calendar-day available">22</div>
-                    <div class="calendar-day available">23</div>
-                    <div class="calendar-day available">24</div>
-                    <div class="calendar-day busy">25</div>
-                    <div class="calendar-day available">26</div>
-                    <div class="calendar-day busy">27</div>
-                    <div class="calendar-day available">28</div>
-                    
-                    <div class="calendar-day available">29</div>
-                    <div class="calendar-day available">30</div>
-                    <div class="calendar-day busy">31</div>
-                </div>
-                <div class="calendar-legend">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(135deg, #d4edda, #c3e6cb);"></div>
-                        <span>Müsait</span>
+                    <h3>Uygun Etkinlikler</h3>
+                    <div class="venue-tags" style="margin-top: 10px;">
+                        <span class="venue-tag">Sergi</span>
+                        <span class="venue-tag">Performans</span>
+                        <span class="venue-tag">Konser</span>
+                        <span class="venue-tag">Özel Etkinlikler</span>
+                        <span class="venue-tag">Söyleşi</span>
+                        <span class="venue-tag">Lansman</span>
+                        <span class="venue-tag">Workshop</span>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb);"></div>
-                        <span>Dolu</span>
+                    
+                    <div class="pricing-info">
+                        <h4><i class="fas fa-euro-sign"></i> Fiyatlandırma</h4>
+                        <div class="price-item"><strong>Günlük:</strong> ₺3,500 - ₺5,000</div>
+                        <div class="price-item"><strong>Yarım gün:</strong> ₺2,000 - ₺3,000</div>
+                        <div class="price-item"><strong>Saatlik:</strong> ₺400 - ₺600</div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);"></div>
-                        <span>Kısmen Dolu</span>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="/iletisim" class="cta-button">İletişime Geç</a>
                     </div>
-                </div>
-                <div class="booking-info available">
-                    <strong><i class="fas fa-info-circle"></i> İpucu:</strong> 
-                    Müsait günlere tıklayarak hızlı rezervasyon yapabilirsiniz.
                 </div>
                 
-                <div class="quick-booking">
-                    <h4><i class="fas fa-clock"></i> Hızlı Rezervasyon</h4>
-                    <div class="booking-form-row">
-                        <input type="date" placeholder="Tarih" id="booking-date">
-                        <input type="time" placeholder="Başlangıç Saati" id="booking-time">
-                        <button onclick="makeQuickBooking(1)">Rezervasyon Yap</button>
+                <!-- Sağ taraf: Takvim ve rezervasyon -->
+                <div class="venue-right-content">
+                    <div class="availability-section">
+                        <h3><i class="fas fa-calendar-alt"></i> Müsaitlik Durumu</h3>
+                        <div class="calendar-header">
+                            <div class="calendar-nav">
+                                <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+                            </div>
+                            <div class="calendar-month-year">Ocak 2024</div>
+                            <div class="calendar-nav">
+                                <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="availability-calendar" id="calendar-postane">
+                            <div class="calendar-day header">Pzt</div>
+                            <div class="calendar-day header">Sal</div>
+                            <div class="calendar-day header">Çar</div>
+                            <div class="calendar-day header">Per</div>
+                            <div class="calendar-day header">Cum</div>
+                            <div class="calendar-day header">Cmt</div>
+                            <div class="calendar-day header">Paz</div>
+                            
+                            <div class="calendar-day available">1</div>
+                            <div class="calendar-day busy">2</div>
+                            <div class="calendar-day available">3</div>
+                            <div class="calendar-day available">4</div>
+                            <div class="calendar-day busy">5</div>
+                            <div class="calendar-day available">6</div>
+                            <div class="calendar-day available">7</div>
+                            
+                            <div class="calendar-day available">8</div>
+                            <div class="calendar-day available">9</div>
+                            <div class="calendar-day busy">10</div>
+                            <div class="calendar-day available">11</div>
+                            <div class="calendar-day available">12</div>
+                            <div class="calendar-day busy">13</div>
+                            <div class="calendar-day available">14</div>
+                            
+                            <div class="calendar-day busy">15</div>
+                            <div class="calendar-day available">16</div>
+                            <div class="calendar-day available">17</div>
+                            <div class="calendar-day busy">18</div>
+                            <div class="calendar-day available">19</div>
+                            <div class="calendar-day available">20</div>
+                            <div class="calendar-day busy">21</div>
+                            
+                            <div class="calendar-day available">22</div>
+                            <div class="calendar-day available">23</div>
+                            <div class="calendar-day available">24</div>
+                            <div class="calendar-day busy">25</div>
+                            <div class="calendar-day available">26</div>
+                            <div class="calendar-day busy">27</div>
+                            <div class="calendar-day available">28</div>
+                            
+                            <div class="calendar-day available">29</div>
+                            <div class="calendar-day available">30</div>
+                            <div class="calendar-day busy">31</div>
+                        </div>
+                        <div class="calendar-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(135deg, #d4edda, #c3e6cb);"></div>
+                                <span>Müsait</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb);"></div>
+                                <span>Dolu</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);"></div>
+                                <span>Kısmen Dolu</span>
+                            </div>
+                        </div>
+                        <div class="booking-info available">
+                            <strong><i class="fas fa-info-circle"></i> İpucu:</strong> 
+                            Müsait günlere tıklayarak hızlı rezervasyon yapabilirsiniz.
+                        </div>
+                        
+                        <div class="quick-booking">
+                            <h4><i class="fas fa-clock"></i> Hızlı Rezervasyon</h4>
+                            <div class="booking-form-row">
+                                <input type="date" placeholder="Tarih" id="booking-date">
+                                <input type="time" placeholder="Başlangıç Saati" id="booking-time">
+                                <button onclick="makeQuickBooking(1)">Rezervasyon Yap</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div style="margin-top: 30px; text-align: center;">
-                <a href="/iletisim" class="cta-button">İletişime Geç</a>
             </div>
         </div>
     </div>
     
     <div class="popup-overlay" id="venueDetailPopup1">
-        <div class="popup-content" style="max-width: 700px;">
+        <div class="popup-content venue-popup-content">
             <span class="popup-close venue-close">&times;</span>
             <h2>Rahat ve Bahçeli Ev</h2>
             <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
@@ -1084,7 +1141,7 @@
     </div>
     
     <div class="popup-overlay" id="venueDetailPopup2">
-        <div class="popup-content" style="max-width: 700px;">
+        <div class="popup-content venue-popup-content">
             <span class="popup-close venue-close">&times;</span>
             <h2>Fener Evleri 1: Haliç Sanat</h2>
             <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
@@ -1221,7 +1278,7 @@
     </div>
     
     <div class="popup-overlay" id="venueDetailPopup3">
-        <div class="popup-content" style="max-width: 700px;">
+        <div class="popup-content venue-popup-content">
             <span class="popup-close venue-close">&times;</span>
             <h2>Borusan Müzik Evi</h2>
             <div style="display: flex; margin-bottom: 20px; max-height: 250px; overflow: hidden;">
