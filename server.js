@@ -5,6 +5,7 @@ const querystring = require('querystring');
 const crypto = require('crypto');
 const express = require('express');
 const fsPromises = require('fs').promises;
+const session = require('express-session');
 
 const PORT = process.env.PORT || 3000;
 
@@ -99,6 +100,21 @@ function readRequestBody(request) {
         });
     });
 }
+
+const app = express();
+app.use(express.json());
+app.use(express.static('public'));
+
+// Session yönetimi
+app.use(session({
+    secret: 'tera-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000 // 24 saat
+    }
+}));
 
 // Server creation
 const server = http.createServer(async (req, res) => {
@@ -421,6 +437,71 @@ server.post('/api/register', async (req, res) => {
         console.error('Kayıt hatası:', error);
         res.status(500).json({ success: false, message: 'Sunucu hatası' });
     }
+});
+
+// Giriş yapma API'si
+app.post('/api/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Kullanıcı veritabanını oku
+        const usersData = JSON.parse(await fsPromises.readFile(path.join(__dirname, 'data', 'users.json'), 'utf8'));
+        
+        // Şifreyi hashle
+        const hashedPassword = crypto
+            .createHash('sha256')
+            .update(password)
+            .digest('hex');
+        
+        // Kullanıcıyı bul
+        const user = usersData.users.find(u => u.email === email && u.password === hashedPassword);
+        
+        if (!user) {
+            return res.json({ 
+                success: false, 
+                message: 'E-posta veya şifre hatalı.' 
+            });
+        }
+        
+        // Session'a kullanıcı bilgilerini kaydet
+        req.session.user = {
+            id: user.id,
+            email: user.email,
+            fullName: user.fullName,
+            communityName: user.communityName
+        };
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Giriş hatası:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Sunucu hatası' 
+        });
+    }
+});
+
+// Oturum kontrolü middleware
+const requireAuth = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect('/giris');
+    }
+    next();
+};
+
+// Korumalı rotalar
+app.get('/mekanlar', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'mekanlar.html'));
+});
+
+app.get('/genclik-ekipleri', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'genclik-ekipleri.html'));
+});
+
+// Çıkış yapma
+app.post('/api/logout', (req, res) => {
+    req.session.destroy();
+    res.json({ success: true });
 });
 
 server.listen(PORT, () => {

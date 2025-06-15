@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - Tera</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #fbfbfb;
+        }
+
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        p {
+            color: #666;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ba9585;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #a88574;
+        }
+
+        .image-section {
+            flex: 1;
+            background-color: #ba9585;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circle {
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .error-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .error-popup h3 {
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+
+        .error-popup button {
+            margin-top: 1rem;
+            width: auto;
+            padding: 0.5rem 2rem;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .image-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <div class="logo">
+                <img src="/logo.png" alt="Tera Logo">
+            </div>
+            <h1>Hoş Geldiniz</h1>
+            <p>Devam etmek için giriş yapın</p>
+            <div id="successMessage" class="success-message">
+                Kaydınız başarıyla tamamlandı! Şimdi giriş yapabilirsiniz.
+            </div>
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Giriş Yap</button>
+            </form>
+        </div>
+    </div>
+    <div class="image-section">
+        <div class="circle" style="top: 20%; left: 60%;"></div>
+        <div class="circle" style="bottom: 30%; right: 70%;"></div>
+    </div>
+
+    <div class="error-popup" id="errorPopup">
+        <h3>Hata</h3>
+        <p id="errorMessage"></p>
+        <button onclick="closeErrorPopup()">Tamam</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Kayıt başarılı mesajını göster
+        if (new URLSearchParams(window.location.search).get('registered') === 'true') {
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Başarılı giriş - ana sayfaya yönlendir
+                    window.location.href = '/mekanlar';
+                } else {
+                    showError(data.message || 'Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.');
+                }
+            } catch (error) {
+                showError('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+            }
+        }
+
+        function showError(message) {
+            const errorPopup = document.getElementById('errorPopup');
+            const overlay = document.getElementById('overlay');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.textContent = message;
+            errorPopup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function closeErrorPopup() {
+            const errorPopup = document.getElementById('errorPopup');
+            const overlay = document.getElementById('overlay');
+            
+            errorPopup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

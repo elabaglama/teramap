@@ -14,8 +14,10 @@
   ],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "express-session": "^1.18.1"
+  },
   "devDependencies": {
     "nodemon": "^2.0.22"
   }
-} 
+}
