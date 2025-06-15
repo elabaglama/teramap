@@ -3,8 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
 const crypto = require('crypto');
+const express = require('express');
+const fsPromises = require('fs').promises;
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Simple in-memory user store (in a real app, you would use a database)
 const DATA_DIR = path.join(__dirname, 'data');
@@ -341,6 +343,84 @@ const server = http.createServer(async (req, res) => {
             res.end(content, 'utf-8');
         }
     });
+});
+
+// Davetiye kodu doğrulama
+server.post('/api/validate-invite', async (req, res) => {
+    try {
+        const { inviteCode } = req.body;
+        const inviteData = JSON.parse(await fsPromises.readFile(path.join(__dirname, 'data', 'invite_codes.json'), 'utf8'));
+        
+        const codeInfo = inviteData.codes.find(c => c.code === inviteCode);
+        
+        if (!codeInfo || codeInfo.used) {
+            return res.json({ valid: false });
+        }
+        
+        res.json({ valid: true });
+    } catch (error) {
+        console.error('Davetiye kodu doğrulama hatası:', error);
+        res.status(500).json({ valid: false, error: 'Sunucu hatası' });
+    }
+});
+
+// Kullanıcı kaydı
+server.post('/api/register', async (req, res) => {
+    try {
+        const { inviteCode, email, password, fullName, communityName } = req.body;
+        
+        // Davetiye kodu kontrolü
+        const inviteData = JSON.parse(await fsPromises.readFile(path.join(__dirname, 'data', 'invite_codes.json'), 'utf8'));
+        const codeIndex = inviteData.codes.findIndex(c => c.code === inviteCode);
+        
+        if (codeIndex === -1 || inviteData.codes[codeIndex].used) {
+            return res.json({ success: false, message: 'Geçersiz veya kullanılmış davetiye kodu.' });
+        }
+        
+        // Kullanıcı veritabanını oku
+        const usersData = JSON.parse(await fsPromises.readFile(path.join(__dirname, 'data', 'users.json'), 'utf8'));
+        
+        // Email kontrolü
+        if (usersData.users.some(u => u.email === email)) {
+            return res.json({ success: false, message: 'Bu e-posta adresi zaten kullanımda.' });
+        }
+        
+        // Şifreyi hashle
+        const hashedPassword = crypto
+            .createHash('sha256')
+            .update(password)
+            .digest('hex');
+        
+        // Yeni kullanıcı oluştur
+        const newUser = {
+            id: Date.now().toString(),
+            fullName,
+            email,
+            password: hashedPassword,
+            communityName,
+            inviteCode,
+            createdAt: new Date().toISOString()
+        };
+        
+        // Kullanıcıyı kaydet
+        usersData.users.push(newUser);
+        await fsPromises.writeFile(
+            path.join(__dirname, 'data', 'users.json'),
+            JSON.stringify(usersData, null, 2)
+        );
+        
+        // Davetiye kodunu kullanıldı olarak işaretle
+        inviteData.codes[codeIndex].used = true;
+        await fsPromises.writeFile(
+            path.join(__dirname, 'data', 'invite_codes.json'),
+            JSON.stringify(inviteData, null, 2)
+        );
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Kayıt hatası:', error);
+        res.status(500).json({ success: false, message: 'Sunucu hatası' });
+    }
 });
 
 server.listen(PORT, () => {
