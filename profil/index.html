@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - Tera</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #fbfbfb;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-name {
+            color: #333;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ba9585;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ba9585;
+        }
+
+        .form-group .hint {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .save-btn:hover {
+            background-color: #a88574;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .error-message {
+            display: none;
+            background-color: #f44336;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .profile-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="/logo.png" alt="Tera Logo">
+        </div>
+        <div class="user-info">
+            <span class="user-name" id="userName"></span>
+            <button class="logout-btn" onclick="handleLogout()">Çıkış Yap</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile-card">
+            <h2 class="section-title">Profil Bilgileri</h2>
+            <div id="successMessage" class="success-message">
+                Bilgileriniz başarıyla güncellendi!
+            </div>
+            <div id="errorMessage" class="error-message"></div>
+            <form id="profileForm" onsubmit="return handleProfileUpdate(event)">
+                <div class="form-group">
+                    <label for="fullName">Ad Soyad</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="communityName">Topluluk İsmi</label>
+                    <input type="text" id="communityName" name="communityName" required>
+                </div>
+                <div class="form-group">
+                    <label for="currentPassword">Mevcut Şifre</label>
+                    <input type="password" id="currentPassword" name="currentPassword">
+                    <div class="hint">Şifrenizi değiştirmek istemiyorsanız boş bırakın</div>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Yeni Şifre</label>
+                    <input type="password" id="newPassword" name="newPassword">
+                    <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
+                </div>
+                <button type="submit" class="save-btn">Değişiklikleri Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Kullanıcı bilgilerini yükle
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/user');
+                const data = await response.json();
+                
+                if (data.user) {
+                    document.getElementById('userName').textContent = data.user.fullName;
+                    document.getElementById('fullName').value = data.user.fullName;
+                    document.getElementById('email').value = data.user.email;
+                    document.getElementById('communityName').value = data.user.communityName;
+                }
+            } catch (error) {
+                console.error('Kullanıcı bilgileri yüklenemedi:', error);
+                showError('Kullanıcı bilgileri yüklenemedi');
+            }
+        }
+
+        // Profil güncelleme
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
+            
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                communityName: document.getElementById('communityName').value,
+                currentPassword: document.getElementById('currentPassword').value,
+                newPassword: document.getElementById('newPassword').value
+            };
+
+            // Şifre kontrolü
+            if (formData.newPassword && formData.newPassword.length < 6) {
+                showError('Yeni şifre en az 6 karakter uzunluğunda olmalıdır');
+                return false;
+            }
+
+            try {
+                const response = await fetch('/api/profile/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess();
+                    // Şifre alanlarını temizle
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                } else {
+                    showError(data.message || 'Güncelleme sırasında bir hata oluştu');
+                }
+            } catch (error) {
+                console.error('Profil güncelleme hatası:', error);
+                showError('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+            }
+
+            return false;
+        }
+
+        // Başarı mesajını göster
+        function showSuccess() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // Hata mesajını göster
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // Çıkış yap
+        async function handleLogout() {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.location.href = '/giris';
+                }
+            } catch (error) {
+                console.error('Çıkış yapma hatası:', error);
+            }
+        }
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', loadUserInfo);
+    </script>
+</body>
+</html> 

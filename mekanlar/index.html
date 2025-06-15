@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mekanlar - Tera</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #fbfbfb;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-name {
+            color: #333;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .venues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .venue-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .venue-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .venue-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .venue-info {
+            padding: 1.5rem;
+        }
+
+        .venue-name {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .venue-location {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .venue-dates {
+            margin-bottom: 1rem;
+        }
+
+        .date-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .date-value {
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .message-btn:hover {
+            background-color: #a88574;
+        }
+
+        .message-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            color: #333;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .message-form textarea {
+            width: 100%;
+            height: 150px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            resize: vertical;
+        }
+
+        .send-message-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .venues-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="/logo.png" alt="Tera Logo">
+        </div>
+        <div class="user-info">
+            <span class="user-name" id="userName"></span>
+            <button class="logout-btn" onclick="handleLogout()">Çıkış Yap</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="venues-grid" id="venuesGrid"></div>
+    </div>
+
+    <div class="message-modal" id="messageModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Mesaj Gönder</h3>
+            <button class="close-modal" onclick="closeMessageModal()">&times;</button>
+        </div>
+        <form class="message-form" id="messageForm" onsubmit="return handleMessageSubmit(event)">
+            <input type="hidden" id="venueId">
+            <textarea id="messageContent" placeholder="Mesajınızı yazın..." required></textarea>
+            <button type="submit" class="send-message-btn">Gönder</button>
+        </form>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Kullanıcı bilgilerini yükle
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/user');
+                const data = await response.json();
+                
+                if (data.user) {
+                    document.getElementById('userName').textContent = data.user.fullName;
+                }
+            } catch (error) {
+                console.error('Kullanıcı bilgileri yüklenemedi:', error);
+            }
+        }
+
+        // Mekanları yükle
+        async function loadVenues() {
+            try {
+                const response = await fetch('/api/venues');
+                const venues = await response.json();
+                
+                const venuesGrid = document.getElementById('venuesGrid');
+                venuesGrid.innerHTML = venues.map(venue => `
+                    <div class="venue-card">
+                        <img src="${venue.image}" alt="${venue.name}" class="venue-image">
+                        <div class="venue-info">
+                            <h3 class="venue-name">${venue.name}</h3>
+                            <p class="venue-location">${venue.location}</p>
+                            <div class="venue-dates">
+                                <div class="date-label">Müsait Tarihler:</div>
+                                ${venue.availableDates.map(date => `
+                                    <div class="date-value">${new Date(date).toLocaleDateString('tr-TR')}</div>
+                                `).join('')}
+                            </div>
+                            <button class="message-btn" onclick="openMessageModal('${venue.id}')">
+                                Mekan Sahibine Mesaj Gönder
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Mekanlar yüklenemedi:', error);
+            }
+        }
+
+        // Mesaj modalını aç
+        function openMessageModal(venueId) {
+            document.getElementById('venueId').value = venueId;
+            document.getElementById('messageModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Mesaj modalını kapat
+        function closeMessageModal() {
+            document.getElementById('messageModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('messageForm').reset();
+        }
+
+        // Mesaj gönder
+        async function handleMessageSubmit(event) {
+            event.preventDefault();
+            
+            const venueId = document.getElementById('venueId').value;
+            const content = document.getElementById('messageContent').value;
+            
+            try {
+                const response = await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        venueId,
+                        content
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Mesajınız başarıyla gönderildi!');
+                    closeMessageModal();
+                } else {
+                    alert(data.message || 'Mesaj gönderilemedi. Lütfen tekrar deneyin.');
+                }
+            } catch (error) {
+                console.error('Mesaj gönderme hatası:', error);
+                alert('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+            }
+        }
+
+        // Çıkış yap
+        async function handleLogout() {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.location.href = '/giris';
+                }
+            } catch (error) {
+                console.error('Çıkış yapma hatası:', error);
+            }
+        }
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserInfo();
+            loadVenues();
+        });
+    </script>
+</body>
+</html> 

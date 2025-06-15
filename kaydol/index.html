@@ -13,47 +13,30 @@
         }
 
         body {
-            display: flex;
-            min-height: 100vh;
             background-color: #fbfbfb;
-        }
-
-        .signup-container {
-            flex: 1;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .signup-form {
-            width: 100%;
-            max-width: 400px;
             padding: 2rem;
         }
 
         .logo {
-            text-align: center;
             margin-bottom: 2rem;
         }
 
         .logo img {
-            width: 120px;
-            height: auto;
+            height: 80px;
+            width: auto;
         }
 
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-
-        p {
-            color: #666;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
+        .signup-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
         }
 
         .form-group {
@@ -71,7 +54,7 @@
             width: 100%;
             padding: 0.8rem;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 1rem;
             transition: border-color 0.3s;
         }
@@ -83,211 +66,152 @@
 
         .form-group .hint {
             font-size: 0.8rem;
-            color: #888;
+            color: #666;
             margin-top: 0.3rem;
         }
 
-        button {
+        .signup-btn {
             width: 100%;
             padding: 1rem;
             background-color: #ba9585;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.3s;
         }
 
-        button:hover {
+        .signup-btn:hover {
             background-color: #a88574;
         }
 
-        .image-section {
-            flex: 1;
-            background-color: #ba9585;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .circle {
-            width: 300px;
-            height: 300px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            position: absolute;
-        }
-
-        .error-popup {
+        .error-message {
             display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
+            background-color: #f44336;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
             text-align: center;
         }
 
-        .error-popup h3 {
-            color: #e74c3c;
-            margin-bottom: 1rem;
-        }
-
-        .error-popup button {
-            margin-top: 1rem;
-            width: auto;
-            padding: 0.5rem 2rem;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
         @media (max-width: 768px) {
-            .image-section {
-                display: none;
+            body {
+                padding: 1rem;
+            }
+            
+            .signup-container {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="logo">
+        <img src="/logo-transparent.png" alt="Tera Logo">
+    </div>
+    
     <div class="signup-container">
-        <div class="signup-form">
-            <div class="logo">
-                <img src="/logo.png" alt="Tera Logo">
+        <div id="errorMessage" class="error-message"></div>
+        <form id="signupForm" onsubmit="return handleSignup(event)">
+            <div class="form-group">
+                <label for="inviteCode">Davetiye Kodu</label>
+                <input type="text" id="inviteCode" name="inviteCode" required>
             </div>
-            <h1>Hoş Geldiniz</h1>
-            <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
-            <form id="signupForm" onsubmit="return validateForm(event)">
-                <div class="form-group">
-                    <label for="inviteCode">Kaydolma Kodu</label>
-                    <input type="text" id="inviteCode" name="inviteCode" required>
-                </div>
-                <div class="form-group">
-                    <label for="fullName">Ad Soyad</label>
-                    <input type="text" id="fullName" name="fullName" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">E-posta</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="communityName">Topluluk İsmi (Uzun Adıyla)</label>
-                    <input type="text" id="communityName" name="communityName" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Şifre</label>
-                    <input type="password" id="password" name="password" required>
-                    <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
-                </div>
-                <button type="submit">Kaydol</button>
-            </form>
-        </div>
+            <div class="form-group">
+                <label for="fullName">Ad Soyad</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="communityName">Topluluk İsmi</label>
+                <input type="text" id="communityName" name="communityName" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required>
+                <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
+            </div>
+            <button type="submit" class="signup-btn">Kaydol</button>
+        </form>
     </div>
-    <div class="image-section">
-        <div class="circle" style="top: 20%; left: 60%;"></div>
-        <div class="circle" style="bottom: 30%; right: 70%;"></div>
-    </div>
-
-    <div class="error-popup" id="errorPopup">
-        <h3>Hata</h3>
-        <p id="errorMessage"></p>
-        <button onclick="closeErrorPopup()">Tamam</button>
-    </div>
-    <div class="overlay" id="overlay"></div>
 
     <script>
-        async function validateForm(event) {
+        async function handleSignup(event) {
             event.preventDefault();
             
             const inviteCode = document.getElementById('inviteCode').value;
-            const password = document.getElementById('password').value;
-            const email = document.getElementById('email').value;
             const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
             const communityName = document.getElementById('communityName').value;
-
+            const password = document.getElementById('password').value;
+            
             // Şifre kontrolü
-            if (password.length < 6 || !/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
-                showError('Şifre en az 6 karakter uzunluğunda olmalı ve en az 1 harf ve 1 rakam içermelidir.');
+            if (password.length < 6) {
+                showError('Şifre en az 6 karakter uzunluğunda olmalıdır');
                 return false;
             }
-
+            
+            if (!/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
+                showError('Şifre en az 1 harf ve 1 rakam içermelidir');
+                return false;
+            }
+            
             try {
-                // Davetiye kodu kontrolü
-                const response = await fetch('/api/validate-invite', {
+                // Davetiye kodunu doğrula
+                const validateResponse = await fetch('/api/validate-invite', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ inviteCode })
                 });
-
-                const data = await response.json();
-
-                if (!data.valid) {
-                    showError('Geçersiz davetiye kodu. Lütfen size verilen kodu doğru girdiğinizden emin olun.');
+                
+                const validateData = await validateResponse.json();
+                
+                if (!validateData.valid) {
+                    showError('Geçersiz veya kullanılmış davetiye kodu');
                     return false;
                 }
-
-                // Kullanıcı kaydı
-                const registerResponse = await fetch('/api/register', {
+                
+                // Kayıt işlemini gerçekleştir
+                const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         inviteCode,
-                        email,
-                        password,
                         fullName,
-                        communityName
+                        email,
+                        communityName,
+                        password
                     })
                 });
-
-                const registerData = await registerResponse.json();
-
-                if (registerData.success) {
-                    window.location.href = '/giris?registered=true';
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.location.href = '/giris';
                 } else {
-                    showError(registerData.message || 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+                    showError(data.message || 'Kayıt sırasında bir hata oluştu');
                 }
-
             } catch (error) {
+                console.error('Kayıt hatası:', error);
                 showError('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
-                return false;
             }
+            
+            return false;
         }
-
+        
         function showError(message) {
-            const errorPopup = document.getElementById('errorPopup');
-            const overlay = document.getElementById('overlay');
             const errorMessage = document.getElementById('errorMessage');
-            
             errorMessage.textContent = message;
-            errorPopup.style.display = 'block';
-            overlay.style.display = 'block';
-        }
-
-        function closeErrorPopup() {
-            const errorPopup = document.getElementById('errorPopup');
-            const overlay = document.getElementById('overlay');
-            
-            errorPopup.style.display = 'none';
-            overlay.style.display = 'none';
+            errorMessage.style.display = 'block';
         }
     </script>
 </body>

@@ -1,0 +1,37 @@
+{
+    "venues": [
+        {
+            "id": "1",
+            "name": "Kadıköy Kültür Merkezi",
+            "location": "Kadıköy, İstanbul",
+            "image": "https://picsum.photos/800/600",
+            "availableDates": [
+                "2024-07-01T00:00:00.000Z",
+                "2024-07-15T00:00:00.000Z",
+                "2024-08-01T00:00:00.000Z"
+            ]
+        },
+        {
+            "id": "2",
+            "name": "Beşiktaş Sanat Merkezi",
+            "location": "Beşiktaş, İstanbul",
+            "image": "https://picsum.photos/800/600",
+            "availableDates": [
+                "2024-07-05T00:00:00.000Z",
+                "2024-07-20T00:00:00.000Z",
+                "2024-08-05T00:00:00.000Z"
+            ]
+        },
+        {
+            "id": "3",
+            "name": "Üsküdar Gençlik Merkezi",
+            "location": "Üsküdar, İstanbul",
+            "image": "https://picsum.photos/800/600",
+            "availableDates": [
+                "2024-07-10T00:00:00.000Z",
+                "2024-07-25T00:00:00.000Z",
+                "2024-08-10T00:00:00.000Z"
+            ]
+        }
+    ]
+} 

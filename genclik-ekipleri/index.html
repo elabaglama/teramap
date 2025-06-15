@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gençlik Ekipleri - Tera</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #fbfbfb;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-name {
+            color: #333;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-info {
+            padding: 1.5rem;
+        }
+
+        .team-name {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .events-list {
+            margin-top: 1rem;
+        }
+
+        .event-item {
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-location {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #ba9585;
+            border-radius: 4px;
+            color: #ba9585;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: #ba9585;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .teams-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="/logo.png" alt="Tera Logo">
+        </div>
+        <div class="user-info">
+            <span class="user-name" id="userName"></span>
+            <button class="logout-btn" onclick="handleLogout()">Çıkış Yap</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="filterEvents('all')">Tüm Etkinlikler</button>
+            <button class="tab" onclick="filterEvents('upcoming')">Yaklaşan Etkinlikler</button>
+            <button class="tab" onclick="filterEvents('past')">Geçmiş Etkinlikler</button>
+        </div>
+        <div class="teams-grid" id="teamsGrid"></div>
+    </div>
+
+    <script>
+        // Kullanıcı bilgilerini yükle
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/user');
+                const data = await response.json();
+                
+                if (data.user) {
+                    document.getElementById('userName').textContent = data.user.fullName;
+                }
+            } catch (error) {
+                console.error('Kullanıcı bilgileri yüklenemedi:', error);
+            }
+        }
+
+        // Ekipleri ve etkinlikleri yükle
+        async function loadTeams() {
+            try {
+                const response = await fetch('/api/teams');
+                const teams = await response.json();
+                
+                const teamsGrid = document.getElementById('teamsGrid');
+                teamsGrid.innerHTML = teams.map(team => `
+                    <div class="team-card" data-team-id="${team.id}">
+                        <div class="team-info">
+                            <h3 class="team-name">${team.name}</h3>
+                            <p class="team-description">${team.description}</p>
+                            <div class="events-list">
+                                <h4>Etkinlikler</h4>
+                                ${team.events.map(event => `
+                                    <div class="event-item" data-event-date="${event.date}">
+                                        <div class="event-title">${event.title}</div>
+                                        <div class="event-date">${new Date(event.date).toLocaleDateString('tr-TR')}</div>
+                                        <div class="event-location">${event.location}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Ekipler yüklenemedi:', error);
+            }
+        }
+
+        // Etkinlikleri filtrele
+        function filterEvents(filter) {
+            // Tüm tabları pasif yap
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            // Tıklanan tabı aktif yap
+            event.target.classList.add('active');
+
+            const now = new Date();
+            const events = document.querySelectorAll('.event-item');
+            
+            events.forEach(event => {
+                const eventDate = new Date(event.dataset.eventDate);
+                
+                switch(filter) {
+                    case 'upcoming':
+                        event.style.display = eventDate >= now ? 'block' : 'none';
+                        break;
+                    case 'past':
+                        event.style.display = eventDate < now ? 'block' : 'none';
+                        break;
+                    default:
+                        event.style.display = 'block';
+                }
+            });
+        }
+
+        // Çıkış yap
+        async function handleLogout() {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.location.href = '/giris';
+                }
+            } catch (error) {
+                console.error('Çıkış yapma hatası:', error);
+            }
+        }
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserInfo();
+            loadTeams();
+        });
+    </script>
+</body>
+</html> 
