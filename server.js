@@ -106,13 +106,13 @@ app.post('/api/messages', requireAuth, async (req, res) => {
         const messagesData = JSON.parse(await fs.readFile(path.join(__dirname, 'data', 'messages.json'), 'utf8'));
         
         const newMessage = {
-            id: Date.now().toString(),
+                    id: Date.now().toString(),
             venueId,
             userId: req.session.user.id,
             content,
-            createdAt: new Date().toISOString()
-        };
-        
+                    createdAt: new Date().toISOString()
+                };
+                
         messagesData.messages.push(newMessage);
         await fs.writeFile(
             path.join(__dirname, 'data', 'messages.json'),
@@ -120,7 +120,7 @@ app.post('/api/messages', requireAuth, async (req, res) => {
         );
         
         res.json({ success: true });
-    } catch (error) {
+            } catch (error) {
         console.error('Mesaj gönderme hatası:', error);
         res.status(500).json({ 
             success: false, 
