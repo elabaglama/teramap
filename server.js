@@ -6,7 +6,7 @@ const session = require('express-session');
 const app = express();
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Session yönetimi
 app.use(session({
@@ -18,6 +18,21 @@ app.use(session({
         maxAge: 24 * 60 * 60 * 1000 // 24 saat
     }
 }));
+
+// Ana sayfa
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Giriş sayfası
+app.get('/giris', (req, res) => {
+    res.sendFile(path.join(__dirname, 'giris', 'index.html'));
+});
+
+// Kayıt sayfası
+app.get('/kaydol', (req, res) => {
+    res.sendFile(path.join(__dirname, 'kaydol', 'index.html'));
+});
 
 // Oturum kontrolü middleware
 const requireAuth = (req, res, next) => {
