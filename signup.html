@@ -3,223 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tera Map</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico?v=1748898958595">
-    <link rel="icon" href="favicon/favicon.svg?v=1748898958595" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="favicon/favicon.png?v=1748898958595">
-    <link rel="manifest" href="site.webmanifest?v=1748898958595">
+    <title>Kaydol - Tera</title>
     <style>
-        .auth-container {
-            max-width: 500px;
-            margin: 100px auto 60px;
-            padding: 2rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .auth-container h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #333;
-        }
-        
-        .auth-form .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .auth-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .auth-form input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-        }
-        
-        .auth-form button {
-            width: 100%;
-            margin-top: 1rem;
-        }
-        
-        .auth-links {
-            text-align: center;
-            margin-top: 1.5rem;
-        }
-        
-        .auth-links a {
-            color: #91796e;
-            text-decoration: underline;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
 
-        .checkbox-group {
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #fbfbfb;
+        }
+
+        .signup-container {
+            flex: 1;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin: 1.5rem 0;
+            justify-content: center;
+            padding: 2rem;
         }
 
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
+        .signup-form {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
         }
 
-        .checkbox-group label {
-            margin: 0;
-            font-size: 0.9rem;
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        p {
             color: #666;
-            cursor: pointer;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
         }
-        
-        .logo-img {
-            max-height: 40px;
-            max-width: 100%;
-            width: auto;
-            vertical-align: middle;
-            object-fit: contain;
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ba9585;
+        }
+
+        .form-group .hint {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.3rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #a88574;
+        }
+
+        .image-section {
+            flex: 1;
+            background-color: #ba9585;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circle {
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        @media (max-width: 768px) {
+            .image-section {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo"><img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></div>
-            <ul class="nav-links">
-                <li><a href="/">Ana Sayfa</a></li>
-                <li><a href="/mekanlar">Mekanlar</a></li>
-                <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
-                <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="auth-container">
-        <h1>Kayıt Ol</h1>
-        <div class="error-message" id="error-message"></div>
-        <form class="auth-form" id="signup-form" action="/api/signup" method="post">
-            <div class="form-group">
-                <label for="name">Ad Soyad</label>
-                <input type="text" id="name" name="name" required>
+    <div class="signup-container">
+        <div class="signup-form">
+            <div class="logo">
+                <img src="logo.png" alt="Tera Logo">
             </div>
-            <div class="form-group">
-                <label for="email">E-posta Adresi</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Şifre</label>
-                <input type="password" id="password" name="password" required minlength="6">
-            </div>
-            <div class="form-group">
-                <label for="password-confirm">Şifre Tekrar</label>
-                <input type="password" id="password-confirm" required minlength="6">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">Etkinlik organizatörü olduğumu kabul ediyorum</label>
-            </div>
-            <button type="submit" class="cta-button">Kayıt Ol</button>
-        </form>
-        <div class="auth-links">
-            <p>Zaten hesabınız var mı? <a href="/signin">Giriş Yap</a></p>
+            <h1>Hoş Geldiniz</h1>
+            <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
+            <form id="signupForm" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="inviteCode">Kaydolma Kodu</label>
+                    <input type="text" id="inviteCode" name="inviteCode" required>
+                </div>
+                <div class="form-group">
+                    <label for="fullName">Ad Soyad</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="communityName">Topluluk İsmi (Uzun Adıyla)</label>
+                    <input type="text" id="communityName" name="communityName" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
+                </div>
+                <button type="submit">Kaydol</button>
+            </form>
         </div>
     </div>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <div class="logo"><img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></div>
-                <p class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</p>
-            </div>
-            <div class="footer-links">
-                <div class="link-group">
-                    <ul>
-                        <li><a href="#">Hakkımızda</a></li>
-                        <li><a href="/ekibimiz">Ekibimiz</a></li>
-                        <li><a href="#">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="link-group">
-                    <ul>
-                        <li><a href="/iletisim">İletişim</a></li>
-                        <li><a href="#">Sıkça Sorulan Sorular</a></li>
-                        <li><a href="#">Gizlilik Politikası</a></li>
-                    </ul>
-                </div>
-                <div class="link-group">
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/tera.map/" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2025 TERA MAP. Tüm hakları saklıdır.</p>
-        </div>
-    </footer>
+    <div class="image-section">
+        <div class="circle" style="top: 20%; left: 60%;"></div>
+        <div class="circle" style="bottom: 30%; right: 70%;"></div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('signup-form');
-            const errorMessage = document.getElementById('error-message');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Basic validation
-                const password = document.getElementById('password').value;
-                const passwordConfirm = document.getElementById('password-confirm').value;
-                const terms = document.getElementById('terms');
-                
-                if (password !== passwordConfirm) {
-                    errorMessage.textContent = 'Şifreler eşleşmiyor.';
-                    errorMessage.style.display = 'block';
-                    return;
-                }
-                
-                if (!terms.checked) {
-                    errorMessage.textContent = 'Lütfen etkinlik organizatörü olduğunuzu kabul edin.';
-                    errorMessage.style.display = 'block';
-                    return;
-                }
-                
-                // Submit the form
-                this.submit();
-            });
-        });
-        
-        // Check if user is logged in and update navigation
-        fetch('/api/user')
-            .then(response => {
-                if (response.ok) return response.json();
-                return null;
-            })
-            .then(user => {
-                const authLink = document.getElementById('auth-link');
-                if (user) {
-                    authLink.href = '/profile';
-                    authLink.textContent = 'Profilim';
-                }
-            })
-            .catch(error => {
-                console.error('Auth check error:', error);
-            });
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            if (password.length < 6 || !/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
+                alert('Şifre en az 6 karakter uzunluğunda olmalı ve en az 1 harf ve 1 rakam içermelidir.');
+                return false;
+            }
+            return true;
+        }
     </script>
 </body>
 </html> 
