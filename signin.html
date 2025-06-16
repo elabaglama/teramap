@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tera Map</title>
+    <title>Giriş Yap - Tera Map</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,11 +48,60 @@
             border-radius: 4px;
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
+            box-sizing: border-box;
         }
         
         .auth-form button {
             width: 100%;
             margin-top: 1rem;
+        }
+        
+        .google-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .google-btn:hover {
+            background-color: #357ae8;
+        }
+        
+        .google-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1rem 0;
+            position: relative;
+            color: #666;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e5e5e5;
+        }
+        
+        .divider span {
+            background-color: white;
+            padding: 0 1rem;
         }
         
         .auth-links {
@@ -65,13 +114,23 @@
             text-decoration: underline;
         }
         
-        .error-message {
-            color: #e74c3c;
-            background-color: #fde8e7;
+        .error-message, .success-message {
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 1rem;
             display: none;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            background-color: #fde8e7;
+            border: 1px solid #fecaca;
+        }
+        
+        .success-message {
+            color: #16a34a;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
         }
         
         .logo-img {
@@ -92,7 +151,7 @@
                 <li><a href="/mekanlar">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
+                <li><a href="/kaydol" class="signup-btn">Üye Ol</a></li>
             </ul>
         </nav>
     </header>
@@ -100,7 +159,18 @@
     <div class="auth-container">
         <h1>Giriş Yap</h1>
         <div class="error-message" id="error-message"></div>
-        <form class="auth-form" id="signin-form" action="/api/signin" method="post">
+        <div class="success-message" id="success-message"></div>
+        
+        <button type="button" id="google-signin" class="google-btn">
+            <i class="fab fa-google"></i>
+            Google ile Giriş Yap
+        </button>
+        
+        <div class="divider">
+            <span>veya</span>
+        </div>
+        
+        <form class="auth-form" id="signin-form">
             <div class="form-group">
                 <label for="email">E-posta Adresi</label>
                 <input type="email" id="email" name="email" required>
@@ -111,8 +181,10 @@
             </div>
             <button type="submit" class="cta-button">Giriş Yap</button>
         </form>
+        
         <div class="auth-links">
-            <p>Hesabınız yok mu? <a href="/signup">Kayıt Ol</a></p>
+            <p><a href="#" id="forgot-password">Şifremi Unuttum</a></p>
+            <p>Hesabınız yok mu? <a href="/kaydol">Kayıt Ol</a></p>
         </div>
     </div>
 
@@ -152,41 +224,8 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('signin-form');
-            const errorMessage = document.getElementById('error-message');
-            
-            // Check if there's an error in the URL (from failed sign-in)
-            const urlParams = new URLSearchParams(window.location.search);
-            const error = urlParams.get('error');
-            
-            if (error) {
-                errorMessage.textContent = 'Geçersiz e-posta veya şifre';
-                errorMessage.style.display = 'block';
-            }
-            
-            form.addEventListener('submit', function(e) {
-                // Form will submit normally
-            });
-        });
-        
-        // Check if user is logged in and update navigation
-        fetch('/api/user')
-            .then(response => {
-                if (response.ok) return response.json();
-                return null;
-            })
-            .then(user => {
-                const authLink = document.getElementById('auth-link');
-                if (user) {
-                    authLink.href = '/profile';
-                    authLink.textContent = 'Profilim';
-                }
-            })
-            .catch(error => {
-                console.error('Auth check error:', error);
-            });
-    </script>
+    <!-- Firebase Authentication JavaScript -->
+    <script type="module" src="js/signin.js"></script>
+    <script type="module" src="js/auth.js"></script>
 </body>
 </html> 

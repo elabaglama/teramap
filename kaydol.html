@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tera Map - Kayıt Ol</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ba9585 0%, #a08073 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .signup-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .logo img {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ba9585;
+        }
+        
+        .hint {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        button:hover {
+            background-color: #a08073;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .error-message, .success-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+        
+        .success-message {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #16a34a;
+        }
+        
+        .back-home {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-home">
+        ← Ana Sayfa
+    </a>
+    
+    <div class="signup-container">
+        <div class="logo">
+            <img src="/logo transparent.png" alt="Tera Logo">
+        </div>
+        
+        <h1>Hoş Geldiniz</h1>
+        <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
+        
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+        
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="name">Ad Soyad</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="community">Topluluk İsmi (Uzun Adıyla)</label>
+                <input type="text" id="community" name="community" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required minlength="6">
+                <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
+            </div>
+            
+            <button type="submit" id="submit-btn">Kayıt Ol</button>
+        </form>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signup-form');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            // Hata mesajı göster
+            function showError(message) {
+                hideAllMessages();
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+            
+            // Başarı mesajı göster
+            function showSuccess(message) {
+                hideAllMessages();
+                successMessage.textContent = message;
+                successMessage.style.display = 'block';
+            }
+            
+            // Tüm mesajları gizle
+            function hideAllMessages() {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+            }
+            
+            // Form submit
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    fullName: document.getElementById('name').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    communityName: document.getElementById('community').value.trim(),
+                    password: document.getElementById('password').value
+                };
+                
+                // Validation
+                if (!formData.fullName || !formData.email || !formData.communityName || !formData.password) {
+                    showError('Lütfen tüm alanları doldurun.');
+                    return;
+                }
+                
+                if (formData.password.length < 6) {
+                    showError('Şifre en az 6 karakter olmalıdır.');
+                    return;
+                }
+                
+                // Email format kontrolü
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(formData.email)) {
+                    showError('Geçerli bir e-posta adresi girin.');
+                    return;
+                }
+                
+                // Loading durumu
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Kayıt oluşturuluyor...';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Kayıt işlemi
+                    const response = await fetch('/api/register-simple', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showSuccess('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
+                        
+                        // Form'u temizle
+                        form.reset();
+                        
+                        // 2 saniye sonra giriş sayfasına yönlendir
+                        setTimeout(() => {
+                            window.location.href = '/giris';
+                        }, 2000);
+                    } else {
+                        showError(result.message || 'Kayıt işlemi başarısız oldu.');
+                    }
+                    
+                } catch (error) {
+                    console.error('Kayıt hatası:', error);
+                    showError('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

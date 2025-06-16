@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        input { width: 100%; padding: 8px; margin: 5px 0; }
+        button { padding: 10px 20px; margin: 5px; background: #91796e; color: white; border: none; cursor: pointer; }
+        .logs { height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Debug</h1>
+    
+    <div id="status" class="status info">Firebase yükleniyor...</div>
+    
+    <div>
+        <h3>Kayıt Testi</h3>
+        <input type="email" id="email" placeholder="Email" value="">
+        <input type="password" id="password" placeholder="Şifre (min 6)" value="test123">
+        <button onclick="testSignup()">Kayıt Ol</button>
+        <button onclick="testSignin()">Giriş Yap</button>
+        <button onclick="testSignout()">Çıkış Yap</button>
+    </div>
+    
+    <div id="logs" class="logs"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyCM22P5dhmlb9Pc5YfxxRj7PkygTQE9VYI",
+          authDomain: "teramap.works",
+          projectId: "tera-map-8f606",
+          storageBucket: "tera-map-8f606.firebasestorage.app",
+          messagingSenderId: "353801791768",
+          appId: "1:353801791768:web:0a5b07df6ff8c7c488966d",
+          measurementId: "G-ZZFLKLCVNQ"
+        };
+        
+        try {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            
+            window.firebaseAuth = auth;
+            window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+            window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+            window.signOut = signOut;
+            
+            document.getElementById('status').className = 'status success';
+            document.getElementById('status').textContent = '✅ Firebase başarıyla yüklendi';
+            log('Firebase başarıyla başlatıldı');
+            
+        } catch (error) {
+            document.getElementById('status').className = 'status error';
+            document.getElementById('status').textContent = '❌ Firebase hatası: ' + error.message;
+            log('Firebase başlatma hatası: ' + error.message);
+        }
+        
+        function log(message) {
+            const logs = document.getElementById('logs');
+            const time = new Date().toLocaleTimeString();
+            logs.innerHTML += `<div>${time}: ${message}</div>`;
+            logs.scrollTop = logs.scrollHeight;
+        }
+        
+        window.testSignup = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                log('❌ Email ve şifre gerekli');
+                return;
+            }
+            
+            try {
+                log(`🔄 Kayıt deneniyor: ${email}`);
+                const userCredential = await window.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
+                log(`✅ Kayıt başarılı: ${userCredential.user.email}`);
+            } catch (error) {
+                log(`❌ Kayıt hatası: ${error.code} - ${error.message}`);
+            }
+        }
+        
+        window.testSignin = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                log(`🔄 Giriş deneniyor: ${email}`);
+                const userCredential = await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
+                log(`✅ Giriş başarılı: ${userCredential.user.email}`);
+            } catch (error) {
+                log(`❌ Giriş hatası: ${error.code} - ${error.message}`);
+            }
+        }
+        
+        window.testSignout = async function() {
+            try {
+                await window.signOut(window.firebaseAuth);
+                log('✅ Çıkış başarılı');
+            } catch (error) {
+                log(`❌ Çıkış hatası: ${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html> 

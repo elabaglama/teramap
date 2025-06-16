@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Debug - Tera Map</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .debug-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            background-color: #91796e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #7d6961;
+        }
+        
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .config-display {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .test-results {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #91796e;
+            background-color: white;
+        }
+        
+        .error-detail {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 Firebase Authentication Debug</h1>
+    
+    <div class="debug-section">
+        <h2>📊 Firebase Bağlantı Durumu</h2>
+        <div id="connection-status" class="status info">
+            📡 Firebase bağlantısı kontrol ediliyor...
+        </div>
+        <div id="auth-status" class="status info">
+            🔐 Authentication durumu kontrol ediliyor...
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>⚙️ Firebase Konfigürasyonu</h2>
+        <div id="config-display" class="config-display">Konfigürasyon yükleniyor...</div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>👤 Kullanıcı Durumu</h2>
+        <div id="user-status" class="status info">Kullanıcı durumu kontrol ediliyor...</div>
+        <div id="user-details" style="display: none;">
+            <h3>Kullanıcı Bilgileri:</h3>
+            <div id="user-info" class="config-display"></div>
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>🧪 Authentication Testleri</h2>
+        
+        <div class="form-group">
+            <h3>📧 Email/Password Kayıt Testi</h3>
+            <label for="test-email">Email:</label>
+            <input type="email" id="test-email" placeholder="Test için yeni email girin" value="">
+            
+            <label for="test-password">Şifre (min 6 karakter):</label>
+            <input type="password" id="test-password" placeholder="Test şifresi" value="test123456">
+            
+            <label for="test-name">Ad Soyad:</label>
+            <input type="text" id="test-name" placeholder="Test User" value="Test User">
+            
+            <div>
+                <button id="signup-test" class="btn">Kayıt Ol Testi</button>
+                <button id="signin-test" class="btn">Giriş Yap Testi</button>
+                <button id="signout-test" class="btn">Çıkış Yap</button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <h3>🌐 Google Authentication Testi</h3>
+            <button id="google-test" class="btn">Google ile Giriş Testi</button>
+        </div>
+        
+        <div class="form-group">
+            <h3>🔄 Şifre Sıfırlama Testi</h3>
+            <label for="reset-email">Email:</label>
+            <input type="email" id="reset-email" placeholder="Şifre sıfırlama için email">
+            <button id="reset-test" class="btn">Şifre Sıfırlama Emaili Gönder</button>
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>📋 Test Sonuçları</h2>
+        <button id="clear-logs" class="btn" style="background-color: #dc3545;">Logları Temizle</button>
+        <div id="test-results" class="test-results"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>🔗 Hızlı Navigasyon</h2>
+        <button onclick="window.location.href='/kaydol'" class="btn">Kayıt Sayfası</button>
+        <button onclick="window.location.href='/giris'" class="btn">Giriş Sayfası</button>
+        <button onclick="window.location.href='/profile.html'" class="btn">Profil Sayfası</button>
+        <button onclick="window.location.href='/test-auth.html'" class="btn">Auth Test Sayfası</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            updateProfile,
+            sendPasswordResetEmail,
+            signOut,
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // Firebase config
+        const firebaseConfig = {
+          apiKey: "AIzaSyCM22P5dhmlb9Pc5YfxxRj7PkygTQE9VYI",
+          authDomain: "tera-map-8f606.firebaseapp.com",
+          projectId: "tera-map-8f606",
+          storageBucket: "tera-map-8f606.firebasestorage.app",
+          messagingSenderId: "353801791768",
+          appId: "1:353801791768:web:0a5b07df6ff8c7c488966d",
+          measurementId: "G-ZZFLKLCVNQ"
+        };
+        
+        let app, auth, googleProvider;
+        let authStateUnsubscribe = null;
+        
+        // Firebase başlatma
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            googleProvider = new GoogleAuthProvider();
+            
+            window.firebaseApp = app;
+            window.firebaseAuth = auth;
+            window.googleProvider = googleProvider;
+            
+            // Global fonksiyonlar
+            window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+            window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+            window.signInWithPopup = signInWithPopup;
+            window.updateProfile = updateProfile;
+            window.sendPasswordResetEmail = sendPasswordResetEmail;
+            window.signOut = signOut;
+            
+            logMessage('✅ Firebase başarıyla başlatıldı', 'success');
+            updateConnectionStatus(true);
+            displayConfig();
+            setupAuthStateMonitoring();
+            
+        } catch (error) {
+            logMessage(`❌ Firebase başlatma hatası: ${error.message}`, 'error');
+            updateConnectionStatus(false, error.message);
+        }
+        
+        // Bağlantı durumu güncelleme
+        function updateConnectionStatus(success, errorMsg = '') {
+            const status = document.getElementById('connection-status');
+            if (success) {
+                status.className = 'status success';
+                status.textContent = '✅ Firebase bağlantısı başarılı!';
+            } else {
+                status.className = 'status error';
+                status.textContent = `❌ Firebase bağlantı hatası: ${errorMsg}`;
+            }
+        }
+        
+        // Konfigürasyon gösterme
+        function displayConfig() {
+            const configDisplay = document.getElementById('config-display');
+            const sanitizedConfig = {
+                ...firebaseConfig,
+                apiKey: firebaseConfig.apiKey.substring(0, 10) + '...'
+            };
+            configDisplay.textContent = JSON.stringify(sanitizedConfig, null, 2);
+        }
+        
+        // Auth state monitoring
+        function setupAuthStateMonitoring() {
+            const authStatus = document.getElementById('auth-status');
+            const userStatus = document.getElementById('user-status');
+            const userDetails = document.getElementById('user-details');
+            const userInfo = document.getElementById('user-info');
+            
+            authStateUnsubscribe = onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    authStatus.className = 'status success';
+                    authStatus.textContent = '✅ Kullanıcı oturumu açık';
+                    
+                    userStatus.className = 'status success';
+                    userStatus.textContent = `✅ Giriş yapmış: ${user.email}`;
+                    
+                    userDetails.style.display = 'block';
+                    userInfo.textContent = JSON.stringify({
+                        uid: user.uid,
+                        email: user.email,
+                        displayName: user.displayName,
+                        emailVerified: user.emailVerified,
+                        creationTime: user.metadata.creationTime,
+                        lastSignInTime: user.metadata.lastSignInTime,
+                        providerId: user.providerData.map(p => p.providerId)
+                    }, null, 2);
+                    
+                    logMessage(`👤 Kullanıcı oturumu: ${user.email}`, 'success');
+                } else {
+                    authStatus.className = 'status info';
+                    authStatus.textContent = '🔐 Oturum kapalı';
+                    
+                    userStatus.className = 'status info';
+                    userStatus.textContent = '🔓 Giriş yapılmamış';
+                    
+                    userDetails.style.display = 'none';
+                    logMessage('🔓 Kullanıcı oturumu kapalı', 'info');
+                }
+            });
+        }
+        
+        // Log mesajları
+        function logMessage(message, type = 'info') {
+            const results = document.getElementById('test-results');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            
+            const timestamp = new Date().toLocaleTimeString();
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            
+            logEntry.innerHTML = `
+                <strong>${timestamp}</strong> ${icon} ${message}
+            `;
+            
+            results.appendChild(logEntry);
+            results.scrollTop = results.scrollHeight;
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Clear logs
+            document.getElementById('clear-logs').addEventListener('click', () => {
+                document.getElementById('test-results').innerHTML = '';
+            });
+            
+            // Signup test
+            document.getElementById('signup-test').addEventListener('click', async () => {
+                const email = document.getElementById('test-email').value;
+                const password = document.getElementById('test-password').value;
+                const name = document.getElementById('test-name').value;
+                
+                if (!email || !password) {
+                    logMessage('❌ Email ve şifre gerekli', 'error');
+                    return;
+                }
+                
+                try {
+                    logMessage(`🔄 Kayıt deneniyor: ${email}`, 'info');
+                    
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    logMessage(`✅ Kayıt başarılı: ${userCredential.user.email}`, 'success');
+                    
+                    if (name) {
+                        await updateProfile(userCredential.user, { displayName: name });
+                        logMessage(`✅ Profil güncellendi: ${name}`, 'success');
+                    }
+                    
+                } catch (error) {
+                    logMessage(`❌ Kayıt hatası: ${error.code} - ${error.message}`, 'error');
+                    
+                    // Detaylı hata bilgisi
+                    const errorDetail = document.createElement('div');
+                    errorDetail.className = 'error-detail';
+                    errorDetail.textContent = JSON.stringify({
+                        code: error.code,
+                        message: error.message,
+                        email: email,
+                        passwordLength: password.length
+                    }, null, 2);
+                    
+                    const results = document.getElementById('test-results');
+                    results.appendChild(errorDetail);
+                }
+            });
+            
+            // Signin test
+            document.getElementById('signin-test').addEventListener('click', async () => {
+                const email = document.getElementById('test-email').value;
+                const password = document.getElementById('test-password').value;
+                
+                if (!email || !password) {
+                    logMessage('❌ Email ve şifre gerekli', 'error');
+                    return;
+                }
+                
+                try {
+                    logMessage(`🔄 Giriş deneniyor: ${email}`, 'info');
+                    
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    logMessage(`✅ Giriş başarılı: ${userCredential.user.email}`, 'success');
+                    
+                } catch (error) {
+                    logMessage(`❌ Giriş hatası: ${error.code} - ${error.message}`, 'error');
+                }
+            });
+            
+            // Signout test
+            document.getElementById('signout-test').addEventListener('click', async () => {
+                try {
+                    await signOut(auth);
+                    logMessage('✅ Çıkış başarılı', 'success');
+                } catch (error) {
+                    logMessage(`❌ Çıkış hatası: ${error.message}`, 'error');
+                }
+            });
+            
+            // Google signin test
+            document.getElementById('google-test').addEventListener('click', async () => {
+                try {
+                    logMessage('🔄 Google ile giriş deneniyor...', 'info');
+                    
+                    const result = await signInWithPopup(auth, googleProvider);
+                    logMessage(`✅ Google giriş başarılı: ${result.user.email}`, 'success');
+                    
+                } catch (error) {
+                    logMessage(`❌ Google giriş hatası: ${error.code} - ${error.message}`, 'error');
+                }
+            });
+            
+            // Password reset test
+            document.getElementById('reset-test').addEventListener('click', async () => {
+                const email = document.getElementById('reset-email').value;
+                
+                if (!email) {
+                    logMessage('❌ Email gerekli', 'error');
+                    return;
+                }
+                
+                try {
+                    logMessage(`🔄 Şifre sıfırlama emaili gönderiliyor: ${email}`, 'info');
+                    
+                    await sendPasswordResetEmail(auth, email);
+                    logMessage(`✅ Şifre sıfırlama emaili gönderildi: ${email}`, 'success');
+                    
+                } catch (error) {
+                    logMessage(`❌ Şifre sıfırlama hatası: ${error.code} - ${error.message}`, 'error');
+                }
+            });
+        });
+        
+        // Cleanup
+        window.addEventListener('beforeunload', () => {
+            if (authStateUnsubscribe) {
+                authStateUnsubscribe();
+            }
+        });
+    </script>
+</body>
+</html> 

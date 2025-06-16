@@ -29,5 +29,28 @@
         }
       ]
     }
+  ],
+
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/kaydol",
+      "destination": "/kaydol/index.html"
+    },
+    {
+      "source": "/kaydol/(.*)",
+      "destination": "/kaydol/index.html"
+    },
+    {
+      "source": "/kaydol-custom",
+      "destination": "/kaydol-custom.html"
+    },
+    {
+      "source": "/giris",
+      "destination": "/giris/index.html"
+    }
   ]
 } 

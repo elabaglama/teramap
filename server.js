@@ -220,7 +220,50 @@ app.post('/api/validate-invite', async (req, res) => {
     }
 });
 
-// Kullanıcı kaydı
+// Basit kullanıcı kaydı (invite code'suz)
+app.post('/api/register-simple', async (req, res) => {
+    try {
+        const { email, password, fullName, communityName } = req.body;
+        
+        // Kullanıcı veritabanını oku
+        const usersData = JSON.parse(await fs.readFile(path.join(__dirname, 'data', 'users.json'), 'utf8'));
+        
+        // Email kontrolü
+        if (usersData.users.some(u => u.email === email)) {
+            return res.json({ success: false, message: 'Bu e-posta adresi zaten kullanımda.' });
+        }
+        
+        // Şifreyi hashle
+        const hashedPassword = crypto
+            .createHash('sha256')
+            .update(password)
+            .digest('hex');
+        
+        // Yeni kullanıcı oluştur
+        const newUser = {
+            id: Date.now().toString(),
+            fullName,
+            email,
+            password: hashedPassword,
+            communityName,
+            createdAt: new Date().toISOString()
+        };
+        
+        // Kullanıcıyı kaydet
+        usersData.users.push(newUser);
+        await fs.writeFile(
+            path.join(__dirname, 'data', 'users.json'),
+            JSON.stringify(usersData, null, 2)
+        );
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Kayıt hatası:', error);
+        res.status(500).json({ success: false, message: 'Sunucu hatası' });
+    }
+});
+
+// Kullanıcı kaydı (invite code ile)
 app.post('/api/register', async (req, res) => {
     try {
         const { inviteCode, email, password, fullName, communityName } = req.body;

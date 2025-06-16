@@ -65,6 +65,22 @@
             vertical-align: middle;
             object-fit: contain;
         }
+
+        .signup-btn {
+            background-color: #ba9585 !important;
+            color: white !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .signup-btn:hover {
+            background-color: #a88574 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(186, 149, 133, 0.3) !important;
+        }
     </style>
 </head>
 <body>
@@ -79,7 +95,7 @@
                 <li><a href="/mekanlar">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
+                <li><a href="https://www.teramap.works/kaydol" class="signup-btn">Kaydol</a></li>
             </ul>
         </nav>
     </header>
@@ -90,7 +106,7 @@
                 <div class="hero-overlay">
                     <h1 class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</h1>
                     <p>Tera Map, İstanbul'daki küçük ve orta ölçekli etkinlik alanlarını kapsamlı bir şekilde özetleyen özel bir listeyi ve insan ağını üreten bir sosyal girişimdir.</p>
-                    <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button">Ağ'a katılın</a>
+                    <a href="https://www.teramap.works/kaydol" class="cta-button">Ağ'a katılın</a>
                 </div>
             </div>
         </div>
@@ -111,14 +127,14 @@
                         <h3>Etkinlik Organizatörü Müsünüz?</h3>
                         <p>Etkinliğiniz için uygun bir mekan bulmakta zorlanıyorsanız, bizimle iletişime geçin ve İstanbul'daki eşsiz etkinlik mekanları listemizden faydalanın, araştırma yükünüz hafiflesin.</p>
                     </div>
-                    <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button" style="margin: 0 auto; display: inline-block;">Üye Ol</a>
+                    <a href="https://www.teramap.works/kaydol" class="cta-button" style="margin: 0 auto; display: inline-block;">Kaydol</a>
                 </div>
                 <div class="audience-card" style="text-align: center;">
                     <div>
                         <h3>Mekan Sahibi Misiniz?</h3>
                         <p>Mekanınızı daha fazla kişiye açmak istiyorsanız, hazırladığımız özel mekan listemize katılın ve alanınızı özenle değerlendirelim. Profesyonel bir fotoğraf çekimi gerçekleştirelim, rezarvasyon sistemi sağlayalım ve görünürlüğünüzü artıralım.</p>
                     </div>
-                    <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button" style="margin: 0 auto; display: inline-block;">Listeye Katılın</a>
+                    <a href="https://www.teramap.works/kaydol" class="cta-button" style="margin: 0 auto; display: inline-block;">Kaydol</a>
                 </div>
             </div>
         </div>
@@ -127,7 +143,7 @@
     <section class="cta" id="contact">
         <h2>Siz de özel ağımıza katılın</h2>
         <p>Sadece seçilmiş üyelerin yer aldığı özel ağımıza katılın.</p>
-        <a href="https://elabaglama.notion.site/?pvs=105" class="cta-button">Ağ'a katılın</a>
+        <a href="https://www.teramap.works/kaydol" class="cta-button">Ağ'a katılın</a>
     </section>
 
     <footer>
@@ -166,26 +182,36 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        // Firebase config
+        const firebaseConfig = {
+          apiKey: "AIzaSyCM22P5dhmlb9Pc5YfxxRj7PkygTQE9VYI",
+          authDomain: "tera-map-8f606.firebaseapp.com",
+          projectId: "tera-map-8f606",
+          storageBucket: "tera-map-8f606.firebasestorage.app",
+          messagingSenderId: "353801791768",
+          appId: "1:353801791768:web:0a5b07df6ff8c7c488966d",
+          measurementId: "G-ZZFLKLCVNQ"
+        };
+        
+        // Firebase'i initialize et
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        // Global olarak erişilebilir hale getir
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+    </script>
+    
     <script src="js/script.js"></script>
     <script src="js/nav-fix.js"></script>
-    
-    <script>
-        // Check if user is logged in and update navigation
-        fetch('/api/user')
-            .then(response => {
-                if (response.ok) return response.json();
-                return null;
-            })
-            .then(user => {
-                const authLink = document.getElementById('auth-link');
-                if (user) {
-                    authLink.href = '/profile';
-                    authLink.textContent = 'Profilim';
-                }
-            })
-            .catch(error => {
-                console.error('Auth check error:', error);
-            });
+    <script type="module" src="js/auth.js"></script>
             
         // Fix for mobile menu
         document.addEventListener('DOMContentLoaded', function() {
