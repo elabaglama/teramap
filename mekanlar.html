@@ -344,6 +344,55 @@
             color: #555;
             margin-bottom: 3px;
         }
+
+        /* Filter styles */
+        .filter-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #91796e;
+            background-color: transparent;
+            color: #91796e;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            background-color: #91796e;
+            color: white;
+        }
+
+        .filter-btn.active {
+            background-color: #91796e;
+            color: white;
+        }
+
+        /* Venue type tags */
+        .venue-type-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #333;
+            z-index: 10;
+        }
+
+        /* Hidden venue cards */
+        .venue-card.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -366,13 +415,24 @@
     <div class="venues-container">
         <div class="venues-list">
             <div class="venues-title-section">
-                <h1 style="margin-bottom: 0.5rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
-                <p style="margin-bottom: 2rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <div>
+                        <h1 style="margin-bottom: 0.5rem; color: #333; font-size: 2.5rem;">Seçkin Mekanlarımız</h1>
+                        <p style="margin-bottom: 2rem; color: #666; font-size: 1.2rem; max-width: 700px;">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
+                    </div>
+                    <div class="filter-container" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="filter-btn active" data-filter="all">Tümü</button>
+                        <button class="filter-btn" data-filter="paid">Ücretli</button>
+                        <button class="filter-btn" data-filter="free">Gençlik Ekiplerine Ücretsiz</button>
+                        <button class="filter-btn" data-filter="both">Her İkisi de</button>
+                    </div>
+                </div>
             </div>
             
             <!-- Added Postane Galata as the first card -->
-            <div class="venue-card">
+            <div class="venue-card" data-venue-type="free">
                 <div class="venue-image" style="background-image: url('images/venues/postane.jpg'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag" style="background-color: #f4c430;">Gençlik Ekiplerine Ücretsiz</div>
                 </div>
                 <div class="venue-details">
                     <h3>Postane Galata</h3>
@@ -396,8 +456,9 @@
                 </div>
             </div>
             
-            <div class="venue-card">
+            <div class="venue-card" data-venue-type="both">
                 <div class="venue-image" style="background-image: url('images/venues/airbnb1.png'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag" style="background: linear-gradient(45deg, #ffd700, #ffcc00);">Ücretli & Ücretsiz</div>
                 </div>
                 <div class="venue-details">
                     <h3>Rahat ve Bahçeli Ev</h3>
@@ -420,8 +481,9 @@
                 </div>
             </div>
             
-            <div class="venue-card">
+            <div class="venue-card" data-venue-type="paid">
                 <div class="venue-image" style="background-image: url('images/venues/halic.jpg'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag" style="background-color: #ffcc00;">Ücretli Kiralama</div>
                 </div>
                 <div class="venue-details">
                     <h3>Fener Evleri 1: Haliç Sanat</h3>
@@ -444,8 +506,9 @@
                 </div>
             </div>
             
-            <div class="venue-card">
+            <div class="venue-card" data-venue-type="paid">
                 <div class="venue-image" style="background-image: url('images/venues/borusan.jpg'); background-size: cover; background-position: center;">
+                    <div class="venue-type-tag" style="background-color: #ffcc00;">Ücretli Kiralama</div>
                 </div>
                 <div class="venue-details">
                     <h3>Borusan Müzik Evi</h3>
@@ -560,7 +623,7 @@
                     <div class="calendar-day busy">13</div>
                     <div class="calendar-day available">14</div>
                     
-                    <div class="calendar-day busy">15</div>
+                    <div class="calendar-day available">15</div>
                     <div class="calendar-day available">16</div>
                     <div class="calendar-day available">17</div>
                     <div class="calendar-day busy">18</div>
@@ -1160,6 +1223,33 @@
             
             // Initialize mobile menu
             initMobileMenu();
+
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const venueCards = document.querySelectorAll('.venue-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    venueCards.forEach(card => {
+                        const venueType = card.getAttribute('data-venue-type');
+                        
+                        if (filter === 'all') {
+                            card.classList.remove('hidden');
+                        } else if (filter === venueType) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
         });
     </script>
 </body>
