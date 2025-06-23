@@ -48,15 +48,9 @@
       "source": "/kaydol-custom",
       "destination": "/kaydol-custom.html"
     },
-    {
+        {
       "source": "/giris",
       "destination": "/giris/index.html"
     }
-  ],
-
-  "functions": {
-    "hub/**/*.html": {
-      "runtime": "edge"
-    }
-  }
+  ]
 } 
