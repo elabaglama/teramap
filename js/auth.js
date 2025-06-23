@@ -56,9 +56,9 @@ export async function signUpWithEmail(email, password, displayName) {
     
     showSuccess('Hesabınız başarıyla oluşturuldu! Giriş yapabilirsiniz.');
     
-    // Redirect to sign in page after 2 seconds
+    // Redirect to hub sign in page after 2 seconds
     setTimeout(() => {
-              window.location.href = '/giris';
+              window.location.href = '/hub/giris.html';
     }, 2000);
     
     return userCredential.user;
@@ -91,9 +91,9 @@ export async function signInWithEmail(email, password) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     showSuccess('Başarıyla giriş yaptınız!');
     
-    // Redirect to home page after 1 second
+    // Redirect to hub page after 1 second
     setTimeout(() => {
-      window.location.href = '/';
+      window.location.href = '/hub/mekanlar.html';
     }, 1000);
     
     return userCredential.user;
@@ -129,9 +129,9 @@ export async function signInWithGoogle() {
     const result = await signInWithPopup(auth, googleProvider);
     showSuccess('Google ile başarıyla giriş yaptınız!');
     
-    // Redirect to home page after 1 second
+    // Redirect to hub page after 1 second
     setTimeout(() => {
-      window.location.href = '/';
+      window.location.href = '/hub/mekanlar.html';
     }, 1000);
     
     return result.user;
@@ -158,7 +158,7 @@ export async function signInWithGoogle() {
 export async function logOut() {
   try {
     await signOut(auth);
-    window.location.href = '/';
+    window.location.href = '/hub/index.html';
   } catch (error) {
     showError('Çıkış yapılırken bir hata oluştu.');
     throw error;

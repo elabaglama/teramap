@@ -22,7 +22,7 @@ function updateNavigation(user) {
     const userMenu = document.createElement('li');
     userMenu.className = 'user-menu';
     userMenu.innerHTML = `
-      <a href="/profil" class="auth-button profile-btn">Profil</a>
+      <a href="/hub/profil.html" class="auth-button profile-btn">Profil</a>
       <a href="#" class="auth-button logout-btn">Çıkış Yap</a>
     `;
     
@@ -34,8 +34,8 @@ function updateNavigation(user) {
       e.preventDefault();
       try {
         await logOut();
-        // Redirect to home page after logout
-        window.location.href = '/';
+        // Redirect to hub landing page after logout
+        window.location.href = '/hub/index.html';
       } catch (error) {
         console.error('Logout error:', error);
       }
@@ -43,10 +43,10 @@ function updateNavigation(user) {
   } else {
     // User is not logged in - show login and signup buttons
     const loginItem = document.createElement('li');
-            loginItem.innerHTML = '<a href="/giris" class="auth-button">Giriş Yap</a>';
+            loginItem.innerHTML = '<a href="/hub/giris.html" class="auth-button">Giriş Yap</a>';
     
     const signupItem = document.createElement('li');
-    signupItem.innerHTML = '<a href="/kaydol.html" class="signup-btn">Üye Ol</a>';
+    signupItem.innerHTML = '<a href="/hub/kaydol.html" class="signup-btn">Üye Ol</a>';
     
     navLinks.appendChild(loginItem);
     navLinks.appendChild(signupItem);
