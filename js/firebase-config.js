@@ -1,25 +1,23 @@
-// Firebase Configuration
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getAnalytics } from 'firebase/analytics';
-
-// Firebase config
+// Firebase configuration
+// Replace these values with your actual Firebase project configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCM22P5dhmlb9Pc5YfxxRj7PkygTQE9VYI",
-  authDomain: "teramap.works",
-  projectId: "tera-map-8f606",
-  storageBucket: "tera-map-8f606.firebasestorage.app",
-  messagingSenderId: "353801791768",
-  appId: "1:353801791768:web:0a5b07df6ff8c7c488966d",
-  measurementId: "G-ZZFLKLCVNQ"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
-// Initialize Firebase services
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const analytics = getAnalytics(app);
-export default app; 
+export const googleProvider = new GoogleAuthProvider();
+
+// Optional: Configure Google provider
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+}); 

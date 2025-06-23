@@ -1,122 +1,201 @@
-// Firebase Authentication Functions
+import { auth, googleProvider } from './firebase-config.js';
 import { 
-  signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
   sendPasswordResetEmail,
-  updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup
+  updateProfile
 } from 'firebase/auth';
-import { auth } from './firebase-config.js';
 
-// Google Auth Provider
-const googleProvider = new GoogleAuthProvider();
+// Show error message
+function showError(message, elementId = 'error-message') {
+  const errorElement = document.getElementById(elementId);
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+    setTimeout(() => {
+      errorElement.style.display = 'none';
+    }, 5000);
+  }
+}
 
-// Kullanıcı giriş durumunu izle
-export const monitorAuthState = (callback) => {
-  return onAuthStateChanged(auth, callback);
-};
+// Show success message
+function showSuccess(message, elementId = 'success-message') {
+  const successElement = document.getElementById(elementId);
+  if (successElement) {
+    successElement.textContent = message;
+    successElement.style.display = 'block';
+    setTimeout(() => {
+      successElement.style.display = 'none';
+    }, 5000);
+  }
+}
 
-// Email ile kayıt ol
-export const signUpWithEmail = async (email, password, displayName) => {
+// Hide all messages
+function hideAllMessages() {
+  const errorElement = document.getElementById('error-message');
+  const successElement = document.getElementById('success-message');
+  if (errorElement) errorElement.style.display = 'none';
+  if (successElement) successElement.style.display = 'none';
+}
+
+// Sign up with email and password
+export async function signUpWithEmail(email, password, displayName) {
   try {
+    hideAllMessages();
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     
-    // Kullanıcı profil bilgilerini güncelle
+    // Update user profile with display name
     if (displayName) {
       await updateProfile(userCredential.user, {
         displayName: displayName
       });
     }
     
-    return { success: true, user: userCredential.user };
+    showSuccess('Hesabınız başarıyla oluşturuldu! Giriş yapabilirsiniz.');
+    
+    // Redirect to sign in page after 2 seconds
+    setTimeout(() => {
+      window.location.href = '/signin.html';
+    }, 2000);
+    
+    return userCredential.user;
   } catch (error) {
-    return { success: false, error: getErrorMessage(error.code) };
+    let errorMessage = 'Kayıt sırasında bir hata oluştu.';
+    
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        errorMessage = 'Bu e-posta adresi zaten kullanımda.';
+        break;
+      case 'auth/weak-password':
+        errorMessage = 'Şifre çok zayıf. En az 6 karakter olmalıdır.';
+        break;
+      case 'auth/invalid-email':
+        errorMessage = 'Geçersiz e-posta adresi.';
+        break;
+      default:
+        errorMessage = error.message;
+    }
+    
+    showError(errorMessage);
+    throw error;
   }
-};
+}
 
-// Email ile giriş yap
-export const signInWithEmail = async (email, password) => {
+// Sign in with email and password
+export async function signInWithEmail(email, password) {
   try {
+    hideAllMessages();
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return { success: true, user: userCredential.user };
+    showSuccess('Başarıyla giriş yaptınız!');
+    
+    // Redirect to home page after 1 second
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1000);
+    
+    return userCredential.user;
   } catch (error) {
-    return { success: false, error: getErrorMessage(error.code) };
+    let errorMessage = 'Giriş sırasında bir hata oluştu.';
+    
+    switch (error.code) {
+      case 'auth/user-not-found':
+        errorMessage = 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.';
+        break;
+      case 'auth/wrong-password':
+        errorMessage = 'Yanlış şifre.';
+        break;
+      case 'auth/invalid-email':
+        errorMessage = 'Geçersiz e-posta adresi.';
+        break;
+      case 'auth/user-disabled':
+        errorMessage = 'Bu hesap devre dışı bırakılmış.';
+        break;
+      default:
+        errorMessage = error.message;
+    }
+    
+    showError(errorMessage);
+    throw error;
   }
-};
+}
 
-// Google ile giriş yap
-export const signInWithGoogle = async () => {
+// Sign in with Google
+export async function signInWithGoogle() {
   try {
+    hideAllMessages();
     const result = await signInWithPopup(auth, googleProvider);
-    return { success: true, user: result.user };
+    showSuccess('Google ile başarıyla giriş yaptınız!');
+    
+    // Redirect to home page after 1 second
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1000);
+    
+    return result.user;
   } catch (error) {
-    return { success: false, error: getErrorMessage(error.code) };
+    let errorMessage = 'Google ile giriş yapılırken bir hata oluştu.';
+    
+    switch (error.code) {
+      case 'auth/popup-closed-by-user':
+        errorMessage = 'Giriş penceresi kapatıldı.';
+        break;
+      case 'auth/popup-blocked':
+        errorMessage = 'Açılır pencere engellendi. Lütfen tarayıcı ayarlarınızı kontrol edin.';
+        break;
+      default:
+        errorMessage = error.message;
+    }
+    
+    showError(errorMessage);
+    throw error;
   }
-};
+}
 
-// Çıkış yap
-export const logOut = async () => {
+// Sign out
+export async function logOut() {
   try {
     await signOut(auth);
-    return { success: true };
+    window.location.href = '/';
   } catch (error) {
-    return { success: false, error: getErrorMessage(error.code) };
+    showError('Çıkış yapılırken bir hata oluştu.');
+    throw error;
   }
-};
+}
 
-// Şifre sıfırlama emaili gönder
-export const resetPassword = async (email) => {
+// Reset password
+export async function resetPassword(email) {
   try {
+    hideAllMessages();
     await sendPasswordResetEmail(auth, email);
-    return { success: true };
+    showSuccess('Şifre sıfırlama e-postası gönderildi. E-posta kutunuzu kontrol edin.');
   } catch (error) {
-    return { success: false, error: getErrorMessage(error.code) };
+    let errorMessage = 'Şifre sıfırlanırken bir hata oluştu.';
+    
+    switch (error.code) {
+      case 'auth/user-not-found':
+        errorMessage = 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.';
+        break;
+      case 'auth/invalid-email':
+        errorMessage = 'Geçersiz e-posta adresi.';
+        break;
+      default:
+        errorMessage = error.message;
+    }
+    
+    showError(errorMessage);
+    throw error;
   }
-};
+}
 
-// Mevcut kullanıcıyı al
-export const getCurrentUser = () => {
+// Auth state observer
+export function onAuthStateChange(callback) {
+  return onAuthStateChanged(auth, callback);
+}
+
+// Get current user
+export function getCurrentUser() {
   return auth.currentUser;
-};
-
-// Hata mesajlarını Türkçe'ye çevir
-const getErrorMessage = (errorCode) => {
-  const errorMessages = {
-    'auth/user-not-found': 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.',
-    'auth/wrong-password': 'Yanlış şifre girdiniz.',
-    'auth/email-already-in-use': 'Bu e-posta adresi zaten kullanımda.',
-    'auth/weak-password': 'Şifre en az 6 karakter olmalıdır.',
-    'auth/invalid-email': 'Geçersiz e-posta adresi.',
-    'auth/too-many-requests': 'Çok fazla hatalı deneme. Lütfen daha sonra tekrar deneyin.',
-    'auth/network-request-failed': 'Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.',
-    'auth/popup-closed-by-user': 'Giriş penceresi kapatıldı.',
-    'auth/cancelled-popup-request': 'Giriş işlemi iptal edildi.'
-  };
-  
-  return errorMessages[errorCode] || 'Bir hata oluştu. Lütfen tekrar deneyin.';
-};
-
-// Sayfa yüklendiğinde auth durumunu kontrol et
-document.addEventListener('DOMContentLoaded', () => {
-  monitorAuthState((user) => {
-    updateNavigationForUser(user);
-  });
-});
-
-// Navigation'ı kullanıcı durumuna göre güncelle
-const updateNavigationForUser = (user) => {
-  const signupBtn = document.querySelector('.signup-btn');
-  
-  if (user && signupBtn) {
-    signupBtn.href = '/profil';
-    signupBtn.textContent = 'Profil';
-    signupBtn.classList.add('logged-in');
-  } else if (signupBtn) {
-    signupBtn.href = 'https://www.teramap.works/kaydol';
-    signupBtn.textContent = 'Kaydol';
-    signupBtn.classList.remove('logged-in');
-  }
-}; 
+} 

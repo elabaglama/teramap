@@ -182,35 +182,7 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        
-        // Firebase config
-        const firebaseConfig = {
-          apiKey: "AIzaSyCM22P5dhmlb9Pc5YfxxRj7PkygTQE9VYI",
-          authDomain: "tera-map-8f606.firebaseapp.com",
-          projectId: "tera-map-8f606",
-          storageBucket: "tera-map-8f606.firebasestorage.app",
-          messagingSenderId: "353801791768",
-          appId: "1:353801791768:web:0a5b07df6ff8c7c488966d",
-          measurementId: "G-ZZFLKLCVNQ"
-        };
-        
-        // Firebase'i initialize et
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        // Global olarak erişilebilir hale getir
-        window.firebaseAuth = auth;
-        window.firebaseDb = db;
-    </script>
-    
     <script src="js/script.js"></script>
     <script src="js/nav-fix.js"></script>
-    <script type="module" src="js/auth.js"></script>
 </body>
 </html> 

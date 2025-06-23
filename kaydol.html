@@ -4,6 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tera Map - Kayıt Ol</title>
+    
+    <!-- Firebase v9 CDN -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDaCK1u1zImw4NrYW7-2rgP5AtriCybbYo",
+          authDomain: "teramapcursor.firebaseapp.com",
+          projectId: "teramapcursor",
+          storageBucket: "teramapcursor.firebasestorage.app",
+          messagingSenderId: "446128373922",
+          appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        // Make auth available globally
+        window.firebaseAuth = auth;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.updateProfile = updateProfile;
+    </script>
+    
     <style>
         * {
             margin: 0;
@@ -179,7 +206,9 @@
         </form>
     </div>
     
+    <!-- Firebase Authentication Logic -->
     <script>
+        
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('signup-form');
             const errorMessage = document.getElementById('error-message');
@@ -206,7 +235,7 @@
                 successMessage.style.display = 'none';
             }
             
-            // Form submit
+            // Form submit with Firebase
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -241,34 +270,50 @@
                 submitBtn.disabled = true;
                 
                 try {
-                    // Kayıt işlemi
-                    const response = await fetch('/api/register-simple', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    });
+                    // Firebase ile kayıt işlemi
+                    const userCredential = await window.createUserWithEmailAndPassword(
+                        window.firebaseAuth, 
+                        formData.email, 
+                        formData.password
+                    );
                     
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        showSuccess('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
-                        
-                        // Form'u temizle
-                        form.reset();
-                        
-                        // 2 saniye sonra giriş sayfasına yönlendir
-                        setTimeout(() => {
-                            window.location.href = '/giris';
-                        }, 2000);
-                    } else {
-                        showError(result.message || 'Kayıt işlemi başarısız oldu.');
+                    // Update user profile with display name
+                    if (formData.fullName) {
+                        await window.updateProfile(userCredential.user, {
+                            displayName: formData.fullName
+                        });
                     }
+                    
+                    showSuccess('Hesabınız başarıyla oluşturuldu! Giriş sayfasına yönlendiriliyorsunuz...');
+                    
+                    // Form'u temizle
+                    form.reset();
+                    
+                    // Redirect to sign in page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/signin.html';
+                    }, 2000);
                     
                 } catch (error) {
                     console.error('Kayıt hatası:', error);
-                    showError('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+                    
+                    let errorMessage = 'Kayıt sırasında bir hata oluştu.';
+                    
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            errorMessage = 'Bu e-posta adresi zaten kullanımda.';
+                            break;
+                        case 'auth/weak-password':
+                            errorMessage = 'Şifre çok zayıf. En az 6 karakter olmalıdır.';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage = 'Geçersiz e-posta adresi.';
+                            break;
+                        default:
+                            errorMessage = error.message;
+                    }
+                    
+                    showError(errorMessage);
                 } finally {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
