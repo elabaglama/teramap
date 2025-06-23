@@ -9,7 +9,7 @@
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-        import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
         
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -24,11 +24,19 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+        
+        // Optional: Configure Google provider
+        googleProvider.setCustomParameters({
+            prompt: 'select_account'
+        });
         
         // Make auth available globally
         window.firebaseAuth = auth;
         window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
         window.updateProfile = updateProfile;
+        window.signInWithPopup = signInWithPopup;
+        window.googleProvider = googleProvider;
     </script>
     
     <style>
@@ -162,6 +170,65 @@
         .back-home:hover {
             text-decoration: underline;
         }
+        
+        .google-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .google-btn:hover {
+            background-color: #357ae8;
+        }
+        
+        .google-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1rem 0;
+            position: relative;
+            color: #666;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e5e5e5;
+        }
+        
+        .divider span {
+            background-color: white;
+            padding: 0 1rem;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .auth-links a {
+            color: #91796e;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -179,6 +246,15 @@
         
         <div id="error-message" class="error-message"></div>
         <div id="success-message" class="success-message"></div>
+        
+        <button type="button" id="google-signup" class="google-btn">
+            <i class="fab fa-google"></i>
+            Google ile Üye Ol
+        </button>
+        
+        <div class="divider">
+            <span>veya</span>
+        </div>
         
         <form id="signup-form">
             <div class="form-group">
@@ -204,6 +280,10 @@
             
             <button type="submit" id="submit-btn">Kayıt Ol</button>
         </form>
+        
+        <div class="auth-links">
+            <p>Zaten bir hesabınız var mı? <a href="/signin.html">Giriş yapın</a></p>
+        </div>
     </div>
     
     <!-- Firebase Authentication Logic -->
@@ -214,6 +294,7 @@
             const errorMessage = document.getElementById('error-message');
             const successMessage = document.getElementById('success-message');
             const submitBtn = document.getElementById('submit-btn');
+            const googleSignupBtn = document.getElementById('google-signup');
             
             // Hata mesajı göster
             function showError(message) {
@@ -317,6 +398,47 @@
                 } finally {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
+                }
+            });
+            
+            // Google signup
+            googleSignupBtn.addEventListener('click', async () => {
+                const originalText = googleSignupBtn.textContent;
+                googleSignupBtn.textContent = 'Google ile giriş yapılıyor...';
+                googleSignupBtn.disabled = true;
+                
+                try {
+                    const result = await window.signInWithPopup(window.firebaseAuth, window.googleProvider);
+                    const user = result.user;
+                    
+                    showSuccess('Google ile başarıyla giriş yaptınız! Anasayfaya yönlendiriliyorsunuz...');
+                    
+                    // Redirect to home page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                    
+                } catch (error) {
+                    console.error('Google signup error:', error);
+                    
+                    let errorMsg = 'Google ile giriş sırasında bir hata oluştu.';
+                    
+                    switch (error.code) {
+                        case 'auth/cancelled-popup-request':
+                        case 'auth/popup-closed-by-user':
+                            errorMsg = 'Google giriş işlemi iptal edildi.';
+                            break;
+                        case 'auth/popup-blocked':
+                            errorMsg = 'Pop-up engellendi. Lütfen tarayıcınızın pop-up ayarlarını kontrol edin.';
+                            break;
+                        default:
+                            errorMsg = error.message;
+                    }
+                    
+                    showError(errorMsg);
+                } finally {
+                    googleSignupBtn.textContent = originalText;
+                    googleSignupBtn.disabled = false;
                 }
             });
         });
