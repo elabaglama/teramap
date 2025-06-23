@@ -51,42 +51,75 @@
             background: linear-gradient(135deg, #ba9585 0%, #a08073 100%);
             min-height: 100vh;
             display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .welcome-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 4rem 6rem;
+            color: white;
+            position: relative;
+        }
+        
+        .welcome-section h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+        
+        .welcome-section p {
+            font-size: 1.4rem;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 500px;
+        }
+        
+        .form-section {
+            flex: 0 0 45%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem 1rem;
+            padding: 2rem;
         }
         
         .signup-container {
             background: white;
-            padding: 2.5rem 2rem;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
             width: 100%;
             max-width: 420px;
             text-align: center;
-            position: relative;
         }
         
         .logo {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .logo img {
-            height: 50px;
-            margin-bottom: 0.5rem;
+            height: 45px;
         }
         
-        h1 {
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
-            font-weight: 600;
-        }
-        
-        p {
-            color: #666;
+        .auth-links {
+            text-align: center;
             margin-bottom: 2rem;
-            font-size: 0.95rem;
+        }
+        
+        .auth-links a {
+            color: #ba9585;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-links a:hover {
+            color: #a08073;
         }
         
         .form-group {
@@ -127,8 +160,6 @@
         button {
             width: 100%;
             padding: 14px;
-            background-color: #ba9585;
-            color: white;
             border: none;
             border-radius: 10px;
             font-size: 1rem;
@@ -139,15 +170,49 @@
             font-family: 'Poppins', sans-serif;
         }
         
-        button:hover {
+        .primary-btn {
+            background-color: #ba9585;
+            color: white;
+        }
+        
+        .primary-btn:hover {
             background-color: #a08073;
             transform: translateY(-1px);
             box-shadow: 0 6px 12px rgba(186, 149, 133, 0.2);
         }
         
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .google-btn {
+            background-color: #6c6c6c;
+            color: white;
+        }
+        
+        .google-btn:hover {
+            background-color: #5a5a5a;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(108, 108, 108, 0.2);
+        }
+        
+        .back-home {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
         
         .error-message, .success-message {
@@ -169,97 +234,49 @@
             color: #16a34a;
         }
         
-        .back-home {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .back-home:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .google-btn {
-            width: 100%;
-            padding: 14px;
-            background-color: #4285f4;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        
-        .google-btn:hover {
-            background-color: #357ae8;
-        }
-        
-        .google-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        
-        .divider {
-            text-align: center;
-            margin: 1rem 0;
-            position: relative;
-            color: #666;
-        }
-        
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: #e5e5e5;
-        }
-        
-        .divider span {
-            background-color: white;
-            padding: 0 1rem;
-        }
-        
-        .auth-links {
-            text-align: center;
-            margin-top: 1.5rem;
-        }
-        
-        .auth-links a {
-            color: #ba9585;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .auth-links a:hover {
-            color: #a08073;
-        }
+
         
         /* Responsive Design */
-        @media (max-width: 480px) {
+        @media (max-width: 1024px) {
+            .welcome-section {
+                padding: 3rem 4rem;
+            }
+            
+            .welcome-section h1 {
+                font-size: 3rem;
+            }
+            
+            .welcome-section p {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .welcome-section {
+                flex: 0 0 auto;
+                padding: 3rem 2rem 1rem;
+                text-align: center;
+                align-items: center;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-section p {
+                font-size: 1.1rem;
+            }
+            
+            .form-section {
+                flex: 1;
+                padding: 1rem;
+            }
+            
             .signup-container {
-                max-width: 90%;
                 padding: 2rem 1.5rem;
             }
             
@@ -267,10 +284,6 @@
                 top: 1rem;
                 left: 1rem;
                 font-size: 0.9rem;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
             }
         }
     </style>
@@ -280,53 +293,53 @@
         ← Ana Sayfa
     </a>
     
-    <div class="signup-container">
-        <div class="logo">
-            <img src="images/general/teramaplogo.png" alt="Tera Logo">
-        </div>
-        
+    <div class="welcome-section">
         <h1>Hoş Geldiniz</h1>
         <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
-        
-        <div id="error-message" class="error-message"></div>
-        <div id="success-message" class="success-message"></div>
-        
-        <button type="button" id="google-signup" class="google-btn">
-            <i class="fab fa-google"></i>
-            Google ile Üye Ol
-        </button>
-        
-        <div class="divider">
-            <span>veya</span>
-        </div>
-        
-        <form id="signup-form">
-            <div class="form-group">
-                <label for="name">Ad Soyad</label>
-                <input type="text" id="name" name="name" required>
+    </div>
+    
+    <div class="form-section">
+        <div class="signup-container">
+            <div class="logo">
+                <img src="images/general/teramaplogo.png" alt="Tera Logo">
             </div>
             
-            <div class="form-group">
-                <label for="email">E-posta</label>
-                <input type="email" id="email" name="email" required>
+            <div class="auth-links">
+                <p>Zaten bir hesabınız var mı? <a href="/signin.html">Giriş yapın</a></p>
             </div>
             
-            <div class="form-group">
-                <label for="community">Topluluk İsmi (Uzun Adıyla)</label>
-                <input type="text" id="community" name="community" required>
-            </div>
+            <div id="error-message" class="error-message"></div>
+            <div id="success-message" class="success-message"></div>
             
-            <div class="form-group">
-                <label for="password">Şifre</label>
-                <input type="password" id="password" name="password" required minlength="6">
-                <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
-            </div>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="name">Ad Soyad</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="community">Topluluk İsmi (Uzun Adıyla)</label>
+                    <input type="text" id="community" name="community" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" name="password" required minlength="6">
+                    <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
+                </div>
+                
+                <button type="submit" id="submit-btn" class="primary-btn">Kayıt Ol</button>
+            </form>
             
-            <button type="submit" id="submit-btn">Kayıt Ol</button>
-        </form>
-        
-        <div class="auth-links">
-            <p>Zaten bir hesabınız var mı? <a href="/signin.html">Giriş yapın</a></p>
+            <button type="button" id="google-signup" class="google-btn">
+                <i class="fab fa-google"></i>
+                Google ile Üye Ol
+            </button>
         </div>
     </div>
     
