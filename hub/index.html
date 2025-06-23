@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TeraMap Hub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../favicon.ico?v=1748898958595">
+    <link rel="icon" href="../favicon/favicon.svg?v=1748898958595" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon/favicon.png?v=1748898958595">
+    <link rel="manifest" href="../site.webmanifest?v=1748898958595">
+    
+    <style>
+        .hub-hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/general/main-image.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .hub-content {
+            max-width: 600px;
+            padding: 2rem;
+        }
+        
+        .hub-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hub-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hub-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .hub-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .hub-btn.primary {
+            background: #ba9585;
+            color: white;
+        }
+        
+        .hub-btn.primary:hover {
+            background: #a88574;
+            transform: translateY(-2px);
+        }
+        
+        .hub-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .hub-btn.secondary:hover {
+            background: white;
+            color: #333;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hub-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hub-content p {
+                font-size: 1rem;
+            }
+            
+            .hub-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hub-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <p>Yükleniyor...</p>
+    </div>
+    
+    <div class="hub-hero" id="hero">
+        <div class="hub-content">
+            <h1>TeraMap Hub</h1>
+            <p>Mekan keşfetme ve sosyal ağ platformunuz</p>
+            <div class="hub-buttons" id="auth-buttons">
+                <a href="giris.html" class="hub-btn primary">Giriş Yap</a>
+                <a href="kaydol.html" class="hub-btn secondary">Kayıt Ol</a>
+            </div>
+            <div class="hub-buttons" id="user-buttons" style="display: none;">
+                <a href="mekanlar.html" class="hub-btn primary">Mekanları Keşfet</a>
+                <a href="profil.html" class="hub-btn secondary">Profilim</a>
+                <button onclick="logout()" class="hub-btn secondary">Çıkış Yap</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
+          authDomain: "teramapcursor.firebaseapp.com",
+          projectId: "teramapcursor",
+          storageBucket: "teramapcursor.firebasestorage.app",
+          messagingSenderId: "446128373922",
+          appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('hero').style.display = 'none';
+        
+        onAuthStateChanged(auth, (user) => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('hero').style.display = 'flex';
+            
+            if (user) {
+                document.getElementById('auth-buttons').style.display = 'none';
+                document.getElementById('user-buttons').style.display = 'flex';
+            } else {
+                document.getElementById('auth-buttons').style.display = 'flex';
+                document.getElementById('user-buttons').style.display = 'none';
+            }
+        });
+        
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        };
+    </script>
+</body>
+</html> 

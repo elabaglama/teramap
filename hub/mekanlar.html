@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mekanlar - TeraMap Hub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #fbfbfb;
+        }
+        
+        .hub-header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hub-logo img {
+            height: 40px;
+        }
+        
+        .hub-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .hub-nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .hub-nav a:hover {
+            color: #ba9585;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #ba9585;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            background: #ba9585;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: #a88574;
+        }
+        
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .venues-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/general/main-image.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .venues-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .venues-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .venues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .venue-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .venue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .venue-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .venue-details {
+            padding: 1.5rem;
+        }
+        
+        .venue-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .venue-location {
+            color: #666;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .venue-dates {
+            margin-bottom: 1rem;
+        }
+        
+        .date-item {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .venue-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .message-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .message-btn:hover {
+            background: #a88574;
+        }
+        
+        .details-btn {
+            padding: 0.8rem 1.2rem;
+            background: transparent;
+            color: #ba9585;
+            border: 2px solid #ba9585;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .details-btn:hover {
+            background: #ba9585;
+            color: white;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .hub-header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hub-nav {
+                gap: 1rem;
+            }
+            
+            .main-content {
+                margin-top: 120px;
+                padding: 1rem;
+            }
+            
+            .venues-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .venues-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hub-header">
+        <div class="hub-logo">
+            <img src="../images/general/teramaplogo.png" alt="TeraMap Hub">
+        </div>
+        
+        <nav class="hub-nav">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="mekanlar.html" style="color: #ba9585;">Mekanlar</a>
+            <a href="profil.html">Profil</a>
+        </nav>
+        
+        <div class="user-info">
+            <div class="user-avatar" id="user-avatar">U</div>
+            <span id="user-name">Kullanıcı</span>
+            <button class="logout-btn" onclick="logout()">Çıkış</button>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="venues-hero">
+            <div>
+                <h1>Mekanları Keşfedin</h1>
+                <p>Size özel seçilmiş mekanları inceleyin ve mesaj gönderin</p>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p>Mekanlar yükleniyor...</p>
+        </div>
+        
+        <div class="venues-grid" id="venues-grid" style="display: none;">
+            <!-- Venues will be loaded here -->
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
+          authDomain: "teramapcursor.firebaseapp.com",
+          projectId: "teramapcursor",
+          storageBucket: "teramapcursor.firebasestorage.app",
+          messagingSenderId: "446128373922",
+          appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        let currentUser = null;
+        
+        // Auth state management
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('user-name').textContent = user.displayName || user.email;
+                document.getElementById('user-avatar').textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                loadVenues();
+            } else {
+                window.location.href = 'giris.html';
+            }
+        });
+        
+        // Load venues from JSON
+        async function loadVenues() {
+            try {
+                const response = await fetch('../data/venues.json');
+                const data = await response.json();
+                const venues = data.venues || [];
+                displayVenues(venues);
+            } catch (error) {
+                console.error('Error loading venues:', error);
+                document.getElementById('loading').innerHTML = '<p>Mekanlar yüklenirken hata oluştu</p>';
+            }
+        }
+        
+        function displayVenues(venues) {
+            const grid = document.getElementById('venues-grid');
+            const loading = document.getElementById('loading');
+            
+            loading.style.display = 'none';
+            grid.style.display = 'grid';
+            
+            if (venues.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">Henüz mekan bulunmuyor.</p>';
+                return;
+            }
+            
+            grid.innerHTML = venues.map(venue => {
+                const dates = venue.availableDates || [];
+                const dateItems = dates.slice(0, 3).map(date => {
+                    const formattedDate = new Date(date).toLocaleDateString('tr-TR');
+                    return `<div class="date-item">• ${formattedDate}</div>`;
+                }).join('');
+                
+                return `
+                    <div class="venue-card">
+                        <div class="venue-image" style="background-image: url('${venue.image || '../images/venues/default.jpg'}')"></div>
+                        <div class="venue-details">
+                            <h3 class="venue-name">${venue.name}</h3>
+                            <div class="venue-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${venue.location}
+                            </div>
+                            <div class="venue-dates">
+                                <div style="font-weight: 500; margin-bottom: 0.5rem; color: #333;">Müsait Tarihler:</div>
+                                ${dateItems || '<div class="date-item">Henüz tarih belirtilmemiş</div>'}
+                            </div>
+                            <div class="venue-actions">
+                                <button class="message-btn" onclick="sendMessage('${venue.id}', '${venue.name}')">
+                                    <i class="fas fa-envelope"></i> Mesaj Gönder
+                                </button>
+                                <button class="details-btn" onclick="showDetails('${venue.id}')">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Message functionality
+        window.sendMessage = function(venueId, venueName) {
+            const message = prompt(`${venueName} için mesajınız:`);
+            if (message && message.trim()) {
+                // Here you would typically send the message to a backend
+                alert('Mesajınız gönderildi!');
+            }
+        };
+        
+        // Show details functionality
+        window.showDetails = function(venueId) {
+            alert('Detay sayfası yakında eklenecek!');
+        };
+        
+        // Logout functionality
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        };
+    </script>
+</body>
+</html> 

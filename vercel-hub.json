@@ -1,6 +1,13 @@
 {
+  "version": 2,
+  "name": "teramap-hub",
+  "alias": ["teramap.hub", "hub.teramap.vercel.app"],
   "cleanUrls": true,
   "trailingSlash": false,
+  "public": false,
+  "github": {
+    "silent": true
+  },
   "headers": [
     {
       "source": "/favicon.ico",
@@ -30,33 +37,26 @@
       ]
     }
   ],
-
   "rewrites": [
     {
       "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/kaydol",
-      "destination": "/kaydol/index.html"
-    },
-    {
-      "source": "/kaydol/(.*)",
-      "destination": "/kaydol/index.html"
-    },
-    {
-      "source": "/kaydol-custom",
-      "destination": "/kaydol-custom.html"
+      "destination": "/hub/index.html"
     },
     {
       "source": "/giris",
-      "destination": "/giris/index.html"
+      "destination": "/hub/giris.html"
+    },
+    {
+      "source": "/kaydol",
+      "destination": "/hub/kaydol.html"
+    },
+    {
+      "source": "/mekanlar",
+      "destination": "/hub/mekanlar.html"
+    },
+    {
+      "source": "/profil",
+      "destination": "/hub/profil.html"
     }
-  ],
-
-  "functions": {
-    "hub/**/*.html": {
-      "runtime": "edge"
-    }
-  }
+  ]
 } 
