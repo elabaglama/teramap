@@ -51,44 +51,93 @@
     <link rel="apple-touch-icon" href="favicon/favicon.png?v=1748898958595">
     <link rel="manifest" href="site.webmanifest?v=1748898958595">
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ba9585 0%, #a08073 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        
         .auth-container {
-            max-width: 500px;
-            margin: 100px auto 60px;
-            padding: 2rem;
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-bottom: 0.5rem;
         }
         
         .auth-container h1 {
             text-align: center;
             margin-bottom: 2rem;
             color: #333;
+            font-size: 2rem;
+            font-weight: 600;
         }
         
         .auth-form .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
+            text-align: left;
         }
         
         .auth-form label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             font-weight: 500;
+            font-size: 0.9rem;
+            color: #333;
         }
         
         .auth-form input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-form input:focus {
+            outline: none;
+            border-color: #ba9585;
+            box-shadow: 0 0 0 3px rgba(186, 149, 133, 0.1);
         }
         
         .auth-form button {
             width: 100%;
             margin-top: 1rem;
+            padding: 14px;
+            background-color: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .auth-form button:hover {
+            background-color: #a08073;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(186, 149, 133, 0.2);
         }
         
         .google-btn {
@@ -145,8 +194,50 @@
         }
         
         .auth-links a {
-            color: #91796e;
-            text-decoration: underline;
+            color: #ba9585;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-links a:hover {
+            color: #a08073;
+        }
+        
+        .back-home {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .auth-container {
+                max-width: 90%;
+                padding: 2rem 1.5rem;
+            }
+            
+            .back-home {
+                top: 1rem;
+                left: 1rem;
+                font-size: 0.9rem;
+            }
         }
         
         .error-message, .success-message {
@@ -178,20 +269,14 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo"><img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></div>
-            <ul class="nav-links">
-                <li><a href="/">Ana Sayfa</a></li>
-                <li><a href="/mekanlar">Mekanlar</a></li>
-                <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
-                <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="/kaydol" class="signup-btn">Üye Ol</a></li>
-            </ul>
-        </nav>
-    </header>
-
+    <a href="/" class="back-home">
+        <i class="fas fa-arrow-left"></i> Ana Sayfa
+    </a>
     <div class="auth-container">
+        <div class="logo">
+            <img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img">
+        </div>
+        
         <h1>Giriş Yap</h1>
         <div class="error-message" id="error-message"></div>
         <div class="success-message" id="success-message"></div>
@@ -219,7 +304,7 @@
         
         <div class="auth-links">
             <p><a href="#" id="forgot-password">Şifremi Unuttum</a></p>
-            <p>Hesabınız yok mu? <a href="/kaydol">Kayıt Ol</a></p>
+            <p>Hesabınız yok mu? <a href="/kaydol.html">Üye olun</a></p>
         </div>
     </div>
 
