@@ -154,6 +154,36 @@
             line-height: 1.5;
         }
         
+        .user-benefits {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .benefit-card {
+            background: linear-gradient(135deg, #ba9585, #a88574);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(186, 149, 133, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .benefit-card i {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
         .filter-buttons {
             display: flex;
             gap: 1rem;
@@ -235,6 +265,31 @@
             display: flex;
             align-items: center;
             gap: 0.3rem;
+        }
+        
+        .exclusive-info {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        .price-info,
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(186, 149, 133, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #ba9585;
+            font-weight: 500;
+        }
+        
+        .price-info i,
+        .contact-info i {
+            font-size: 0.8rem;
         }
         
         .venue-details {
@@ -435,11 +490,27 @@
                 <!-- Venues Section -->
                 <div class="venues-section">
                     <div class="section-header">
-                        <h1 class="section-title">Seçkin Mekanlarımız</h1>
+                        <h1 class="section-title">Hoş Geldiniz! <span id="user-welcome-name"></span></h1>
                         <p class="section-subtitle">
-                            Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından 
-                            size en uygun olanı seçin.
+                            Artık TeraMap Hub'ınızdasınız! İstanbul'un en özel mekanlarını keşfedin, 
+                            diğer kullanıcılarla mesajlaşın ve etkinliklerinizi planlayın.
                         </p>
+                    </div>
+                    
+                    <!-- User Benefits Section -->
+                    <div class="user-benefits">
+                        <div class="benefit-card">
+                            <i class="fas fa-star"></i>
+                            <span>Özel mekan fiyatlarını görüntüleyebilirsiniz</span>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-users"></i>
+                            <span>Diğer kullanıcılarla mesajlaşabilirsiniz</span>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-calendar"></i>
+                            <span>Etkinlik rezervasyonu yapabilirsiniz</span>
+                        </div>
                     </div>
                     
                     <div class="filter-buttons">
@@ -484,7 +555,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         
-        // Sample venues data
+        // Sample venues data with exclusive pricing for logged-in users
         const venues = [
             {
                 id: 1,
@@ -493,6 +564,8 @@
                 image: "../images/venues/postane.jpg",
                 area: "50-80 kişi",
                 size: "90 m²",
+                price: "₺2,500/gün",
+                contact: "0212 555 0123",
                 tags: ["Sergi", "Performans", "Kültür", "Tiyatro"],
                 description: "Galata'nın kalbinde, tarihi bir binada konumlanmış ve geniş atmosferle sergiler, performanslar ve kültürel etkinlikler için ideal bir ortam sunuyor.",
                 type: "paid"
@@ -504,6 +577,8 @@
                 image: "../images/venues/halic.jpg",
                 area: "35 kişi",
                 size: "120 m²",
+                price: "Ücretsiz*",
+                contact: "0212 555 0456",
                 tags: ["Banket", "Modern", "Özel", "Kültür"],
                 description: "Şehrin merkezinde, huzurlu bir bahçesi olan, modern dizayndan ve yemek kültürü ile örtüşen bir çevre sunan atmosfer.",
                 type: "free"
@@ -515,6 +590,8 @@
                 image: "../images/venues/airbnb1.png",
                 area: "50-70 kişi",
                 size: "180 m²",
+                price: "₺3,200/gün",
+                contact: "0212 555 0789",
                 tags: ["Kültür", "Mimarlık", "Sergi", "Workshop"],
                 description: "Haliç manzarası eşliğinde Fener evlerinin tarihe tanıklık ettiği özel atmosferde etkinlikler yapabilir, sanat sergilerini küçük çepçilik etkinlikleri için ideal.",
                 type: "paid"
@@ -535,10 +612,14 @@
                 document.getElementById('auth-overlay').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
                 
-                // Update user avatar
+                // Update user avatar and welcome message
                 const userAvatar = document.getElementById('user-avatar');
+                const userWelcomeName = document.getElementById('user-welcome-name');
                 const displayName = user.displayName || user.email;
+                const firstName = displayName.split(' ')[0] || displayName.split('@')[0];
+                
                 userAvatar.textContent = displayName.charAt(0).toUpperCase();
+                userWelcomeName.textContent = firstName;
                 
                 // Load venues
                 loadVenues();
@@ -566,13 +647,23 @@
                                 <i class="fas fa-map-marker-alt"></i>
                                 ${venue.location}
                             </p>
+                            <div class="exclusive-info">
+                                <div class="price-info">
+                                    <i class="fas fa-tag"></i>
+                                    <strong>${venue.price}</strong>
+                                </div>
+                                <div class="contact-info">
+                                    <i class="fas fa-phone"></i>
+                                    ${venue.contact}
+                                </div>
+                            </div>
                             <div class="venue-details">
                                 ${venue.description}
                             </div>
                         </div>
                         <div class="venue-actions">
                             <button class="venue-btn btn-secondary">Detaylar</button>
-                            <button class="venue-btn btn-primary">İletişim</button>
+                            <button class="venue-btn btn-primary">Rezervasyon</button>
                         </div>
                     </div>
                 </div>
