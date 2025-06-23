@@ -58,7 +58,7 @@ export async function signUpWithEmail(email, password, displayName) {
     
     // Redirect to hub sign in page after 2 seconds
     setTimeout(() => {
-              window.location.href = '/hub/giris.html';
+              window.location.href = '/hub/giris';
     }, 2000);
     
     return userCredential.user;
@@ -93,7 +93,7 @@ export async function signInWithEmail(email, password) {
     
     // Redirect to hub page after 1 second
     setTimeout(() => {
-      window.location.href = '/hub/mekanlar.html';
+      window.location.href = '/hub/mekanlar';
     }, 1000);
     
     return userCredential.user;
@@ -131,7 +131,7 @@ export async function signInWithGoogle() {
     
     // Redirect to hub page after 1 second
     setTimeout(() => {
-      window.location.href = '/hub/mekanlar.html';
+      window.location.href = '/hub/mekanlar';
     }, 1000);
     
     return result.user;
@@ -158,7 +158,7 @@ export async function signInWithGoogle() {
 export async function logOut() {
   try {
     await signOut(auth);
-    window.location.href = '/hub/index.html';
+    window.location.href = '/hub';
   } catch (error) {
     showError('Çıkış yapılırken bir hata oluştu.');
     throw error;

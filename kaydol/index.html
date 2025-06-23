@@ -261,7 +261,7 @@
                 const registerData = await registerResponse.json();
 
                 if (registerData.success) {
-                    window.location.href = '/hub/giris.html?registered=true';
+                    window.location.href = '/hub/giris?registered=true';
                 } else {
                     showError(registerData.message || 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
                 }

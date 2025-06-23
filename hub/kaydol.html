@@ -204,9 +204,9 @@
             Google ile Kayıt Ol
         </button>
         
-        <p>Zaten hesabınız var mı? <a href="giris.html" class="login-link">Giriş yapın</a></p>
+        <p>Zaten hesabınız var mı? <a href="giris" class="login-link">Giriş yapın</a></p>
         
-        <a href="index.html" class="back-link">← Ana sayfaya dön</a>
+        <a href="/hub" class="back-link">← Ana sayfaya dön</a>
     </div>
 
     <script type="module">
@@ -248,7 +248,7 @@
         // Check if user is already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = 'mekanlar.html';
+                window.location.href = '/hub/mekanlar';
             }
         });
         
@@ -282,7 +282,7 @@
                 
                 showSuccess('Hesabınız başarıyla oluşturuldu! Yönlendiriliyorsunuz...');
                 setTimeout(() => {
-                    window.location.href = 'mekanlar.html';
+                    window.location.href = '/hub/mekanlar';
                 }, 1500);
             } catch (error) {
                 let errorMessage = 'Kayıt başarısız';
@@ -314,7 +314,7 @@
                 await signInWithPopup(auth, googleProvider);
                 showSuccess('Google ile kayıt başarılı! Yönlendiriliyorsunuz...');
                 setTimeout(() => {
-                    window.location.href = 'mekanlar.html';
+                    window.location.href = '/hub/mekanlar';
                 }, 1000);
             } catch (error) {
                 showError('Google ile kayıt başarısız: ' + error.message);

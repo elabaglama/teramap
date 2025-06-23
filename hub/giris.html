@@ -187,9 +187,9 @@
             Google ile Giriş Yap
         </button>
         
-        <p>Hesabınız yok mu? <a href="kaydol.html" class="signup-link">Kayıt olun</a></p>
+        <p>Hesabınız yok mu? <a href="kaydol" class="signup-link">Kayıt olun</a></p>
         
-        <a href="index.html" class="back-link">← Ana sayfaya dön</a>
+        <a href="/hub" class="back-link">← Ana sayfaya dön</a>
     </div>
 
     <script type="module">
@@ -231,7 +231,7 @@
         // Check if user is already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = 'mekanlar.html';
+                window.location.href = '/hub/mekanlar';
             }
         });
         
@@ -251,7 +251,7 @@
                 await signInWithEmailAndPassword(auth, email, password);
                 showSuccess('Giriş başarılı! Yönlendiriliyorsunuz...');
                 setTimeout(() => {
-                    window.location.href = 'mekanlar.html';
+                    window.location.href = '/hub/mekanlar';
                 }, 1000);
             } catch (error) {
                 let errorMessage = 'Giriş başarısız';
@@ -283,7 +283,7 @@
                 await signInWithPopup(auth, googleProvider);
                 showSuccess('Google ile giriş başarılı! Yönlendiriliyorsunuz...');
                 setTimeout(() => {
-                    window.location.href = 'mekanlar.html';
+                    window.location.href = '/hub/mekanlar';
                 }, 1000);
             } catch (error) {
                 showError('Google ile giriş başarısız: ' + error.message);
