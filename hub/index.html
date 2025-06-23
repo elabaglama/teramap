@@ -2,13 +2,13 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeraMap Hub</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" href="../favicon.ico?v=1748898958595">
@@ -17,120 +17,453 @@
     <link rel="manifest" href="../site.webmanifest?v=1748898958595">
     
     <style>
-        .hub-hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/general/main-image.jpg');
-            background-size: cover;
-            background-position: center;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fbfbfb;
+            color: #333;
+        }
+        
+        .hub-header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hub-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .hub-nav {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+        
+        .hub-nav a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .hub-nav a:hover,
+        .hub-nav a.active {
+            color: #333;
+        }
+        
+        .hub-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ba9585;
+        }
+        
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ba9585;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
         }
         
-        .hub-content {
-            max-width: 600px;
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        .main-content {
+            margin-top: 80px;
             padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .hub-content h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            height: calc(100vh - 120px);
         }
         
-        .hub-content p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
+        .venues-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow-y: auto;
         }
         
-        .hub-buttons {
+        .section-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-subtitle {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .filter-buttons {
             display: flex;
             gap: 1rem;
-            justify-content: center;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
         }
         
-        .hub-btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
+        .filter-btn {
+            padding: 0.7rem 1.5rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         
-        .hub-btn.primary {
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #ba9585;
+            color: white;
+            border-color: #ba9585;
+        }
+        
+        .venues-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .venue-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .venue-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .venue-card-content {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .venue-image {
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            background-color: #f5f5f5;
+        }
+        
+        .venue-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .venue-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+        
+        .venue-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .venue-details {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        .venue-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+        
+        .venue-btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
             background: #ba9585;
             color: white;
         }
         
-        .hub-btn.primary:hover {
+        .btn-primary:hover {
             background: #a88574;
-            transform: translateY(-2px);
         }
         
-        .hub-btn.secondary {
+        .btn-secondary {
             background: transparent;
-            color: white;
-            border: 2px solid white;
+            color: #ba9585;
+            border: 1px solid #ba9585;
         }
         
-        .hub-btn.secondary:hover {
+        .btn-secondary:hover {
+            background: #ba9585;
+            color: white;
+        }
+        
+        .map-section {
             background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .map-container {
+            width: 100%;
+            height: 100%;
+            min-height: 500px;
+            background: #f5f5f5;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .auth-modal {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .auth-modal h2 {
+            margin-bottom: 1rem;
             color: #333;
         }
         
+        .auth-modal p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
         .loading {
-            display: none;
             text-align: center;
             padding: 2rem;
+            color: #666;
         }
         
         @media (max-width: 768px) {
-            .hub-content h1 {
-                font-size: 2rem;
+            .hub-nav {
+                display: none;
             }
             
-            .hub-content p {
-                font-size: 1rem;
+            .hamburger {
+                display: flex;
             }
             
-            .hub-buttons {
-                flex-direction: column;
-                align-items: center;
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
-            .hub-btn {
-                width: 100%;
-                max-width: 250px;
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .venue-card-content {
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
+            }
+            
+            .venue-image {
+                width: 80px;
+                height: 60px;
+            }
+            
+            .venue-actions {
+                grid-column: span 2;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-top: 1rem;
+            }
+            
+            .filter-buttons {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loading State -->
     <div class="loading" id="loading">
         <p>Yükleniyor...</p>
     </div>
-    
-    <div class="hub-hero" id="hero">
-        <div class="hub-content">
-            <h1>TeraMap Hub</h1>
-            <p>Mekan keşfetme ve sosyal ağ platformunuz</p>
-            <div class="hub-buttons" id="auth-buttons">
-                <a href="giris" class="hub-btn primary">Giriş Yap</a>
-                <a href="kaydol" class="hub-btn secondary">Kayıt Ol</a>
-            </div>
-            <div class="hub-buttons" id="user-buttons" style="display: none;">
-                <a href="mekanlar" class="hub-btn primary">Mekanları Keşfet</a>
-                <a href="profil" class="hub-btn secondary">Profilim</a>
-                <button onclick="logout()" class="hub-btn secondary">Çıkış Yap</button>
+
+    <!-- Authentication Overlay -->
+    <div class="auth-overlay" id="auth-overlay" style="display: none;">
+        <div class="auth-modal">
+            <h2>Giriş Yapın</h2>
+            <p>Mekanları keşfetmek ve diğer özelliklerden yararlanmak için giriş yapmanız gerekmektedir.</p>
+            <div class="auth-buttons">
+                <a href="giris" class="venue-btn btn-primary">Giriş Yap</a>
+                <a href="kaydol" class="venue-btn btn-secondary">Kayıt Ol</a>
             </div>
         </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-app" style="display: none;">
+        <!-- Header -->
+        <header class="hub-header">
+            <a href="/" class="hub-logo">tera</a>
+            
+            <nav class="hub-nav">
+                <a href="#" class="active">Mekanlar</a>
+                <a href="#">Mesajlar</a>
+                <a href="#">Bildirimler</a>
+            </nav>
+            
+            <div class="user-section">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- Venues Section -->
+                <div class="venues-section">
+                    <div class="section-header">
+                        <h1 class="section-title">Seçkin Mekanlarımız</h1>
+                        <p class="section-subtitle">
+                            Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından 
+                            size en uygun olanı seçin.
+                        </p>
+                    </div>
+                    
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Tümü</button>
+                        <button class="filter-btn" data-filter="paid">Ücretli</button>
+                        <button class="filter-btn" data-filter="free">Gençlik Ekiplerine Ücretsiz</button>
+                    </div>
+                    
+                    <div class="venues-grid" id="venues-grid">
+                        <!-- Venues will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Map Section -->
+                <div class="map-section">
+                    <div class="map-container" id="map-container">
+                        <div>
+                            <i class="fas fa-map-marker-alt" style="font-size: 2rem; margin-bottom: 1rem; color: #ba9585;"></i>
+                            <p>Harita yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script type="module">
@@ -149,29 +482,137 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         
-        document.getElementById('loading').style.display = 'block';
-        document.getElementById('hero').style.display = 'none';
+        // Sample venues data
+        const venues = [
+            {
+                id: 1,
+                name: "Postane Galata",
+                location: "Galata, Beyoğlu",
+                image: "../images/venues/postane.jpg",
+                area: "50-80 kişi",
+                size: "90 m²",
+                tags: ["Sergi", "Performans", "Kültür", "Tiyatro"],
+                description: "Galata'nın kalbinde, tarihi bir binada konumlanmış ve geniş atmosferle sergiler, performanslar ve kültürel etkinlikler için ideal bir ortam sunuyor.",
+                type: "paid"
+            },
+            {
+                id: 2,
+                name: "Habitat ve Geçirgen Ev",
+                location: "Şehzadebaşı, İstanbul",
+                image: "../images/venues/halic.jpg",
+                area: "35 kişi",
+                size: "120 m²",
+                tags: ["Banket", "Modern", "Özel", "Kültür"],
+                description: "Şehrin merkezinde, huzurlu bir bahçesi olan, modern dizayndan ve yemek kültürü ile örtüşen bir çevre sunan atmosfer.",
+                type: "free"
+            },
+            {
+                id: 3,
+                name: "Fener Evleri :: Haliç Sanat",
+                location: "Fener, Fatih",
+                image: "../images/venues/airbnb1.png",
+                area: "50-70 kişi",
+                size: "180 m²",
+                tags: ["Kültür", "Mimarlık", "Sergi", "Workshop"],
+                description: "Haliç manzarası eşliğinde Fener evlerinin tarihe tanıklık ettiği özel atmosferde etkinlikler yapabilir, sanat sergilerini küçük çepçilik etkinlikleri için ideal.",
+                type: "paid"
+            }
+        ];
         
+        let currentUser = null;
+        
+        // Show loading initially
+        document.getElementById('loading').style.display = 'block';
+        
+        // Auth state observer
         onAuthStateChanged(auth, (user) => {
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('hero').style.display = 'flex';
             
             if (user) {
-                document.getElementById('auth-buttons').style.display = 'none';
-                document.getElementById('user-buttons').style.display = 'flex';
+                currentUser = user;
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                
+                // Update user avatar
+                const userAvatar = document.getElementById('user-avatar');
+                const displayName = user.displayName || user.email;
+                userAvatar.textContent = displayName.charAt(0).toUpperCase();
+                
+                // Load venues
+                loadVenues();
+                
+                // Initialize map (placeholder)
+                initializeMap();
             } else {
-                document.getElementById('auth-buttons').style.display = 'flex';
-                document.getElementById('user-buttons').style.display = 'none';
+                document.getElementById('auth-overlay').style.display = 'flex';
+                document.getElementById('main-app').style.display = 'none';
             }
         });
         
-        window.logout = async function() {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error('Logout error:', error);
+        // Load venues
+        function loadVenues(filter = 'all') {
+            const venuesGrid = document.getElementById('venues-grid');
+            const filteredVenues = filter === 'all' ? venues : venues.filter(venue => venue.type === filter);
+            
+            venuesGrid.innerHTML = filteredVenues.map(venue => `
+                <div class="venue-card">
+                    <div class="venue-card-content">
+                        <div class="venue-image" style="background-image: url('${venue.image}')"></div>
+                        <div class="venue-info">
+                            <h3 class="venue-name">${venue.name}</h3>
+                            <p class="venue-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${venue.location}
+                            </p>
+                            <div class="venue-details">
+                                ${venue.description}
+                            </div>
+                        </div>
+                        <div class="venue-actions">
+                            <button class="venue-btn btn-secondary">Detaylar</button>
+                            <button class="venue-btn btn-primary">İletişim</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                // Update active filter
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Filter venues
+                const filter = e.target.dataset.filter;
+                const filterType = filter === 'paid' ? 'paid' : filter === 'free' ? 'free' : 'all';
+                loadVenues(filterType);
             }
-        };
+        });
+        
+        // Initialize map (placeholder)
+        function initializeMap() {
+            const mapContainer = document.getElementById('map-container');
+            mapContainer.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-map-marker-alt" style="font-size: 2rem; margin-bottom: 1rem; color: #ba9585;"></i>
+                    <p>İstanbul Mekan Haritası</p>
+                    <small style="color: #999;">Mekanların konumlarını görmek için geliştirme aşamasında</small>
+                </div>
+            `;
+        }
+        
+        // User avatar click (logout)
+        document.getElementById('user-avatar').addEventListener('click', async () => {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                try {
+                    await signOut(auth);
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+        });
     </script>
 </body>
-</html> 
+</html>

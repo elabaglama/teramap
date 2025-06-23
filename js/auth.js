@@ -93,7 +93,7 @@ export async function signInWithEmail(email, password) {
     
     // Redirect to hub page after 1 second
     setTimeout(() => {
-      window.location.href = '/hub/mekanlar';
+      window.location.href = '/hub';
     }, 1000);
     
     return userCredential.user;
@@ -131,7 +131,7 @@ export async function signInWithGoogle() {
     
     // Redirect to hub page after 1 second
     setTimeout(() => {
-      window.location.href = '/hub/mekanlar';
+      window.location.href = '/hub';
     }, 1000);
     
     return result.user;
