@@ -240,7 +240,7 @@ image.png<!DOCTYPE html>
             fetch('/api/user')
                 .then(response => {
                     if (!response.ok) {
-                        window.location.href = '/signin.html';
+                        window.location.href = '/giris';
                         throw new Error('Not authenticated');
                     }
                     return response.json();

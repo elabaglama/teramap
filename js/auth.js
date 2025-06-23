@@ -58,7 +58,7 @@ export async function signUpWithEmail(email, password, displayName) {
     
     // Redirect to sign in page after 2 seconds
     setTimeout(() => {
-      window.location.href = '/signin.html';
+              window.location.href = '/giris';
     }, 2000);
     
     return userCredential.user;

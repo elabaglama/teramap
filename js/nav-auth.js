@@ -43,7 +43,7 @@ function updateNavigation(user) {
   } else {
     // User is not logged in - show login and signup buttons
     const loginItem = document.createElement('li');
-    loginItem.innerHTML = '<a href="/signin.html" class="auth-button">Giriş Yap</a>';
+            loginItem.innerHTML = '<a href="/giris" class="auth-button">Giriş Yap</a>';
     
     const signupItem = document.createElement('li');
     signupItem.innerHTML = '<a href="/kaydol.html" class="signup-btn">Üye Ol</a>';
