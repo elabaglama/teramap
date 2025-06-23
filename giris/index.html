@@ -43,7 +43,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico?v=1748898958595">
@@ -154,7 +154,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -170,28 +170,6 @@
         .google-btn:disabled {
             background-color: #ccc;
             cursor: not-allowed;
-        }
-        
-        .divider {
-            text-align: center;
-            margin: 1rem 0;
-            position: relative;
-            color: #666;
-        }
-        
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: #e5e5e5;
-        }
-        
-        .divider span {
-            background-color: white;
-            padding: 0 1rem;
         }
         
         .forgot-password {
@@ -300,7 +278,7 @@
     </a>
     <div class="auth-container">
         <div class="logo">
-            <img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img">
+            <span style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #333; font-weight: 600;">tera map</span>
         </div>
         
         <h1>Giriş Yap</h1>
@@ -311,10 +289,6 @@
             <i class="fab fa-google"></i>
             Google ile Giriş Yap
         </button>
-        
-        <div class="divider">
-            <span>veya</span>
-        </div>
         
         <form class="auth-form" id="signin-form">
             <div class="form-group">
