@@ -43,7 +43,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico?v=1748898958595">
@@ -63,10 +63,10 @@
         }
         
         .auth-container {
-            max-width: 450px;
+            max-width: 420px;
             width: 100%;
             margin: 0 auto;
-            padding: 3rem 2.5rem;
+            padding: 2.5rem 2rem;
             background-color: white;
             border-radius: 20px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
@@ -75,12 +75,12 @@
         }
         
         .logo {
-            margin-bottom: 3rem;
-            margin-top: 1rem;
+            margin-bottom: 2.5rem;
+            margin-top: 0.5rem;
         }
         
         .logo img {
-            height: 45px;
+            height: 40px;
         }
         
         .auth-container h1 {
@@ -88,7 +88,7 @@
         }
         
         .auth-form .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             text-align: left;
         }
         
@@ -154,7 +154,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
-            margin-bottom: 2rem;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -172,12 +172,35 @@
             cursor: not-allowed;
         }
         
+        .divider {
+            text-align: center;
+            margin: 0.8rem 0;
+            position: relative;
+            color: #666;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e5e5e5;
+        }
+        
+        .divider span {
+            background-color: white;
+            padding: 0 1rem;
+        }
+        
         .forgot-password {
             display: block;
             color: #ba9585;
             text-decoration: none;
             font-size: 0.9rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            margin-top: 0.8rem;
             transition: color 0.3s ease;
         }
         
@@ -278,7 +301,7 @@
     </a>
     <div class="auth-container">
         <div class="logo">
-            <span style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #333; font-weight: 600;">tera map</span>
+            <img src="../images/general/teramaplogo.png" alt="TERA MAP" class="logo-img">
         </div>
         
         <h1>Giriş Yap</h1>
@@ -289,6 +312,10 @@
             <i class="fab fa-google"></i>
             Google ile Giriş Yap
         </button>
+        
+        <div class="divider">
+            <span>veya</span>
+        </div>
         
         <form class="auth-form" id="signin-form">
             <div class="form-group">
@@ -307,7 +334,7 @@
         <a href="#" id="forgot-password" class="forgot-password">Şifremi Unuttum</a>
         
         <div class="auth-links">
-            <p>Hesabınız yok mu? <a href="/kaydol.html">Üye olun</a></p>
+            <p>Hesabınız yok mu? <a href="/kaydol">Üye olun</a></p>
         </div>
     </div>
 
