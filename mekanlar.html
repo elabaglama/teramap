@@ -393,6 +393,147 @@
         .venue-card.hidden {
             display: none;
         }
+
+        /* Authentication styles */
+        .login-btn {
+            background-color: transparent !important;
+            color: #91796e !important;
+            padding: 8px 16px !important;
+            border: 2px solid #91796e !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            margin-right: 10px !important;
+        }
+
+        .login-btn:hover {
+            background-color: #91796e !important;
+            color: white !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(145, 121, 110, 0.3) !important;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-name {
+            color: #91796e;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background-color: #e74c3c !important;
+            color: white !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3) !important;
+        }
+
+        .signup-btn {
+            background-color: #ba9585 !important;
+            color: white !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .signup-btn:hover {
+            background-color: #a88574 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(186, 149, 133, 0.3) !important;
+        }
+
+        /* Notification bar */
+        .notification-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: 500;
+            z-index: 3000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification-bar.show {
+            transform: translateY(0);
+        }
+
+        .notification-bar .close-notification {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification-bar .close-notification:hover {
+            opacity: 1;
+        }
+
+        /* Favorite button */
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: #91796e;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+        }
+
+        .favorite-btn:hover, .favorite-btn.favorited {
+            color: #e74c3c;
+            transform: scale(1.1);
+        }
+
+        .venue-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+
+        .venue-actions .left-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        /* Adjust for notification bar when logged in */
+        body.logged-in header {
+            top: 60px;
+        }
+
+        body.logged-in .venues-container {
+            padding-top: 5rem;
+        }
     </style>
 </head>
 <body>
@@ -407,10 +548,16 @@
                 <li><a href="/mekanlar" class="active">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
+                <!-- Auth buttons will be dynamically added here -->
             </ul>
         </nav>
     </header>
+
+    <!-- Notification bar for logged-in users -->
+    <div class="notification-bar" id="notification-bar">
+        <span id="notification-text">Hoş geldiniz! Artık mekanları favorilerinize ekleyebilir ve detaylı bilgilere erişebilirsiniz.</span>
+        <button class="close-notification" onclick="closeNotification()">&times;</button>
+    </div>
 
     <div class="venues-container">
         <div class="venues-list">
@@ -449,7 +596,12 @@
                         <span class="venue-tag">Sanat</span>
                     </div>
                     <div class="venue-actions">
-                        <button class="btn-outline venue-detail">Detaylar</button>
+                        <div class="left-actions">
+                            <button class="btn-outline venue-detail">Detaylar</button>
+                            <button class="favorite-btn" data-venue-id="postane-galata" title="Favorilere ekle">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
                         <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
@@ -474,7 +626,12 @@
                         <span class="venue-tag">Rahat</span>
                     </div>
                     <div class="venue-actions">
-                        <button class="btn-outline venue-detail">Detaylar</button>
+                        <div class="left-actions">
+                            <button class="btn-outline venue-detail">Detaylar</button>
+                            <button class="favorite-btn" data-venue-id="rahat-ev" title="Favorilere ekle">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
                         <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
@@ -499,7 +656,12 @@
                         <span class="venue-tag">Workshop</span>
                     </div>
                     <div class="venue-actions">
-                        <button class="btn-outline venue-detail">Detaylar</button>
+                        <div class="left-actions">
+                            <button class="btn-outline venue-detail">Detaylar</button>
+                            <button class="favorite-btn" data-venue-id="fener-evleri" title="Favorilere ekle">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
                         <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
@@ -524,7 +686,12 @@
                         <span class="venue-tag">Modern</span>
                     </div>
                     <div class="venue-actions">
-                        <button class="btn-outline venue-detail">Detaylar</button>
+                        <div class="left-actions">
+                            <button class="btn-outline venue-detail">Detaylar</button>
+                            <button class="favorite-btn" data-venue-id="borusan-muzik" title="Favorilere ekle">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
                         <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
@@ -1032,12 +1199,100 @@
         </div>
     </footer>
     
-    <script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/nav-auth.js"></script>
+    <script type="module">
+        import { getCurrentUser, onAuthStateChange } from './js/auth.js';
+        
+        // Global functions for notification bar
+        window.closeNotification = function() {
+            const notificationBar = document.getElementById('notification-bar');
+            notificationBar.classList.remove('show');
+            localStorage.setItem('notificationClosed', 'true');
+        }
+        
+        // Show notification for new logged-in users
+        function showNotificationForUser() {
+            const notificationBar = document.getElementById('notification-bar');
+            const wasNotificationClosed = localStorage.getItem('notificationClosed');
+            
+            if (!wasNotificationClosed) {
+                setTimeout(() => {
+                    notificationBar.classList.add('show');
+                }, 1000);
+            }
+        }
+        
+        // Enhanced favorites functionality
+        function initializeFavorites() {
+            const favoriteButtons = document.querySelectorAll('.favorite-btn');
+            const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            
+            // Load saved favorites
+            favoriteButtons.forEach(btn => {
+                const venueId = btn.getAttribute('data-venue-id');
+                if (savedFavorites.includes(venueId)) {
+                    btn.classList.add('favorited');
+                    btn.innerHTML = '<i class="fas fa-heart"></i>';
+                }
+            });
+            
+            // Add click handlers
+            favoriteButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const venueId = this.getAttribute('data-venue-id');
+                    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                    
+                    if (this.classList.contains('favorited')) {
+                        // Remove from favorites
+                        favorites = favorites.filter(id => id !== venueId);
+                        this.classList.remove('favorited');
+                        this.innerHTML = '<i class="far fa-heart"></i>';
+                        showCustomNotification('Favorilerden kaldırıldı', 'remove');
+                    } else {
+                        // Add to favorites
+                        favorites.push(venueId);
+                        this.classList.add('favorited');
+                        this.innerHTML = '<i class="fas fa-heart"></i>';
+                        showCustomNotification('Favorilere eklendi', 'add');
+                    }
+                    
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                });
+            });
+        }
+        
+        // Custom notification for favorites
+        function showCustomNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'add' ? '#4CAF50' : '#f44336'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                z-index: 4000;
+                font-weight: 500;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
-            const popup = document.getElementById('accessPopup');
-            const closeBtn = document.getElementById('closePopup');
-            const accessForm = document.getElementById('accessForm');
-            const contactButtons = document.querySelectorAll('.venue-actions .cta-button');
             const detailButtons = document.querySelectorAll('.venue-detail');
             const venuePopups = [
                 document.getElementById('venueDetailPopup0'),
@@ -1047,105 +1302,37 @@
             ];
             const venueCloseButtons = document.querySelectorAll('.venue-close');
             
-            let popupShown = false;
             let isLoggedIn = false;
             
-            // Check if user is logged in and update UI accordingly
-            fetch('/api/user')
-                .then(response => {
-                    if (response.ok) {
-                        isLoggedIn = true;
-                        return response.json();
-                    }
-                    return null;
-                })
-                .then(user => {
-                    const authLink = document.getElementById('auth-link');
-                    if (user) {
-                        // User is logged in
-                        authLink.href = '/profile';
-                        authLink.textContent = 'Profilim';
-                        
-                        // Show all venues
-                        document.querySelectorAll('.venue-card').forEach(card => {
-                            card.style.display = 'block';
-                        });
-                        
-                        // Enable all details buttons
-                        detailButtons.forEach(button => {
-                            button.disabled = false;
-                        });
-                        
-                        // Remove login notice if it exists
-                        const loginNotice = document.getElementById('login-notice');
-                        if (loginNotice) {
-                            loginNotice.style.display = 'none';
-                        }
-                    } else {
-                        // User is not logged in - show all venues now
-                        document.querySelectorAll('.venue-card').forEach(card => {
-                            card.style.display = 'block';
-                        });
-                        
-                        // Enable all details buttons
-                        detailButtons.forEach(button => {
-                            button.disabled = false;
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Auth check error:', error);
-                });
-            
-            // Function to handle showing popup
-            function showPopupHandler() {
-                showPopup(popup);
-            }
-            
-            // Show popup after delay (only if not previously accessed)
-            setTimeout(function() {
-                if (!sessionStorage.getItem('accessRequested') && isLoggedIn) {
-                    showPopup(popup);
-                }
-            }, 2000);
-            
-            // Show popup on contact button click (only for logged in users)
-            contactButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    if (isLoggedIn) {
-                        e.preventDefault();
-                        showPopup(popup);
-                    }
-                });
-            });
-            
-            // Close popup when clicking the close button
-            closeBtn.addEventListener('click', function() {
-                hidePopup(popup);
-            });
-            
-            // Handle form submission
-            accessForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Erişim talebiniz alınmıştır. Sizinle en kısa sürede iletişime geçeceğiz.');
-                hidePopup(popup);
-                
-                // Store in session that user has requested access
-                sessionStorage.setItem('accessRequested', 'true');
-            });
-            
-            // Close popup when clicking outside
-            popup.addEventListener('click', function(e) {
-                if (e.target === popup) {
-                    hidePopup(popup);
+            // Authentication state management
+            onAuthStateChange((user) => {
+                if (user) {
+                    isLoggedIn = true;
+                    document.body.classList.add('logged-in');
+                    showNotificationForUser();
+                    initializeFavorites();
+                    
+                    // Show favorite buttons for logged-in users
+                    document.querySelectorAll('.favorite-btn').forEach(btn => {
+                        btn.style.display = 'block';
+                    });
+                } else {
+                    isLoggedIn = false;
+                    document.body.classList.remove('logged-in');
+                    
+                    // Hide favorite buttons for non-logged-in users
+                    document.querySelectorAll('.favorite-btn').forEach(btn => {
+                        btn.style.display = 'none';
+                    });
                 }
             });
             
             // Venue detail buttons
             detailButtons.forEach((button, index) => {
                 button.addEventListener('click', function(e) {
-                    // Show the venue popup
-                    showPopup(venuePopups[index]);
+                    if (venuePopups[index]) {
+                        showPopup(venuePopups[index]);
+                    }
                 });
             });
             
@@ -1159,17 +1346,18 @@
             
             // Close venue popups when clicking outside
             venuePopups.forEach(popup => {
-                popup.addEventListener('click', function(e) {
-                    if (e.target === popup) {
-                        hidePopup(popup);
-                    }
-                });
+                if (popup) {
+                    popup.addEventListener('click', function(e) {
+                        if (e.target === popup) {
+                            hidePopup(popup);
+                        }
+                    });
+                }
             });
             
             function showPopup(popup) {
                 popup.style.display = 'flex';
                 document.body.classList.add('popup-active');
-                popupShown = true;
             }
             
             function hidePopup(popup) {
@@ -1177,7 +1365,34 @@
                 document.body.classList.remove('popup-active');
             }
             
-            // Fix for mobile menu
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const venueCards = document.querySelectorAll('.venue-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    venueCards.forEach(card => {
+                        const venueType = card.getAttribute('data-venue-type');
+                        
+                        if (filter === 'all') {
+                            card.classList.remove('hidden');
+                        } else if (filter === venueType) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+            
+            // Mobile menu functionality
             function initMobileMenu() {
                 const menuToggle = document.querySelector('.menu-toggle');
                 const navLinks = document.querySelector('.nav-links');
@@ -1222,33 +1437,6 @@
             
             // Initialize mobile menu
             initMobileMenu();
-
-            // Filter functionality
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const venueCards = document.querySelectorAll('.venue-card');
-
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
-
-                    const filter = this.getAttribute('data-filter');
-
-                    venueCards.forEach(card => {
-                        const venueType = card.getAttribute('data-venue-type');
-                        
-                        if (filter === 'all') {
-                            card.classList.remove('hidden');
-                        } else if (filter === venueType) {
-                            card.classList.remove('hidden');
-                        } else {
-                            card.classList.add('hidden');
-                        }
-                    });
-                });
-            });
         });
     </script>
 </body>

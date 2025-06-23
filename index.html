@@ -81,6 +81,52 @@
             transform: translateY(-2px) !important;
             box-shadow: 0 4px 8px rgba(186, 149, 133, 0.3) !important;
         }
+
+        .login-btn {
+            background-color: transparent !important;
+            color: #91796e !important;
+            padding: 8px 16px !important;
+            border: 2px solid #91796e !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            margin-right: 10px !important;
+        }
+
+        .login-btn:hover {
+            background-color: #91796e !important;
+            color: white !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(145, 121, 110, 0.3) !important;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-name {
+            color: #91796e;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background-color: #e74c3c !important;
+            color: white !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3) !important;
+        }
     </style>
 </head>
 <body>
@@ -95,7 +141,7 @@
                 <li><a href="/mekanlar">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="https://www.teramap.works/kaydol" class="signup-btn">Kaydol</a></li>
+                <!-- Auth buttons will be dynamically added here -->
             </ul>
         </nav>
     </header>
@@ -182,6 +228,8 @@
         </div>
     </footer>
 
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/nav-auth.js"></script>
     <script src="js/script.js"></script>
     <script src="js/nav-fix.js"></script>
 </body>

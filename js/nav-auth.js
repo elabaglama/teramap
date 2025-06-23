@@ -14,22 +14,22 @@ function updateNavigation(user) {
   if (!navLinks) return;
 
   // Remove existing auth buttons
-  const existingAuthButtons = navLinks.querySelectorAll('.auth-button, .signup-btn');
-  existingAuthButtons.forEach(btn => btn.remove());
+  const existingAuthButtons = navLinks.querySelectorAll('.auth-button, .signup-btn, .login-btn, .user-menu');
+  existingAuthButtons.forEach(btn => btn.parentElement.remove());
 
   if (user) {
     // User is logged in - show logout button and user info
-    const userMenu = document.createElement('li');
-    userMenu.className = 'user-menu';
-    userMenu.innerHTML = `
+    const userMenuItem = document.createElement('li');
+    userMenuItem.className = 'user-menu';
+    userMenuItem.innerHTML = `
       <span class="user-name">Merhaba, ${user.displayName || user.email}</span>
-      <a href="#" class="auth-button logout-btn">Çıkış Yap</a>
+      <a href="#" class="logout-btn">Çıkış Yap</a>
     `;
     
-    navLinks.appendChild(userMenu);
+    navLinks.appendChild(userMenuItem);
     
     // Add logout functionality
-    const logoutBtn = userMenu.querySelector('.logout-btn');
+    const logoutBtn = userMenuItem.querySelector('.logout-btn');
     logoutBtn.addEventListener('click', async (e) => {
       e.preventDefault();
       try {
@@ -41,10 +41,10 @@ function updateNavigation(user) {
   } else {
     // User is not logged in - show login and signup buttons
     const loginItem = document.createElement('li');
-    loginItem.innerHTML = '<a href="/signin.html" class="auth-button">Giriş Yap</a>';
+    loginItem.innerHTML = '<a href="/signin.html" class="login-btn">Giriş Yap</a>';
     
     const signupItem = document.createElement('li');
-    signupItem.innerHTML = '<a href="/kaydol.html" class="signup-btn">Üye Ol</a>';
+    signupItem.innerHTML = '<a href="/kaydol.html" class="signup-btn">Kaydol</a>';
     
     navLinks.appendChild(loginItem);
     navLinks.appendChild(signupItem);
