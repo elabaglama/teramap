@@ -470,6 +470,7 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
         
+        // Firebase configuration
         const firebaseConfig = {
           apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
           authDomain: "teramapcursor.firebaseapp.com",
@@ -479,6 +480,7 @@
           appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
         };
         
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         
