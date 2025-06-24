@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     
     <style>
         * {
@@ -725,7 +725,8 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "AIzaSyCGQPdPVoyjRk9Z_QXMFyE1s5K4Hj5Ft0I", v: "weekly"});</script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
@@ -778,32 +779,67 @@
             }
         }
 
-        // Initialize map
-        function initMap() {
-            map = L.map('map').setView([41.0267, 28.9744], 12);
+                // Initialize Google Map
+        async function initMap() {
+            const { Map } = await google.maps.importLibrary("maps");
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
             
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: ' OpenStreetMap contributors'
-            }).addTo(map);
+            // Center on Istanbul
+            const istanbulCenter = { lat: 41.0267, lng: 28.9744 };
+            
+            map = new Map(document.getElementById("map"), {
+                zoom: 12,
+                center: istanbulCenter,
+                mapId: "DEMO_MAP_ID",
+            });
+            
+            // Store Google Maps classes for later use
+            window.GoogleAdvancedMarker = AdvancedMarkerElement;
+            window.GoogleMaps = Map;
         }
 
         // Update map markers
-        function updateMapMarkers(venueList) {
+        async function updateMapMarkers(venueList) {
             // Clear existing markers
-            markers.forEach(marker => map.removeLayer(marker));
+            markers.forEach(marker => {
+                marker.map = null;
+            });
             markers = [];
 
             // Add new markers
             venueList.forEach(venue => {
                 if (venue.coordinates) {
-                    const marker = L.marker([venue.coordinates[1], venue.coordinates[0]]).addTo(map);
-                                         marker.bindPopup(`
-                         <div style="text-align: center;">
-                             <h4>${venue.name}</h4>
-                             <p>${venue.location}</p>
-                             <button onclick="showVenueDetail('${venue.id}')" style="background: #ba9585; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Detayları Gör</button>
-                         </div>
-                     `);
+                    const position = { lat: venue.coordinates[1], lng: venue.coordinates[0] };
+                    
+                    const marker = new window.GoogleAdvancedMarker({
+                        map: map,
+                        position: position,
+                        title: venue.name,
+                    });
+
+                    // Create info window
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `
+                            <div style="text-align: center; padding: 10px;">
+                                <h4 style="margin: 0 0 8px 0; color: #333;">${venue.name}</h4>
+                                <p style="margin: 0 0 8px 0; color: #666;">${venue.location}</p>
+                                <button onclick="showVenueDetail('${venue.id}')" style="background: #ba9585; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Detayları Gör</button>
+                            </div>
+                        `
+                    });
+
+                    marker.addListener("click", () => {
+                        // Close all other info windows
+                        markers.forEach(m => {
+                            if (m.infoWindow) {
+                                m.infoWindow.close();
+                            }
+                        });
+                        
+                        infoWindow.open(map, marker);
+                    });
+
+                    marker.infoWindow = infoWindow;
                     markers.push(marker);
                 }
             });
