@@ -201,12 +201,15 @@
     <header>
         <nav>
             <div class="logo"><img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></div>
+            <button class="menu-toggle" aria-label="Menüyü aç/kapat" type="button">
+                <i class="fas fa-bars"></i>
+            </button>
             <ul class="nav-links">
                 <li><a href="/">Ana Sayfa</a></li>
                 <li><a href="/mekanlar">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim" class="active">İletişim</a></li>
-                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
+                <li><a href="/kaydol" class="signup-btn">Üye Ol</a></li>
             </ul>
         </nav>
     </header>
@@ -302,24 +305,6 @@
 
     <script src="js/script.js"></script>
     <script src="js/nav-fix.js"></script>
-    
-    <script>
-        // Check if user is logged in and update navigation
-        fetch('/api/user')
-            .then(response => {
-                if (response.ok) return response.json();
-                return null;
-            })
-            .then(user => {
-                const authLink = document.getElementById('auth-link');
-                if (user) {
-                    authLink.href = '/profile';
-                    authLink.textContent = 'Profilim';
-                }
-            })
-            .catch(error => {
-                console.error('Auth check error:', error);
-            });
-    </script>
+    <script type="module" src="js/nav-auth.js"></script>
 </body>
 </html> 
