@@ -84,7 +84,7 @@
         .profile-dropdown {
             position: absolute;
             top: 55px;
-            right: -20px;
+            right: -50px;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
@@ -259,9 +259,7 @@
 
         /* Content Layout */
         .content-layout {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 2rem;
+            display: block;
         }
 
         /* Venues Grid */
@@ -393,27 +391,7 @@
             color: white;
         }
 
-        /* Map Section */
-        .map-section {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 100px;
-        }
 
-        .map-header {
-            padding: 1rem;
-            border-bottom: 1px solid #e0e0e0;
-            font-weight: 600;
-            color: #333;
-        }
-
-        #map {
-            height: 500px;
-            width: 100%;
-        }
 
         /* Modal Styles */
         .modal {
@@ -513,17 +491,7 @@
             }
 
             .content-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .map-section {
-                position: relative;
-                top: 0;
-                order: 2;
-            }
-
-            .venues-section {
-                order: 1;
+                display: block;
             }
 
             .main-container {
@@ -546,7 +514,7 @@
             }
 
             .profile-dropdown {
-                right: -10px;
+                right: -30px;
                 min-width: 260px;
             }
 
@@ -643,13 +611,6 @@
                         <p>Mekanlar yükleniyor...</p>
                     </div>
                 </div>
-
-                <div class="map-section">
-                    <div class="map-header">
-                        <i class="fas fa-map-marker-alt"></i> Mekan Konumları
-                    </div>
-                    <div id="map"></div>
-                </div>
             </div>
         </div>
 
@@ -725,8 +686,7 @@
         </div>
     </div>
 
-    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-        ({key: "AIzaSyCGQPdPVoyjRk9Z_QXMFyE1s5K4Hj5Ft0I", v: "weekly"});</script>
+
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
@@ -745,8 +705,6 @@
         
         let currentUser = null;
         let venues = [];
-        let map;
-        let markers = [];
         let currentFilter = 'all';
 
         // Auth state management
@@ -759,7 +717,6 @@
                 document.getElementById('profile-name').textContent = user.displayName || 'Kullanıcı';
                 document.getElementById('profile-email').textContent = user.email;
                 loadVenues();
-                initMap();
             } else {
                 window.location.href = '/hub/giris';
             }
@@ -772,78 +729,13 @@
                 const data = await response.json();
                 venues = data.venues || [];
                 displayVenues(venues);
-                updateMapMarkers(venues);
             } catch (error) {
                 console.error('Error loading venues:', error);
                 document.getElementById('venues-grid').innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">Mekanlar yüklenirken hata oluştu</p>';
             }
         }
 
-                // Initialize Google Map
-        async function initMap() {
-            const { Map } = await google.maps.importLibrary("maps");
-            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-            
-            // Center on Istanbul
-            const istanbulCenter = { lat: 41.0267, lng: 28.9744 };
-            
-            map = new Map(document.getElementById("map"), {
-                zoom: 12,
-                center: istanbulCenter,
-                mapId: "DEMO_MAP_ID",
-            });
-            
-            // Store Google Maps classes for later use
-            window.GoogleAdvancedMarker = AdvancedMarkerElement;
-            window.GoogleMaps = Map;
-        }
-
-        // Update map markers
-        async function updateMapMarkers(venueList) {
-            // Clear existing markers
-            markers.forEach(marker => {
-                marker.map = null;
-            });
-            markers = [];
-
-            // Add new markers
-            venueList.forEach(venue => {
-                if (venue.coordinates) {
-                    const position = { lat: venue.coordinates[1], lng: venue.coordinates[0] };
-                    
-                    const marker = new window.GoogleAdvancedMarker({
-                        map: map,
-                        position: position,
-                        title: venue.name,
-                    });
-
-                    // Create info window
-                    const infoWindow = new google.maps.InfoWindow({
-                        content: `
-                            <div style="text-align: center; padding: 10px;">
-                                <h4 style="margin: 0 0 8px 0; color: #333;">${venue.name}</h4>
-                                <p style="margin: 0 0 8px 0; color: #666;">${venue.location}</p>
-                                <button onclick="showVenueDetail('${venue.id}')" style="background: #ba9585; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Detayları Gör</button>
-                            </div>
-                        `
-                    });
-
-                    marker.addListener("click", () => {
-                        // Close all other info windows
-                        markers.forEach(m => {
-                            if (m.infoWindow) {
-                                m.infoWindow.close();
-                            }
-                        });
-                        
-                        infoWindow.open(map, marker);
-                    });
-
-                    marker.infoWindow = infoWindow;
-                    markers.push(marker);
-                }
-            });
-        }
+                
 
         // Display venues
         function displayVenues(venueList) {
@@ -906,7 +798,6 @@
                  }
                  
                  displayVenues(filteredVenues);
-                 updateMapMarkers(filteredVenues);
              });
          });
 
