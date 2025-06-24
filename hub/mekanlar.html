@@ -553,7 +553,7 @@
             
             <nav class="nav-menu">
                 <a href="#" class="nav-item active" data-section="venues">Mekanlar</a>
-                <a href="#" class="nav-item" data-section="messages">Mesajlar</a>
+                <a href="messages.html" class="nav-item">Mesajlar</a>
                 <a href="#" class="nav-item" data-section="notifications">Bildirimler</a>
             </nav>
             
@@ -849,20 +849,25 @@
             document.getElementById('venue-modal').style.display = 'none';
         };
 
-        // Send message
+        // Send message - redirect to messages page
         window.sendMessage = function(venueId, venueName) {
             if (venueId && venueName) {
-                const venue = venues.find(v => v.id === venueId);
-                const message = prompt(`${venueName || venue.name} için mesajınız:`);
-                if (message && message.trim()) {
-                    alert('Mesajınız gönderildi! Mekan sahibi en kısa sürede size dönüş yapacaktır.');
-                }
+                // Store venue info for pre-filling message
+                sessionStorage.setItem('messageTarget', JSON.stringify({
+                    type: 'venue',
+                    id: venueId,
+                    name: venueName
+                }));
+                window.location.href = 'messages.html';
             } else if (window.currentVenueForMessage) {
-                const message = prompt(`${window.currentVenueForMessage.name} için mesajınız:`);
-                if (message && message.trim()) {
-                    alert('Mesajınız gönderildi! Mekan sahibi en kısa sürede size dönüş yapacaktır.');
-                    closeModal();
-                }
+                sessionStorage.setItem('messageTarget', JSON.stringify({
+                    type: 'venue',
+                    id: window.currentVenueForMessage.id,
+                    name: window.currentVenueForMessage.name
+                }));
+                window.location.href = 'messages.html';
+            } else {
+                window.location.href = 'messages.html';
             }
         };
 
