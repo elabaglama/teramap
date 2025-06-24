@@ -1,9 +1,56 @@
-import { onAuthStateChange, logOut, getCurrentUser } from './auth.js';
+import { auth } from './firebase-config.js';
+import { onAuthStateChanged } from 'firebase/auth';
+
+// Check authentication state and redirect if needed
+export function setupAuthGuard(requireAuth = false, redirectPath = '/hub') {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (requireAuth && !user) {
+        // User must be logged in but isn't
+        window.location.href = '/hub/giris';
+      } else if (!requireAuth && user && window.location.pathname.includes('/giris')) {
+        // User is logged in but on login page
+        window.location.href = redirectPath;
+      }
+      
+      unsubscribe();
+      resolve(user);
+    });
+  });
+}
+
+// Check if user is authenticated (async)
+export function getCurrentUser() {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user);
+    });
+  });
+}
+
+// Setup navigation based on auth state
+export function setupAuthBasedNavigation() {
+  onAuthStateChanged(auth, (user) => {
+    const authButtons = document.getElementById('auth-buttons');
+    const userButtons = document.getElementById('user-buttons');
+    
+    if (authButtons && userButtons) {
+      if (user) {
+        authButtons.style.display = 'none';
+        userButtons.style.display = 'flex';
+      } else {
+        authButtons.style.display = 'flex';
+        userButtons.style.display = 'none';
+      }
+    }
+  });
+}
 
 // Initialize navigation based on auth state
 export function initializeNavAuth() {
   // Listen for auth state changes
-  onAuthStateChange((user) => {
+  onAuthStateChanged(auth, (user) => {
     updateNavigation(user);
   });
 }

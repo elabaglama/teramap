@@ -154,6 +154,39 @@
         .back-link:hover {
             color: #ba9585;
         }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkbox-container input {
+            margin-right: 0.5rem;
+        }
+        
+        .checkmark {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox-container input:checked + .checkmark {
+            background-color: #ba9585;
+            border-color: #ba9585;
+        }
+        
+        .checkbox-container input:checked + .checkmark:after {
+            content: '\2713';
+            font-size: 12px;
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 2px;
+        }
     </style>
 </head>
 <body>
@@ -179,6 +212,14 @@
                 <input type="password" id="password" required>
             </div>
             
+            <div class="form-group">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="remember-me" checked>
+                    <span class="checkmark"></span>
+                    Beni hatırla
+                </label>
+            </div>
+            
             <button type="submit" class="login-btn" id="login-btn">Giriş Yap</button>
         </form>
         
@@ -194,7 +235,7 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
         
         const firebaseConfig = {
           apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
@@ -228,6 +269,12 @@
             document.getElementById('success-message').style.display = 'none';
         }
         
+        // Set remember me checkbox based on previous preference
+        const rememberPreference = localStorage.getItem('teramap_remember_preference');
+        if (rememberPreference !== null) {
+            document.getElementById('remember-me').checked = rememberPreference === 'true';
+        }
+        
         // Check if user is already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -242,14 +289,23 @@
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
             const loginBtn = document.getElementById('login-btn');
             
             loginBtn.disabled = true;
             loginBtn.textContent = 'Giriş yapılıyor...';
             
             try {
+                // Set persistence based on "remember me" checkbox
+                const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+                await setPersistence(auth, persistence);
+                
                 await signInWithEmailAndPassword(auth, email, password);
                 showSuccess('Giriş başarılı! Yönlendiriliyorsunuz...');
+                
+                // Store preference for future sessions
+                localStorage.setItem('teramap_remember_preference', rememberMe);
+                
                 setTimeout(() => {
                     window.location.href = '/hub/mekanlar';
                 }, 1000);
@@ -280,8 +336,18 @@
             hideMessages();
             
             try {
+                const rememberMe = document.getElementById('remember-me').checked;
+                
+                // Set persistence based on "remember me" checkbox
+                const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+                await setPersistence(auth, persistence);
+                
                 await signInWithPopup(auth, googleProvider);
                 showSuccess('Google ile giriş başarılı! Yönlendiriliyorsunuz...');
+                
+                // Store preference for future sessions
+                localStorage.setItem('teramap_remember_preference', rememberMe);
+                
                 setTimeout(() => {
                     window.location.href = '/hub/mekanlar';
                 }, 1000);
