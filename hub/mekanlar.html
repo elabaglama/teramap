@@ -48,7 +48,7 @@
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
             font-weight: 700;
-            color: #8b7355;
+            color: #ba9585;
         }
 
         .nav-menu {
@@ -66,30 +66,126 @@
         }
 
         .nav-item.active {
-            color: #8b7355;
+            color: #ba9585;
             font-weight: 600;
         }
 
         .nav-item:hover {
-            color: #8b7355;
+            color: #ba9585;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
             gap: 1rem;
+            position: relative;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            min-width: 280px;
+            z-index: 1001;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .profile-dropdown.active {
+            display: block;
+        }
+
+        .profile-info {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ba9585;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            padding: 0.5rem 0;
+        }
+
+        .profile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-menu-item:hover {
+            background: #f8f9fa;
+            color: #ba9585;
+        }
+
+        .profile-menu-item.logout {
+            border-top: 1px solid #e0e0e0;
+            color: #dc3545;
+        }
+
+        .profile-menu-item.logout:hover {
+            background: #fff5f5;
+            color: #dc3545;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .profile-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #8b7355;
+            background: #ba9585;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            background: #a88574;
         }
 
         .hamburger {
@@ -151,14 +247,14 @@
         }
 
         .filter-btn.active {
-            background: #8b7355;
-            border-color: #8b7355;
+            background: #ba9585;
+            border-color: #ba9585;
             color: white;
         }
 
         .filter-btn:hover {
-            border-color: #8b7355;
-            color: #8b7355;
+            border-color: #ba9585;
+            color: #ba9585;
         }
 
         /* Content Layout */
@@ -171,8 +267,8 @@
         /* Venues Grid */
         .venues-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
         }
 
         .venue-card {
@@ -191,7 +287,7 @@
         }
 
         .venue-image {
-            height: 200px;
+            height: 160px;
             background-size: cover;
             background-position: center;
             position: relative;
@@ -201,7 +297,7 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            background: rgba(139, 115, 85, 0.9);
+            background: rgba(186, 149, 133, 0.9);
             color: white;
             padding: 0.4rem 0.8rem;
             border-radius: 15px;
@@ -210,14 +306,14 @@
         }
 
         .venue-content {
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
 
         .venue-name {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #333;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             font-weight: 600;
         }
 
@@ -231,31 +327,31 @@
 
         .venue-specs {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
         }
 
         .spec-item {
             display: flex;
             align-items: center;
             gap: 0.3rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #666;
         }
 
         .venue-features {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.4rem;
+            margin-bottom: 0.8rem;
         }
 
         .feature-tag {
             background: #f0f0f0;
             color: #666;
-            padding: 0.3rem 0.8rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
         }
 
         .venue-actions {
@@ -264,34 +360,36 @@
         }
 
         .btn-primary {
-            background: #8b7355;
+            background: #ba9585;
             color: white;
             border: none;
-            padding: 0.8rem 1.2rem;
+            padding: 0.6rem 1rem;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.3s ease;
             font-weight: 500;
             flex: 1;
+            font-size: 0.9rem;
         }
 
         .btn-primary:hover {
-            background: #7a634a;
+            background: #a88574;
         }
 
         .btn-secondary {
             background: transparent;
-            color: #8b7355;
-            border: 2px solid #8b7355;
-            padding: 0.8rem 1.2rem;
+            color: #ba9585;
+            border: 2px solid #ba9585;
+            padding: 0.6rem 1rem;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .btn-secondary:hover {
-            background: #8b7355;
+            background: #ba9585;
             color: white;
         }
 
@@ -421,6 +519,11 @@
             .map-section {
                 position: relative;
                 top: 0;
+                order: 2;
+            }
+
+            .venues-section {
+                order: 1;
             }
 
             .main-container {
@@ -428,11 +531,31 @@
             }
 
             .venues-section {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
             }
 
             .filters-section {
                 flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .profile-dropdown {
+                right: -10px;
+                min-width: 260px;
+            }
+
+            .venue-image {
+                height: 140px;
+            }
+
+            .venue-content {
+                padding: 1rem;
             }
         }
 
@@ -467,11 +590,38 @@
             </nav>
             
             <div class="user-profile">
-                <div class="profile-avatar" id="user-avatar">U</div>
-                <div class="hamburger">
+                <div class="profile-avatar" id="user-avatar" onclick="toggleProfileDropdown()">U</div>
+                <div class="hamburger" onclick="toggleProfileDropdown()">
                     <span></span>
                     <span></span>
                     <span></span>
+                </div>
+                
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div class="profile-info">
+                        <div class="profile-photo" id="profile-photo">U</div>
+                        <div class="profile-name" id="profile-name">Kullanıcı</div>
+                        <div class="profile-email" id="profile-email">user@example.com</div>
+                    </div>
+                    
+                    <div class="profile-menu">
+                        <div class="profile-menu-item" onclick="editProfile()">
+                            <i class="fas fa-user"></i>
+                            <span>Profil Bilgileri</span>
+                        </div>
+                        <div class="profile-menu-item" onclick="changePhoto()">
+                            <i class="fas fa-camera"></i>
+                            <span>Fotoğraf Değiştir</span>
+                        </div>
+                        <div class="profile-menu-item" onclick="changePassword()">
+                            <i class="fas fa-lock"></i>
+                            <span>Şifre Değiştir</span>
+                        </div>
+                        <div class="profile-menu-item logout" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Çıkış Yap</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -602,7 +752,11 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                document.getElementById('user-avatar').textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                document.getElementById('user-avatar').textContent = initial;
+                document.getElementById('profile-photo').textContent = initial;
+                document.getElementById('profile-name').textContent = user.displayName || 'Kullanıcı';
+                document.getElementById('profile-email').textContent = user.email;
                 loadVenues();
                 initMap();
             } else {
@@ -643,13 +797,13 @@
             venueList.forEach(venue => {
                 if (venue.coordinates) {
                     const marker = L.marker([venue.coordinates[1], venue.coordinates[0]]).addTo(map);
-                    marker.bindPopup(`
-                        <div style="text-align: center;">
-                            <h4>${venue.name}</h4>
-                            <p>${venue.location}</p>
-                            <button onclick="showVenueDetail('${venue.id}')" style="background: #8b7355; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Detayları Gör</button>
-                        </div>
-                    `);
+                                         marker.bindPopup(`
+                         <div style="text-align: center;">
+                             <h4>${venue.name}</h4>
+                             <p>${venue.location}</p>
+                             <button onclick="showVenueDetail('${venue.id}')" style="background: #ba9585; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Detayları Gör</button>
+                         </div>
+                     `);
                     markers.push(marker);
                 }
             });
@@ -795,6 +949,38 @@
 
         // Close modal with X button
         document.querySelector('.close').addEventListener('click', closeModal);
+
+        // Profile dropdown functionality
+        window.toggleProfileDropdown = function() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('active');
+        };
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userProfile = document.querySelector('.user-profile');
+            const dropdown = document.getElementById('profile-dropdown');
+            
+            if (!userProfile.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Profile menu functions
+        window.editProfile = function() {
+            alert('Profil düzenleme özelliği yakında eklenecek!');
+            document.getElementById('profile-dropdown').classList.remove('active');
+        };
+
+        window.changePhoto = function() {
+            alert('Fotoğraf değiştirme özelliği yakında eklenecek!');
+            document.getElementById('profile-dropdown').classList.remove('active');
+        };
+
+        window.changePassword = function() {
+            alert('Şifre değiştirme özelliği yakında eklenecek!');
+            document.getElementById('profile-dropdown').classList.remove('active');
+        };
 
         // Logout functionality
         window.logout = async function() {
