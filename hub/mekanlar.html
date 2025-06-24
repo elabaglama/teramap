@@ -456,7 +456,9 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="logo">TeraMap</div>
+            <div class="logo">
+                <img src="../logo transparent.png" alt="TeraMap" style="height: 40px; width: auto;">
+            </div>
             
             <nav class="nav-menu">
                 <a href="#" class="nav-item active" data-section="venues">Mekanlar</a>
@@ -480,7 +482,7 @@
         <div id="venues-section" class="section active">
             <div class="filters-section">
                 <button class="filter-btn active" data-filter="all">Tümü</button>
-                <button class="filter-btn" data-filter="free">Ücretsiz</button>
+                <button class="filter-btn" data-filter="paid">Ücretli</button>
                 <button class="filter-btn" data-filter="youth-free">Gençlik Ekiplerine Ücretsiz</button>
             </div>
 
@@ -696,27 +698,27 @@
             `).join('');
         }
 
-        // Filter functionality
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const filter = btn.dataset.filter;
-                currentFilter = filter;
-                
-                let filteredVenues = venues;
-                
-                if (filter === 'free') {
-                    filteredVenues = venues.filter(venue => !venue.isPaid);
-                } else if (filter === 'youth-free') {
-                    filteredVenues = venues.filter(venue => venue.isYouthFree);
-                }
-                
-                displayVenues(filteredVenues);
-                updateMapMarkers(filteredVenues);
-            });
-        });
+                 // Filter functionality
+         document.querySelectorAll('.filter-btn').forEach(btn => {
+             btn.addEventListener('click', () => {
+                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                 btn.classList.add('active');
+                 
+                 const filter = btn.dataset.filter;
+                 currentFilter = filter;
+                 
+                 let filteredVenues = venues;
+                 
+                 if (filter === 'paid') {
+                     filteredVenues = venues.filter(venue => venue.isPaid);
+                 } else if (filter === 'youth-free') {
+                     filteredVenues = venues.filter(venue => venue.isYouthFree);
+                 }
+                 
+                 displayVenues(filteredVenues);
+                 updateMapMarkers(filteredVenues);
+             });
+         });
 
         // Navigation functionality
         document.querySelectorAll('.nav-item').forEach(item => {
