@@ -1,0 +1,596 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesajlar - TeraMap Hub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="../favicon.ico">
+    <link rel="icon" href="../favicon/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon/favicon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .messages-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .messages-sidebar {
+            width: 400px;
+            background: #ffffff;
+            border-right: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .messages-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e5e5;
+            background: #ffffff;
+        }
+        
+        .messages-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        
+        .back-btn:hover {
+            background-color: #f7f7f7;
+        }
+        
+        .messages-title h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #222222;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 48px;
+            border: 1px solid #dddddd;
+            border-radius: 32px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .search-input:focus {
+            border-color: #222222;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #717171;
+        }
+        
+        .messages-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .message-item {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .message-item:hover {
+            background-color: #f7f7f7;
+        }
+        
+        .message-item.active {
+            background-color: #f7f7f7;
+        }
+        
+        .message-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #dddddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #666666;
+            flex-shrink: 0;
+        }
+        
+        .message-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .message-sender {
+            font-weight: 600;
+            color: #222222;
+            margin-bottom: 4px;
+            font-size: 16px;
+        }
+        
+        .message-preview {
+            color: #717171;
+            font-size: 14px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .message-time {
+            color: #717171;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        
+        .message-status {
+            color: #717171;
+            font-size: 12px;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+        
+        .message-detail {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+        
+        .chat-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e5e5;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #dddddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #666666;
+        }
+        
+        .chat-info {
+            flex: 1;
+        }
+        
+        .chat-name {
+            font-weight: 600;
+            color: #222222;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        
+        .chat-status {
+            color: #717171;
+            font-size: 14px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .chat-message {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .chat-message.sent {
+            align-self: flex-end;
+            background-color: #222222;
+            color: white;
+        }
+        
+        .chat-message.received {
+            align-self: flex-start;
+            background-color: #f7f7f7;
+            color: #222222;
+        }
+        
+        .message-timestamp {
+            font-size: 11px;
+            color: #717171;
+            margin-top: 4px;
+            text-align: right;
+        }
+        
+        .chat-message.received .message-timestamp {
+            text-align: left;
+        }
+        
+        .chat-input-container {
+            padding: 20px 24px;
+            border-top: 1px solid #e5e5e5;
+            background: #ffffff;
+        }
+        
+        .chat-input-box {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #dddddd;
+            border-radius: 24px;
+            background: white;
+        }
+        
+        .chat-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            max-height: 100px;
+            min-height: 20px;
+            font-size: 14px;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+        
+        .send-button {
+            background: #222222;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .send-button:hover {
+            background: #000000;
+        }
+        
+        .send-button:disabled {
+            background: #dddddd;
+            cursor: not-allowed;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #717171;
+            text-align: center;
+            padding: 48px;
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 24px;
+            color: #dddddd;
+        }
+        
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #222222;
+        }
+        
+        .empty-state p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="messages-container">
+        <div class="messages-sidebar" id="messagesSidebar">
+            <div class="messages-header">
+                <div class="messages-title">
+                    <button class="back-btn" onclick="goBack()">
+                        <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
+                    </button>
+                    <h1>Messages</h1>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Mesaj ara..." id="searchInput">
+                </div>
+            </div>
+            <div class="messages-list" id="messagesList">
+            </div>
+        </div>
+        
+        <div class="message-detail" id="messageDetail">
+            <div class="empty-state">
+                <i class="far fa-comments"></i>
+                <h3>Mesajlarınız</h3>
+                <p>Arkadaşlarınızla sohbet etmek için<br>bir konuşma seçin</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentChat = null;
+        let conversations = [];
+        
+        const demoConversations = [
+            {
+                id: 'airbnb-support-1',
+                participant: 'Airbnb Support',
+                avatar: 'AS',
+                lastMessage: 'Glad was able to help you',
+                timestamp: '2:05 AM',
+                status: 'Thursday',
+                messages: [
+                    { id: 1, sender: 'user', text: 'please go throught it', timestamp: '11:05 PM' },
+                    { id: 2, sender: 'support', text: 'Was it helpful please let me know', timestamp: '11:05 PM' },
+                    { id: 3, sender: 'user', text: 'yeah thanks', timestamp: '11:05 PM' },
+                    { id: 4, sender: 'support', text: 'Glad was able to help you', timestamp: '11:12 PM' },
+                    { id: 5, sender: 'support', text: 'for any further details you can contact us we are available 24/7', timestamp: '2:05 AM' },
+                    { id: 6, sender: 'support', text: 'Hi,\n\nMy name is Tanisha, and I\'m a member of the Airbnb Community Support team, and I\'m pleased to have been able to help you with this matter.\n\nI\'m glad to hear that everything has been resolved. We always strive to provide the best possible solutions for our users. Since the issue is now resolved, I\'ll be closing this conversation.', timestamp: '2:05 AM' }
+                ]
+            },
+            {
+                id: 'airbnb-support-2',
+                participant: 'Airbnb Support',
+                avatar: 'AS',
+                lastMessage: 'Airbnb: This conversation is closed. I...',
+                timestamp: 'Thursday',
+                status: 'Closed',
+                messages: [
+                    { id: 1, sender: 'support', text: 'Airbnb: This conversation is closed. If you need assistance, please start a new conversation.', timestamp: 'Thursday' }
+                ]
+            },
+            {
+                id: 'airbnb-support-3',
+                participant: 'Airbnb Support',
+                avatar: 'AS',
+                lastMessage: 'Airbnb: This conversation is closed. I...',
+                timestamp: 'Thursday',
+                status: 'Closed',
+                messages: [
+                    { id: 1, sender: 'support', text: 'Airbnb: This conversation is closed. If you need assistance, please start a new conversation.', timestamp: 'Thursday' }
+                ]
+            },
+            {
+                id: 'airbnb-support-4',
+                participant: 'Airbnb Support',
+                avatar: 'AS',
+                lastMessage: 'Airbnb: This conversation is closed. I...',
+                timestamp: 'Thursday',
+                status: 'Closed',
+                messages: [
+                    { id: 1, sender: 'support', text: 'Airbnb: This conversation is closed. If you need assistance, please start a new conversation.', timestamp: 'Thursday' }
+                ]
+            }
+        ];
+        
+        function loadConversations() {
+            conversations = demoConversations;
+            renderConversationsList();
+        }
+        
+        function renderConversationsList() {
+            const messagesList = document.getElementById('messagesList');
+            messagesList.innerHTML = '';
+            
+            conversations.forEach(conv => {
+                const messageItem = document.createElement('div');
+                messageItem.className = 'message-item';
+                messageItem.onclick = () => openChat(conv);
+                
+                messageItem.innerHTML = 
+                    <div class="message-avatar"></div>
+                    <div class="message-content">
+                        <div class="message-sender"></div>
+                        <div class="message-preview"></div>
+                        <div class="message-time"></div>
+                    </div>
+                    <div class="message-status"></div>
+                ;
+                
+                messagesList.appendChild(messageItem);
+            });
+        }
+        
+        function openChat(conversation) {
+            currentChat = conversation;
+            
+            document.querySelectorAll('.message-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            renderChatDetail();
+        }
+        
+        function renderChatDetail() {
+            const messageDetail = document.getElementById('messageDetail');
+            
+            messageDetail.innerHTML = 
+                <div class="chat-header">
+                    <div class="chat-avatar"></div>
+                    <div class="chat-info">
+                        <div class="chat-name"></div>
+                        <div class="chat-status">Airbnb: This conversation is closed. I... Closed</div>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                </div>
+                <div class="chat-input-container">
+                    <div class="chat-input-box">
+                        <textarea class="chat-input" placeholder="Mesaj yazın..." id="messageInput" rows="1"></textarea>
+                        <button class="send-button" onclick="sendMessage()" id="sendBtn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            ;
+            
+            renderMessages();
+            setupMessageInput();
+        }
+        
+        function renderMessages() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            currentChat.messages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = chat-message ;
+                
+                messageDiv.innerHTML = 
+                    
+                    <div class="message-timestamp"></div>
+                ;
+                
+                chatMessages.appendChild(messageDiv);
+            });
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function setupMessageInput() {
+            const messageInput = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            
+            messageInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+                
+                sendBtn.disabled = !this.value.trim();
+            });
+            
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+        }
+        
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const text = messageInput.value.trim();
+            
+            if (!text) return;
+            
+            const newMessage = {
+                id: Date.now(),
+                sender: 'user',
+                text: text,
+                timestamp: new Date().toLocaleTimeString('tr-TR', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                })
+            };
+            
+            currentChat.messages.push(newMessage);
+            currentChat.lastMessage = text;
+            currentChat.timestamp = newMessage.timestamp;
+            
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            
+            renderMessages();
+            renderConversationsList();
+            
+            setTimeout(() => {
+                const autoReply = {
+                    id: Date.now() + 1,
+                    sender: 'support',
+                    text: 'Mesajınız alındı. Size en kısa sürede dönüş yapacağız.',
+                    timestamp: new Date().toLocaleTimeString('tr-TR', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    })
+                };
+                
+                currentChat.messages.push(autoReply);
+                currentChat.lastMessage = autoReply.text;
+                currentChat.timestamp = autoReply.timestamp;
+                
+                renderMessages();
+                renderConversationsList();
+            }, 1000);
+        }
+        
+        function goBack() {
+            window.location.href = './';
+        }
+        
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const messageItems = document.querySelectorAll('.message-item');
+            
+            messageItems.forEach(item => {
+                const sender = item.querySelector('.message-sender').textContent.toLowerCase();
+                const preview = item.querySelector('.message-preview').textContent.toLowerCase();
+                
+                if (sender.includes(searchTerm) || preview.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        loadConversations();
+    </script>
+</body>
+</html>
