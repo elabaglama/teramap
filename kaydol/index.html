@@ -87,6 +87,27 @@
             margin-top: 0.3rem;
         }
 
+        .coupon-note {
+            background-color: #f0f8ff;
+            border: 1px solid #ba9585;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .coupon-note h3 {
+            color: #ba9585;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .coupon-note p {
+            color: #666;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
         button {
             width: 100%;
             padding: 1rem;
@@ -121,7 +142,7 @@
             position: absolute;
         }
 
-        .error-popup {
+        .error-popup, .payment-popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -133,6 +154,8 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             z-index: 1000;
             text-align: center;
+            max-width: 400px;
+            width: 90%;
         }
 
         .error-popup h3 {
@@ -140,10 +163,29 @@
             margin-bottom: 1rem;
         }
 
-        .error-popup button {
-            margin-top: 1rem;
-            width: auto;
-            padding: 0.5rem 2rem;
+        .payment-popup h3 {
+            color: #ba9585;
+            margin-bottom: 1rem;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .popup-buttons button {
+            flex: 1;
+            margin: 0;
+        }
+
+        .btn-secondary {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ccc;
         }
 
         .overlay {
@@ -172,10 +214,17 @@
             </div>
             <h1>Hoş Geldiniz</h1>
             <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
+            
+            <div class="coupon-note">
+                <h3>🎟️ Kupon Kodu ile Ücretsiz Kayıt</h3>
+                <p>Kupon kodunuz varsa ücretsiz olarak kayıt olabilirsiniz!</p>
+            </div>
+            
             <form id="signupForm" onsubmit="return validateForm(event)">
                 <div class="form-group">
-                    <label for="inviteCode">Kaydolma Kodu</label>
-                    <input type="text" id="inviteCode" name="inviteCode" required>
+                    <label for="inviteCode">Kupon Kodu (İsteğe Bağlı)</label>
+                    <input type="text" id="inviteCode" name="inviteCode" placeholder="5 haneli kupon kodunuzu girin" maxlength="5" style="text-transform: uppercase;">
+                    <div class="hint">Kupon kodunuz yoksa kayıt için ödeme yapmanız gerekecektir</div>
                 </div>
                 <div class="form-group">
                     <label for="fullName">Ad Soyad</label>
@@ -194,7 +243,7 @@
                     <input type="password" id="password" name="password" required>
                     <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
                 </div>
-                <button type="submit">Kaydol</button>
+                <button type="submit">Kayıt Ol</button>
             </form>
         </div>
     </div>
@@ -203,18 +252,37 @@
         <div class="circle" style="bottom: 30%; right: 70%;"></div>
     </div>
 
+    <!-- Error Popup -->
     <div class="error-popup" id="errorPopup">
         <h3>Hata</h3>
         <p id="errorMessage"></p>
         <button onclick="closeErrorPopup()">Tamam</button>
     </div>
+
+    <!-- Payment Popup -->
+    <div class="payment-popup" id="paymentPopup">
+        <h3>💳 Ödeme Gerekli</h3>
+        <p>Kupon kodunuz geçerli değil veya kullanılmış. Kayıt olmak için ödeme yapmanız gerekmektedir.</p>
+        <p><strong>Kayıt Ücreti: ₺99</strong></p>
+        <div class="popup-buttons">
+            <button class="btn-secondary" onclick="closePaymentPopup()">İptal</button>
+            <button onclick="redirectToPayment()">Ödeme Yap</button>
+        </div>
+    </div>
+
     <div class="overlay" id="overlay"></div>
 
+    <script src="/js/coupon-system.js"></script>
     <script>
+        // Kupon kodlarını büyük harfe çevir
+        document.getElementById('inviteCode').addEventListener('input', function(e) {
+            e.target.value = e.target.value.toUpperCase();
+        });
+
         async function validateForm(event) {
             event.preventDefault();
             
-            const inviteCode = document.getElementById('inviteCode').value;
+            const inviteCode = document.getElementById('inviteCode').value.trim();
             const password = document.getElementById('password').value;
             const email = document.getElementById('email').value;
             const fullName = document.getElementById('fullName').value;
@@ -226,50 +294,88 @@
                 return false;
             }
 
-            try {
-                // Davetiye kodu kontrolü
-                const response = await fetch('/api/validate-invite', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ inviteCode })
-                });
-
-                const data = await response.json();
-
-                if (!data.valid) {
-                    showError('Geçersiz davetiye kodu. Lütfen size verilen kodu doğru girdiğinizden emin olun.');
+            // Kupon kodu varsa kontrol et
+            if (inviteCode) {
+                try {
+                    const isValidCoupon = await window.couponSystem.validateCoupon(inviteCode);
+                    if (!isValidCoupon) {
+                        showPaymentPopup();
+                        return false;
+                    }
+                    // Geçerli kupon ile kayıt
+                    await registerWithCoupon(inviteCode, email, password, fullName, communityName);
+                } catch (error) {
+                    showError('Kupon kontrolü sırasında bir hata oluştu. Lütfen tekrar deneyin.');
                     return false;
                 }
-
-                // Kullanıcı kaydı
-                const registerResponse = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        inviteCode,
-                        email,
-                        password,
-                        fullName,
-                        communityName
-                    })
-                });
-
-                const registerData = await registerResponse.json();
-
-                if (registerData.success) {
-                    window.location.href = '/hub/giris?registered=true';
-                } else {
-                    showError(registerData.message || 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
-                }
-
-            } catch (error) {
-                showError('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+            } else {
+                // Kupon kodu yok, ödeme gerekli
+                showPaymentPopup();
                 return false;
             }
+        }
+
+        async function registerWithCoupon(couponCode, email, password, fullName, communityName) {
+            try {
+                const userInfo = {
+                    email,
+                    fullName,
+                    communityName,
+                    password // Gerçek uygulamada hash'lenmiş olarak saklanacak
+                };
+
+                // Kupon kodunu kullanılmış olarak işaretle
+                const couponUsed = await window.couponSystem.useCoupon(couponCode, userInfo);
+                
+                if (!couponUsed) {
+                    showError('Kupon kodu işlenirken bir hata oluştu.');
+                    return;
+                }
+
+                // Kullanıcı kaydı simülasyonu
+                console.log('Kayıt bilgileri:', {
+                    couponCode,
+                    ...userInfo,
+                    registeredAt: new Date().toISOString()
+                });
+
+                // Başarılı kayıt mesajı
+                showSuccessMessage(couponCode);
+                
+                // 2 saniye sonra yönlendir
+                setTimeout(() => {
+                    window.location.href = '/hub/giris?registered=true';
+                }, 2000);
+                
+            } catch (error) {
+                showError('Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        }
+
+        function showSuccessMessage(couponCode) {
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1001;
+                font-family: Arial, sans-serif;
+            `;
+            successDiv.innerHTML = `
+                <h4 style="margin: 0 0 0.5rem 0;">✅ Kayıt Başarılı!</h4>
+                <p style="margin: 0; font-size: 0.9rem;">Kupon kodu: <strong>${couponCode}</strong> kullanıldı.</p>
+            `;
+            document.body.appendChild(successDiv);
+
+            // 2 saniye sonra kaldır
+            setTimeout(() => {
+                document.body.removeChild(successDiv);
+            }, 2000);
         }
 
         function showError(message) {
@@ -282,12 +388,32 @@
             overlay.style.display = 'block';
         }
 
+        function showPaymentPopup() {
+            const paymentPopup = document.getElementById('paymentPopup');
+            const overlay = document.getElementById('overlay');
+            
+            paymentPopup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
         function closeErrorPopup() {
             const errorPopup = document.getElementById('errorPopup');
             const overlay = document.getElementById('overlay');
             
             errorPopup.style.display = 'none';
             overlay.style.display = 'none';
+        }
+
+        function closePaymentPopup() {
+            const paymentPopup = document.getElementById('paymentPopup');
+            const overlay = document.getElementById('overlay');
+            
+            paymentPopup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        function redirectToPayment() {
+            window.open('https://www.shopier.com/35983738', '_blank');
         }
     </script>
 </body>

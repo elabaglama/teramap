@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kupon Yönetimi - Tera Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #ba9585;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #ba9585;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #ba9585;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #a88574;
+        }
+
+        .btn-secondary {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ccc;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .codes-section {
+            margin-top: 2rem;
+        }
+
+        .codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .code-item {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .code-available {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .code-used {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .used-coupons-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .used-coupons-table th,
+        .used-coupons-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .used-coupons-table th {
+            background-color: #ba9585;
+            color: white;
+        }
+
+        .used-coupons-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-active {
+            background-color: #28a745;
+        }
+
+        .status-used {
+            background-color: #dc3545;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ba9585;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎟️ Kupon Kodu Yönetim Paneli</h1>
+        
+        <!-- İstatistikler -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 id="totalCoupons">50</h3>
+                <p>Toplam Kupon</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="usedCoupons">0</h3>
+                <p>Kullanılan Kupon</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="remainingCoupons">50</h3>
+                <p>Kalan Kupon</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="usageRate">0%</h3>
+                <p>Kullanım Oranı</p>
+            </div>
+        </div>
+
+        <!-- Kontroller -->
+        <div class="controls">
+            <button class="btn-primary" onclick="refreshData()">🔄 Verileri Yenile</button>
+            <button class="btn-secondary" onclick="showAllCodes()">📋 Tüm Kodları Göster</button>
+            <button class="btn-secondary" onclick="exportUsedCoupons()">📊 Rapor İndir</button>
+            <button class="btn-danger" onclick="clearUsedCoupons()">⚠️ Kullanılan Kodları Sıfırla</button>
+        </div>
+
+        <!-- Kullanılan Kuponlar -->
+        <div class="section">
+            <h2>Son Kullanılan Kuponlar</h2>
+            <div id="usedCouponsContainer">
+                <p>Henüz kullanılan kupon bulunmuyor.</p>
+            </div>
+        </div>
+
+        <!-- Tüm Kodlar -->
+        <div class="section hidden" id="allCodesSection">
+            <h2>Tüm Kupon Kodları</h2>
+            <div class="codes-grid" id="allCodesGrid">
+                <!-- Kodlar buraya yüklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/coupon-system.js"></script>
+    <script>
+        let allCodes = [];
+        let usedCouponsData = [];
+
+        // Sayfa yüklendiğinde verileri getir
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(refreshData, 500); // Kupon sistemi yüklenmesini bekle
+        });
+
+        async function refreshData() {
+            try {
+                // Sistem durumunu al
+                const status = await window.couponSystem.getSystemStatus();
+                
+                // İstatistikleri güncelle
+                document.getElementById('totalCoupons').textContent = status.totalCoupons;
+                document.getElementById('usedCoupons').textContent = status.usedCoupons;
+                document.getElementById('remainingCoupons').textContent = status.remainingCoupons;
+                document.getElementById('usageRate').textContent = 
+                    Math.round((status.usedCoupons / status.totalCoupons) * 100) + '%';
+
+                // Kullanılan kuponları güncelle
+                usedCouponsData = window.couponSystem.getUsedCoupons();
+                updateUsedCouponsTable();
+
+                // Tüm kodları yükle
+                await loadAllCodes();
+
+                console.log('Veriler güncellendi:', status);
+            } catch (error) {
+                console.error('Veri yenileme hatası:', error);
+                alert('Veriler yüklenirken bir hata oluştu.');
+            }
+        }
+
+        async function loadAllCodes() {
+            try {
+                const response = await fetch('/data/invite_codes.json');
+                const data = await response.json();
+                allCodes = data.codes;
+                
+                if (document.getElementById('allCodesSection').classList.contains('hidden')) {
+                    return; // Eğer gizliyse yükleme
+                }
+                
+                updateAllCodesDisplay();
+            } catch (error) {
+                console.error('Kod yükleme hatası:', error);
+            }
+        }
+
+        function updateUsedCouponsTable() {
+            const container = document.getElementById('usedCouponsContainer');
+            
+            if (usedCouponsData.length === 0) {
+                container.innerHTML = '<p>Henüz kullanılan kupon bulunmuyor.</p>';
+                return;
+            }
+
+            // Son 10 kullanımı göster
+            const recentUsage = usedCouponsData.slice(-10).reverse();
+            
+            const table = document.createElement('table');
+            table.className = 'used-coupons-table';
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Kupon Kodu</th>
+                        <th>Kullanıcı</th>
+                        <th>E-posta</th>
+                        <th>Kullanım Tarihi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${recentUsage.map(record => `
+                        <tr>
+                            <td><strong>${record.code}</strong></td>
+                            <td>${record.userName}</td>
+                            <td>${record.userEmail}</td>
+                            <td>${new Date(record.usedAt).toLocaleString('tr-TR')}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+            
+            container.innerHTML = '';
+            container.appendChild(table);
+        }
+
+        function updateAllCodesDisplay() {
+            const grid = document.getElementById('allCodesGrid');
+            const usedCodesSet = new Set(usedCouponsData.map(r => r.code));
+            
+            grid.innerHTML = allCodes.map(codeObj => {
+                const isUsed = usedCodesSet.has(codeObj.code);
+                return `
+                    <div class="code-item ${isUsed ? 'code-used' : 'code-available'}">
+                        <div class="status-indicator ${isUsed ? 'status-used' : 'status-active'}"></div>
+                        ${codeObj.code}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showAllCodes() {
+            const section = document.getElementById('allCodesSection');
+            section.classList.toggle('hidden');
+            
+            if (!section.classList.contains('hidden')) {
+                updateAllCodesDisplay();
+            }
+        }
+
+        function exportUsedCoupons() {
+            if (usedCouponsData.length === 0) {
+                alert('Henüz kullanılan kupon bulunmuyor.');
+                return;
+            }
+
+            const csvContent = [
+                'Kupon Kodu,Kullanıcı Adı,E-posta,Kullanım Tarihi',
+                ...usedCouponsData.map(record => 
+                    `${record.code},"${record.userName}","${record.userEmail}","${new Date(record.usedAt).toLocaleString('tr-TR')}"`
+                )
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `kupon_raporu_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function clearUsedCoupons() {
+            if (confirm('Tüm kullanılan kupon kayıtlarını silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                window.debugCoupons.clearUsedCoupons();
+                refreshData();
+                alert('Kullanılan kupon kayıtları temizlendi.');
+            }
+        }
+
+        // Otomatik yenileme (5 dakikada bir)
+        setInterval(refreshData, 5 * 60 * 1000);
+    </script>
+</body>
+</html> 
