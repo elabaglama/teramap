@@ -333,6 +333,35 @@
             font-size: 16px;
             line-height: 1.5;
         }
+        
+        @media (max-width: 768px) {
+            .messages-sidebar {
+                width: 100%;
+                position: absolute;
+                z-index: 10;
+                height: 100vh;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .messages-sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .message-detail {
+                width: 100%;
+            }
+            
+            .mobile-back {
+                display: block;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-back {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -434,15 +463,15 @@
                 messageItem.className = 'message-item';
                 messageItem.onclick = () => openChat(conv);
                 
-                messageItem.innerHTML = 
-                    <div class="message-avatar"></div>
+                messageItem.innerHTML = `
+                    <div class="message-avatar">${conv.avatar}</div>
                     <div class="message-content">
-                        <div class="message-sender"></div>
-                        <div class="message-preview"></div>
-                        <div class="message-time"></div>
+                        <div class="message-sender">${conv.participant}</div>
+                        <div class="message-preview">${conv.lastMessage}</div>
+                        <div class="message-time">${conv.timestamp}</div>
                     </div>
-                    <div class="message-status"></div>
-                ;
+                    <div class="message-status">${conv.status}</div>
+                `;
                 
                 messagesList.appendChild(messageItem);
             });
@@ -457,16 +486,23 @@
             event.currentTarget.classList.add('active');
             
             renderChatDetail();
+            
+            if (window.innerWidth <= 768) {
+                document.getElementById('messagesSidebar').classList.remove('open');
+            }
         }
         
         function renderChatDetail() {
             const messageDetail = document.getElementById('messageDetail');
             
-            messageDetail.innerHTML = 
+            messageDetail.innerHTML = `
                 <div class="chat-header">
-                    <div class="chat-avatar"></div>
+                    <button class="back-btn mobile-back" onclick="closeChatMobile()">
+                        <i class="fas fa-arrow-left" style="font-size: 16px;"></i>
+                    </button>
+                    <div class="chat-avatar">${currentChat.avatar}</div>
                     <div class="chat-info">
-                        <div class="chat-name"></div>
+                        <div class="chat-name">${currentChat.participant}</div>
                         <div class="chat-status">Airbnb: This conversation is closed. I... Closed</div>
                     </div>
                 </div>
@@ -480,7 +516,7 @@
                         </button>
                     </div>
                 </div>
-            ;
+            `;
             
             renderMessages();
             setupMessageInput();
@@ -492,12 +528,12 @@
             
             currentChat.messages.forEach(message => {
                 const messageDiv = document.createElement('div');
-                messageDiv.className = chat-message ;
+                messageDiv.className = `chat-message ${message.sender === 'user' ? 'sent' : 'received'}`;
                 
-                messageDiv.innerHTML = 
-                    
-                    <div class="message-timestamp"></div>
-                ;
+                messageDiv.innerHTML = `
+                    ${message.text.replace(/\n/g, '<br>')}
+                    <div class="message-timestamp">${message.timestamp}</div>
+                `;
                 
                 chatMessages.appendChild(messageDiv);
             });
@@ -574,6 +610,13 @@
             window.location.href = './';
         }
         
+        function closeChatMobile() {
+            document.getElementById('messagesSidebar').classList.add('open');
+        }
+        
+        window.sendMessage = sendMessage;
+        window.closeChatMobile = closeChatMobile;
+        
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const messageItems = document.querySelectorAll('.message-item');
@@ -590,7 +633,10 @@
             });
         });
         
-        loadConversations();
+        // Sayfa yüklendiğinde konuşmaları yükle
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConversations();
+        });
     </script>
 </body>
 </html>
