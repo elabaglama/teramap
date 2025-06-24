@@ -3,279 +3,582 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mekanlar - TeraMap Hub</title>
+    <title>Seçkin Mekanlarımız - TeraMap Hub</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: #fbfbfb;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .hub-header {
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
             background: white;
             padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        .hub-logo img {
-            height: 40px;
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #8b7355;
         }
-        
-        .hub-nav {
+
+        .nav-menu {
             display: flex;
+            gap: 3rem;
             align-items: center;
-            gap: 2rem;
         }
-        
-        .hub-nav a {
-            color: #333;
+
+        .nav-item {
+            color: #666;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
+            position: relative;
         }
-        
-        .hub-nav a:hover {
-            color: #ba9585;
+
+        .nav-item.active {
+            color: #8b7355;
+            font-weight: 600;
         }
-        
-        .user-info {
+
+        .nav-item:hover {
+            color: #8b7355;
+        }
+
+        .user-profile {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
-        .user-avatar {
-            width: 35px;
-            height: 35px;
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #ba9585;
+            background: #8b7355;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 600;
         }
-        
-        .logout-btn {
-            background: #ba9585;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
             cursor: pointer;
-            transition: background 0.3s ease;
         }
-        
-        .logout-btn:hover {
-            background: #a88574;
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
         }
-        
-        .main-content {
+
+        /* Main Content */
+        .main-container {
             margin-top: 80px;
-            padding: 2rem;
             max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
+            padding: 2rem;
         }
-        
-        .venues-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/general/main-image.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            margin-bottom: 3rem;
+
+        .page-header {
+            margin-bottom: 2rem;
         }
-        
-        .venues-hero h1 {
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
         }
-        
-        .venues-hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
+
+        .page-subtitle {
+            color: #666;
+            font-size: 1.1rem;
         }
-        
-        .venues-grid {
+
+        /* Filter Section */
+        .filters-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background: #8b7355;
+            border-color: #8b7355;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            border-color: #8b7355;
+            color: #8b7355;
+        }
+
+        /* Content Layout */
+        .content-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: 1fr 400px;
             gap: 2rem;
-            margin-top: 2rem;
         }
-        
+
+        /* Venues Grid */
+        .venues-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
         .venue-card {
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
-        
+
         .venue-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
-        
+
         .venue-image {
             height: 200px;
             background-size: cover;
             background-position: center;
             position: relative;
         }
-        
-        .venue-details {
+
+        .venue-category-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(139, 115, 85, 0.9);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .venue-content {
             padding: 1.5rem;
         }
-        
+
         .venue-name {
-            font-size: 1.4rem;
-            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
             color: #333;
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
-        
+
         .venue-location {
             color: #666;
-            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-        
-        .venue-dates {
             margin-bottom: 1rem;
         }
-        
-        .date-item {
-            margin-bottom: 0.5rem;
+
+        .venue-specs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
             font-size: 0.9rem;
             color: #666;
         }
-        
+
+        .venue-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-tag {
+            background: #f0f0f0;
+            color: #666;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
         .venue-actions {
             display: flex;
             gap: 1rem;
         }
-        
-        .message-btn {
-            flex: 1;
-            padding: 0.8rem;
-            background: #ba9585;
+
+        .btn-primary {
+            background: #8b7355;
             color: white;
             border: none;
+            padding: 0.8rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            font-weight: 500;
+            flex: 1;
         }
-        
-        .message-btn:hover {
-            background: #a88574;
+
+        .btn-primary:hover {
+            background: #7a634a;
         }
-        
-        .details-btn {
-            padding: 0.8rem 1.2rem;
+
+        .btn-secondary {
             background: transparent;
-            color: #ba9585;
-            border: 2px solid #ba9585;
+            color: #8b7355;
+            border: 2px solid #8b7355;
+            padding: 0.8rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
-        
-        .details-btn:hover {
-            background: #ba9585;
+
+        .btn-secondary:hover {
+            background: #8b7355;
             color: white;
         }
-        
+
+        /* Map Section */
+        .map-section {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 100px;
+        }
+
+        .map-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .content-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .map-section {
+                position: relative;
+                top: 0;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .venues-section {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-section {
+                flex-wrap: wrap;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes slideIn {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
         .loading {
             text-align: center;
             padding: 3rem;
             color: #666;
         }
-        
-        @media (max-width: 768px) {
-            .hub-header {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .hub-nav {
-                gap: 1rem;
-            }
-            
-            .main-content {
-                margin-top: 120px;
-                padding: 1rem;
-            }
-            
-            .venues-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .venues-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
-    <header class="hub-header">
-        <div class="hub-logo">
-            <img src="../images/general/teramaplogo.png" alt="TeraMap Hub">
-        </div>
-        
-        <nav class="hub-nav">
-            <a href="/hub">Ana Sayfa</a>
-            <a href="/hub/mekanlar" style="color: #ba9585;">Mekanlar</a>
-            <a href="/hub/profil">Profil</a>
-        </nav>
-        
-        <div class="user-info">
-            <div class="user-avatar" id="user-avatar">U</div>
-            <span id="user-name">Kullanıcı</span>
-            <button class="logout-btn" onclick="logout()">Çıkış</button>
-        </div>
-    </header>
-    
-    <main class="main-content">
-        <div class="venues-hero">
-            <div>
-                <h1>Mekanları Keşfedin</h1>
-                <p>Size özel seçilmiş mekanları inceleyin ve mesaj gönderin</p>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">TeraMap</div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-section="venues">Mekanlar</a>
+                <a href="#" class="nav-item" data-section="messages">Mesajlar</a>
+                <a href="#" class="nav-item" data-section="notifications">Bildirimler</a>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="profile-avatar" id="user-avatar">U</div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
-        
-        <div class="loading" id="loading">
-            <i class="fas fa-spinner fa-spin fa-2x"></i>
-            <p>Mekanlar yükleniyor...</p>
+    </header>
+
+    <main class="main-container">
+        <!-- Venues Section -->
+        <div id="venues-section" class="section active">
+            <div class="page-header">
+                <h1 class="page-title">Seçkin Mekanlarımız</h1>
+                <p class="page-subtitle">Etkinlikleriniz için özenle seçilmiş, İstanbul'un en özel mekanları arasından size en uygun olanı seçin.</p>
+            </div>
+
+            <div class="filters-section">
+                <button class="filter-btn active" data-filter="all">Tümü</button>
+                <button class="filter-btn" data-filter="free">Ücretsiz</button>
+                <button class="filter-btn" data-filter="youth-free">Gençlik Ekiplerine Ücretsiz</button>
+            </div>
+
+            <div class="content-layout">
+                <div class="venues-section" id="venues-grid">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p>Mekanlar yükleniyor...</p>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <div class="map-header">
+                        <i class="fas fa-map-marker-alt"></i> Mekan Konumları
+                    </div>
+                    <div id="map"></div>
+                </div>
+            </div>
         </div>
-        
-        <div class="venues-grid" id="venues-grid" style="display: none;">
-            <!-- Venues will be loaded here -->
+
+        <!-- Messages Section -->
+        <div id="messages-section" class="section" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Mesajlar</h1>
+                <p class="page-subtitle">Mekan sahipleri ile iletişim kurduğunuz mesajlar</p>
+            </div>
+            <div style="text-align: center; padding: 3rem; color: #666;">
+                <i class="fas fa-envelope fa-3x" style="margin-bottom: 1rem; opacity: 0.5;"></i>
+                <p>Henüz mesajınız bulunmuyor.</p>
+            </div>
+        </div>
+
+        <!-- Notifications Section -->
+        <div id="notifications-section" class="section" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Bildirimler</h1>
+                <p class="page-subtitle">Size özel bildirimler ve güncellemeler</p>
+            </div>
+            <div style="text-align: center; padding: 3rem; color: #666;">
+                <i class="fas fa-bell fa-3x" style="margin-bottom: 1rem; opacity: 0.5;"></i>
+                <p>Henüz bildirimin bulunmuyor.</p>
+            </div>
         </div>
     </main>
 
+    <!-- Venue Detail Modal -->
+    <div id="venue-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-venue-name">Mekan Detayı</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image" id="modal-venue-image"></div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">Açıklama</div>
+                    <p id="modal-venue-description"></p>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-title">Özellikler</div>
+                    <div id="modal-venue-features"></div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-title">Müsait Tarihler</div>
+                    <div id="modal-venue-dates"></div>
+                </div>
+
+                <div class="contact-info">
+                    <div class="detail-title">İletişim</div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span id="modal-venue-phone"></span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span id="modal-venue-email"></span>
+                    </div>
+                </div>
+
+                <div class="venue-actions">
+                    <button class="btn-primary" onclick="sendMessage()">
+                        <i class="fas fa-envelope"></i> Mesaj Gönder
+                    </button>
+                    <button class="btn-secondary" onclick="closeModal()">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
@@ -293,92 +596,209 @@
         const auth = getAuth(app);
         
         let currentUser = null;
-        
+        let venues = [];
+        let map;
+        let markers = [];
+        let currentFilter = 'all';
+
         // Auth state management
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                document.getElementById('user-name').textContent = user.displayName || user.email;
                 document.getElementById('user-avatar').textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
                 loadVenues();
+                initMap();
             } else {
                 window.location.href = '/hub/giris';
             }
         });
-        
-        // Load venues from JSON
+
+        // Load venues
         async function loadVenues() {
             try {
                 const response = await fetch('../data/venues.json');
                 const data = await response.json();
-                const venues = data.venues || [];
+                venues = data.venues || [];
                 displayVenues(venues);
+                updateMapMarkers(venues);
             } catch (error) {
                 console.error('Error loading venues:', error);
-                document.getElementById('loading').innerHTML = '<p>Mekanlar yüklenirken hata oluştu</p>';
+                document.getElementById('venues-grid').innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">Mekanlar yüklenirken hata oluştu</p>';
             }
         }
-        
-        function displayVenues(venues) {
+
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([41.0267, 28.9744], 12);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: ' OpenStreetMap contributors'
+            }).addTo(map);
+        }
+
+        // Update map markers
+        function updateMapMarkers(venueList) {
+            // Clear existing markers
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+
+            // Add new markers
+            venueList.forEach(venue => {
+                if (venue.coordinates) {
+                    const marker = L.marker([venue.coordinates[1], venue.coordinates[0]]).addTo(map);
+                    marker.bindPopup(`
+                        <div style="text-align: center;">
+                            <h4>${venue.name}</h4>
+                            <p>${venue.location}</p>
+                            <button onclick="showVenueDetail('${venue.id}')" style="background: #8b7355; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Detayları Gör</button>
+                        </div>
+                    `);
+                    markers.push(marker);
+                }
+            });
+        }
+
+        // Display venues
+        function displayVenues(venueList) {
             const grid = document.getElementById('venues-grid');
-            const loading = document.getElementById('loading');
             
-            loading.style.display = 'none';
-            grid.style.display = 'grid';
-            
-            if (venues.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">Henüz mekan bulunmuyor.</p>';
+            if (venueList.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">Bu filtreye uygun mekan bulunamadı.</p>';
                 return;
             }
             
-            grid.innerHTML = venues.map(venue => {
-                const dates = venue.availableDates || [];
-                const dateItems = dates.slice(0, 3).map(date => {
-                    const formattedDate = new Date(date).toLocaleDateString('tr-TR');
-                    return `<div class="date-item">• ${formattedDate}</div>`;
-                }).join('');
-                
-                return `
-                    <div class="venue-card">
-                        <div class="venue-image" style="background-image: url('${venue.image || '../images/venues/default.jpg'}')"></div>
-                        <div class="venue-details">
-                            <h3 class="venue-name">${venue.name}</h3>
-                            <div class="venue-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                ${venue.location}
+            grid.innerHTML = venueList.map(venue => `
+                <div class="venue-card" onclick="showVenueDetail('${venue.id}')">
+                    <div class="venue-image" style="background-image: url('${venue.image}')">
+                        <div class="venue-category-badge">${venue.category}</div>
+                    </div>
+                    <div class="venue-content">
+                        <h3 class="venue-name">${venue.name}</h3>
+                        <div class="venue-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${venue.location}
+                        </div>
+                        <div class="venue-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-users"></i>
+                                ${venue.capacity}
                             </div>
-                            <div class="venue-dates">
-                                <div style="font-weight: 500; margin-bottom: 0.5rem; color: #333;">Müsait Tarihler:</div>
-                                ${dateItems || '<div class="date-item">Henüz tarih belirtilmemiş</div>'}
-                            </div>
-                            <div class="venue-actions">
-                                <button class="message-btn" onclick="sendMessage('${venue.id}', '${venue.name}')">
-                                    <i class="fas fa-envelope"></i> Mesaj Gönder
-                                </button>
-                                <button class="details-btn" onclick="showDetails('${venue.id}')">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
+                            <div class="spec-item">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                                ${venue.area}
                             </div>
                         </div>
+                        <div class="venue-features">
+                            ${venue.features.slice(0, 3).map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                        </div>
+                        <div class="venue-actions">
+                            <button class="btn-primary" onclick="event.stopPropagation(); sendMessage('${venue.id}', '${venue.name}')">
+                                <i class="fas fa-envelope"></i> İletişim
+                            </button>
+                        </div>
                     </div>
-                `;
-            }).join('');
+                </div>
+            `).join('');
         }
-        
-        // Message functionality
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                currentFilter = filter;
+                
+                let filteredVenues = venues;
+                
+                if (filter === 'free') {
+                    filteredVenues = venues.filter(venue => !venue.isPaid);
+                } else if (filter === 'youth-free') {
+                    filteredVenues = venues.filter(venue => venue.isYouthFree);
+                }
+                
+                displayVenues(filteredVenues);
+                updateMapMarkers(filteredVenues);
+            });
+        });
+
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
+                
+                const section = item.dataset.section;
+                document.getElementById(section + '-section').style.display = 'block';
+            });
+        });
+
+        // Show venue detail modal
+        window.showVenueDetail = function(venueId) {
+            const venue = venues.find(v => v.id === venueId);
+            if (!venue) return;
+            
+            document.getElementById('modal-venue-name').textContent = venue.name;
+            document.getElementById('modal-venue-image').style.backgroundImage = `url('${venue.image}')`;
+            document.getElementById('modal-venue-description').textContent = venue.description;
+            
+            document.getElementById('modal-venue-features').innerHTML = venue.features.map(feature => 
+                `<span class="feature-tag">${feature}</span>`
+            ).join('');
+            
+            const dates = venue.availableDates.map(date => {
+                const formattedDate = new Date(date).toLocaleDateString('tr-TR');
+                return `<div style="margin-bottom: 0.5rem;"><i class="fas fa-calendar"></i> ${formattedDate}</div>`;
+            }).join('');
+            
+            document.getElementById('modal-venue-dates').innerHTML = dates;
+            document.getElementById('modal-venue-phone').textContent = venue.contact.phone;
+            document.getElementById('modal-venue-email').textContent = venue.contact.email;
+            
+            document.getElementById('venue-modal').style.display = 'block';
+            
+            // Store current venue for messaging
+            window.currentVenueForMessage = venue;
+        };
+
+        // Close modal
+        window.closeModal = function() {
+            document.getElementById('venue-modal').style.display = 'none';
+        };
+
+        // Send message
         window.sendMessage = function(venueId, venueName) {
-            const message = prompt(`${venueName} için mesajınız:`);
-            if (message && message.trim()) {
-                // Here you would typically send the message to a backend
-                alert('Mesajınız gönderildi!');
+            if (venueId && venueName) {
+                const venue = venues.find(v => v.id === venueId);
+                const message = prompt(`${venueName || venue.name} için mesajınız:`);
+                if (message && message.trim()) {
+                    alert('Mesajınız gönderildi! Mekan sahibi en kısa sürede size dönüş yapacaktır.');
+                }
+            } else if (window.currentVenueForMessage) {
+                const message = prompt(`${window.currentVenueForMessage.name} için mesajınız:`);
+                if (message && message.trim()) {
+                    alert('Mesajınız gönderildi! Mekan sahibi en kısa sürede size dönüş yapacaktır.');
+                    closeModal();
+                }
             }
         };
-        
-        // Show details functionality
-        window.showDetails = function(venueId) {
-            alert('Detay sayfası yakında eklenecek!');
-        };
-        
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('venue-modal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with X button
+        document.querySelector('.close').addEventListener('click', closeModal);
+
         // Logout functionality
         window.logout = async function() {
             try {

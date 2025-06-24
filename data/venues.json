@@ -2,36 +2,123 @@
     "venues": [
         {
             "id": "1",
-            "name": "Kadıköy Kültür Merkezi",
-            "location": "Kadıköy, İstanbul",
-            "image": "https://picsum.photos/800/600",
+            "name": "Postane Galata",
+            "location": "Galata, Beyoğlu",
+            "image": "../images/venues/postane.jpg",
+            "category": "Gençlik Ekiplerine Ücretsiz",
+            "capacity": "50-80 kişi",
+            "area": "20 m²",
+            "price": "Ücretsiz",
+            "isPaid": false,
+            "isYouthFree": true,
+            "coordinates": [28.9744, 41.0267],
+            "description": "Galata'nın kalbinde, tarihi bir bölümde konumlanmış ve genç atmosferiyle sergiler, performanslar ve sahne etkinlikleri için ideal bir ortam sunuyor.",
+            "features": ["Sergi", "Performans", "Kültür", "Teknik", "Sahne"],
             "availableDates": [
-                "2024-07-01T00:00:00.000Z",
-                "2024-07-15T00:00:00.000Z",
-                "2024-08-01T00:00:00.000Z"
-            ]
+                "2024-12-15T00:00:00.000Z",
+                "2024-12-20T00:00:00.000Z",
+                "2025-01-05T00:00:00.000Z"
+            ],
+            "contact": {
+                "phone": "+90 212 555 0101",
+                "email": "info@postanegalata.com"
+            }
         },
         {
             "id": "2",
-            "name": "Beşiktaş Sanat Merkezi",
-            "location": "Beşiktaş, İstanbul",
-            "image": "https://picsum.photos/800/600",
+            "name": "Bahat ve Bahçeli Ev",
+            "location": "Sarıyer, İstanbul",
+            "image": "../images/venues/halic.jpg",
+            "category": "Ücretli & Ücretsiz",
+            "capacity": "35 kişi",
+            "area": "120 m²",
+            "price": "Ücretli",
+            "isPaid": true,
+            "isYouthFree": false,
+            "coordinates": [29.0464, 41.1061],
+            "description": "Şehrin merkezinde, huzurlu bir bahçeyle çevrilmiş modern düzenlemeli rüzel bir mekan. Küçük grup etkinlikleri için ideal bir ortam sunuyor.",
+            "features": ["Bahçe", "Modern", "Özel", "Küçük"],
             "availableDates": [
-                "2024-07-05T00:00:00.000Z",
-                "2024-07-20T00:00:00.000Z",
-                "2024-08-05T00:00:00.000Z"
-            ]
+                "2024-12-18T00:00:00.000Z",
+                "2024-12-25T00:00:00.000Z",
+                "2025-01-10T00:00:00.000Z"
+            ],
+            "contact": {
+                "phone": "+90 212 555 0102",
+                "email": "info@bahatbahceli.com"
+            }
         },
         {
             "id": "3",
-            "name": "Üsküdar Gençlik Merkezi",
-            "location": "Üsküdar, İstanbul",
-            "image": "https://picsum.photos/800/600",
+            "name": "Fener Evi-ş Haliç Sanat",
+            "location": "Fener, Fatih",
+            "image": "../images/venues/borusan.jpg",
+            "category": "Ücretli Etkinlik",
+            "capacity": "50-70 kişi",
+            "area": "180 m²",
+            "price": "Ücretli",
+            "isPaid": true,
+            "isYouthFree": false,
+            "coordinates": [28.9497, 41.0267],
+            "description": "Haliç manzarasıyla eşsiz bir konuma sahip olan Bizans-era etkilerinin hâlinde yer alan bu mekan, sanat sergileri ve küçük değişik etkinlikler için ideal.",
+            "features": ["Sanat", "Manzara", "Sergi", "Workshop"],
             "availableDates": [
-                "2024-07-10T00:00:00.000Z",
-                "2024-07-25T00:00:00.000Z",
-                "2024-08-10T00:00:00.000Z"
-            ]
+                "2024-12-22T00:00:00.000Z",
+                "2024-12-28T00:00:00.000Z",
+                "2025-01-15T00:00:00.000Z"
+            ],
+            "contact": {
+                "phone": "+90 212 555 0103",
+                "email": "info@fenerhalic.com"
+            }
+        },
+        {
+            "id": "4",
+            "name": "Metrohan Sanat Merkezi",
+            "location": "Karaköy, Beyoğlu",
+            "image": "../images/venues/metrohan.jpg",
+            "category": "Gençlik Ekiplerine Ücretsiz",
+            "capacity": "100-150 kişi",
+            "area": "300 m²",
+            "price": "Ücretsiz",
+            "isPaid": false,
+            "isYouthFree": true,
+            "coordinates": [28.9769, 41.0255],
+            "description": "Modern sanat merkezi olarak hizmet veren geniş bir mekan. Büyük etkinlikler ve sergiler için mükemmel.",
+            "features": ["Modern", "Geniş", "Sergi", "Konser", "Workshop"],
+            "availableDates": [
+                "2024-12-16T00:00:00.000Z",
+                "2024-12-30T00:00:00.000Z",
+                "2025-01-08T00:00:00.000Z"
+            ],
+            "contact": {
+                "phone": "+90 212 555 0104",
+                "email": "info@metrohan.com"
+            }
+        },
+        {
+            "id": "5",
+            "name": "Borusan Sanat",
+            "location": "Perşembe Pazarı, Karaköy",
+            "image": "../images/venues/airbnb1.png",
+            "category": "Ücretli Etkinlik",
+            "capacity": "80-120 kişi",
+            "area": "250 m²",
+            "price": "Ücretli",
+            "isPaid": true,
+            "isYouthFree": false,
+            "coordinates": [28.9783, 41.0259],
+            "description": "Prestijli sanat merkezi. Profesyonel etkinlikler ve sergiler için ideal.",
+            "features": ["Prestijli", "Profesyonel", "Sanat", "Konser"],
+            "availableDates": [
+                "2024-12-19T00:00:00.000Z",
+                "2025-01-02T00:00:00.000Z",
+                "2025-01-20T00:00:00.000Z"
+            ],
+            "contact": {
+                "phone": "+90 212 555 0105",
+                "email": "info@borusansanat.com"
+            }
         }
     ]
 } 
