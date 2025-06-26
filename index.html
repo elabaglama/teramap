@@ -79,18 +79,48 @@
                 <li><a href="/mekanlar">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="/kaydol" class="signup-btn">Üye Ol</a></li>
+                <li><a href="/kaydol" class="signup-btn">Keşfet</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <div class="hero-image-container">
-                <div class="hero-overlay">
-                    <h1 class="tagline">En özel bağımsız etkinlik<br>mekan ağı.</h1>
-                    <p>Tera Map, İstanbul'daki küçük ve orta ölçekli etkinlik alanlarını kapsamlı bir şekilde özetleyen özel bir listeyi ve insan ağını üreten bir sosyal girişimdir.</p>
-                    <a href="/kaydol" class="cta-button">Ağ'a katılın</a>
+            <h1 class="hero-title">En özel bağımsız etkinlik mekan ağı.</h1>
+            <p class="hero-subtitle">İstanbul'daki küçük ve orta ölçekli etkinlik mekanlarını içeren<br>bir sistem ve seçkin insan ağı.</p>
+            
+            <div class="network-visualization">
+                <div class="network-graph">
+                    <!-- Central hub -->
+                    <div class="central-node">
+                        <div class="network-pulse"></div>
+                    </div>
+                    
+                    <!-- Venue nodes -->
+                    <div class="venue-node venue-1">
+                        <img src="images/venues/borusan.jpg" alt="Venue 1">
+                    </div>
+                    <div class="venue-node venue-2">
+                        <img src="images/venues/halic.jpg" alt="Venue 2">
+                    </div>
+                    <div class="venue-node venue-3">
+                        <img src="images/venues/metrohan.jpg" alt="Venue 3">
+                    </div>
+                    <div class="venue-node venue-4">
+                        <img src="images/venues/postane.jpg" alt="Venue 4">
+                    </div>
+                    
+                    <!-- Connection lines -->
+                    <svg class="network-connections" viewBox="0 0 800 600">
+                        <line class="connection-line line-1" x1="400" y1="300" x2="200" y2="150"></line>
+                        <line class="connection-line line-2" x1="400" y1="300" x2="600" y2="120"></line>
+                        <line class="connection-line line-3" x1="400" y1="300" x2="650" y2="450"></line>
+                        <line class="connection-line line-4" x1="400" y1="300" x2="150" y2="480"></line>
+                        <line class="connection-line line-5" x1="200" y1="150" x2="600" y2="120"></line>
+                        <line class="connection-line line-6" x1="600" y1="120" x2="650" y2="450"></line>
+                        <line class="connection-line line-7" x1="650" y1="450" x2="150" y2="480"></line>
+                        <line class="connection-line line-8" x1="150" y1="480" x2="200" y2="150"></line>
+                    </svg>
                 </div>
             </div>
         </div>
