@@ -1,6 +1,73 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/kaydol",
+      "dest": "/kaydol/index.html"
+    },
+    {
+      "src": "/kaydol/(.*)",
+      "dest": "/kaydol/index.html"
+    },
+    {
+      "src": "/kaydol-custom",
+      "dest": "/kaydol-custom.html"
+    },
+    {
+      "src": "/giris",
+      "dest": "/giris/index.html"
+    },
+    {
+      "src": "/hub",
+      "dest": "/hub/index.html"
+    },
+    {
+      "src": "/hub/",
+      "dest": "/hub/index.html"
+    },
+    {
+      "src": "/hub/giris",
+      "dest": "/hub/giris.html"
+    },
+    {
+      "src": "/hub/kaydol",
+      "dest": "/hub/kaydol.html"
+    },
+    {
+      "src": "/hub/mekanlar",
+      "dest": "/hub/mekanlar.html"
+    },
+    {
+      "src": "/hub/profil",
+      "dest": "/hub/profil.html"
+    },
+    {
+      "src": "/mekanlar",
+      "dest": "/mekanlar.html"
+    },
+    {
+      "src": "/genclik-ekipleri",
+      "dest": "/genclik-ekipleri.html"
+    },
+    {
+      "src": "/iletisim",
+      "dest": "/iletisim.html"
+    },
+    {
+      "src": "/ekibimiz",
+      "dest": "/ekibimiz.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
   "headers": [
     {
       "source": "/favicon.ico",
@@ -28,53 +95,6 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    }
-  ],
-
-    "rewrites": [
-    {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/kaydol",
-      "destination": "/kaydol/index.html"
-    },
-    {
-      "source": "/kaydol/(.*)",
-      "destination": "/kaydol/index.html"
-    },
-    {
-      "source": "/kaydol-custom",
-      "destination": "/kaydol-custom.html"
-    },
-    {
-      "source": "/giris",
-      "destination": "/giris/index.html"
-    },
-    {
-      "source": "/hub",
-      "destination": "/hub/index.html"
-    },
-    {
-      "source": "/hub/",
-      "destination": "/hub/index.html"
-    },
-    {
-      "source": "/hub/giris",
-      "destination": "/hub/giris.html"
-    },
-    {
-      "source": "/hub/kaydol",
-      "destination": "/hub/kaydol.html"
-    },
-    {
-      "source": "/hub/mekanlar",
-      "destination": "/hub/mekanlar.html"
-    },
-    {
-      "source": "/hub/profil",
-      "destination": "/hub/profil.html"
     }
   ]
 } 
