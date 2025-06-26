@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build": "echo 'Static site, no build needed' && exit 0"
   },
   "keywords": [
     "landing-page",
@@ -20,8 +21,7 @@
     "body-parser": "^1.20.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "vite": "^6.3.5"
+    "nodemon": "^3.0.1"
   },
   "engines": {
     "node": ">=14"
