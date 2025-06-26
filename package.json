@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build": "echo 'Static site, no build needed' && exit 0"
+    "build": "echo 'Static site ready for deployment'"
   },
   "keywords": [
     "landing-page",
