@@ -309,8 +309,8 @@ nav {
     }
     
     .network-center {
-        width: 350px;
-        height: 350px;
+        width: 360px;
+        height: 360px;
     }
     
     .venue-bubble {
@@ -319,11 +319,11 @@ nav {
     }
     
     .venue-bubble.top-left {
-        left: 40px;
+        left: 50px;
     }
     
     .venue-bubble.bottom {
-        right: 70px;
+        right: 80px;
     }
     
     .hero h1 {
@@ -348,11 +348,11 @@ nav {
     }
     
     .venue-bubble.top-left {
-        left: 30px;
+        left: 35px;
     }
     
     .venue-bubble.bottom {
-        right: 50px;
+        right: 60px;
     }
     
     .hero h1 {
