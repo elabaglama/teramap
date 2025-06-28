@@ -224,9 +224,9 @@ nav {
 /* Network visualization styles */
 .network-container {
     position: relative;
-    width: 700px;
-    height: 500px;
-    margin: 0 auto;
+    width: 800px;
+    height: 600px;
+    margin: 3rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -234,39 +234,22 @@ nav {
 
 .network-center {
     position: absolute;
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
     background: url('../images/general/network-visualization-hero-part.png') center no-repeat;
     background-size: contain;
-}
-
-@keyframes pulseNetwork {
-    0%, 100% { 
-        opacity: 0.8; 
-        transform: scale(1) rotate(0deg); 
-        filter: sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.9) contrast(1.1);
-    }
-    50% { 
-        opacity: 1; 
-        transform: scale(1.03) rotate(1deg); 
-        filter: sepia(30%) saturate(140%) hue-rotate(20deg) brightness(1.1) contrast(1.2);
-    }
+    z-index: 1;
 }
 
 .venue-bubble {
     position: absolute;
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border: 3px solid #fff;
-    transition: all 0.3s ease;
-}
-
-.venue-bubble:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border: 4px solid #fff;
+    z-index: 2;
 }
 
 .venue-bubble img {
@@ -276,51 +259,51 @@ nav {
 }
 
 .venue-bubble.top-left {
-    top: 20px;
-    left: 80px;
-    animation: float 6s ease-in-out infinite;
+    top: 100px;
+    left: 50px;
 }
 
 .venue-bubble.top-right {
-    top: 40px;
-    right: 20px;
-    animation: float 6s ease-in-out infinite 2s;
+    top: 80px;
+    right: 50px;
 }
 
 .venue-bubble.bottom {
-    bottom: 20px;
-    right: 120px;
-    animation: float 6s ease-in-out infinite 4s;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    bottom: 80px;
+    right: 100px;
 }
 
 /* Responsive network container */
 @media (max-width: 768px) {
     .network-container {
-        width: 500px;
-        height: 350px;
+        width: 600px;
+        height: 450px;
+        margin: 2rem auto;
     }
     
     .network-center {
-        width: 280px;
-        height: 280px;
+        width: 350px;
+        height: 350px;
     }
     
     .venue-bubble {
-        width: 60px;
-        height: 60px;
+        width: 90px;
+        height: 90px;
     }
     
     .venue-bubble.top-left {
-        left: 40px;
+        top: 80px;
+        left: 30px;
+    }
+    
+    .venue-bubble.top-right {
+        top: 60px;
+        right: 30px;
     }
     
     .venue-bubble.bottom {
-        right: 70px;
+        bottom: 60px;
+        right: 80px;
     }
     
     .hero h1 {
@@ -330,26 +313,35 @@ nav {
 
 @media (max-width: 480px) {
     .network-container {
-        width: 350px;
-        height: 280px;
+        width: 400px;
+        height: 350px;
+        margin: 1.5rem auto;
     }
     
     .network-center {
-        width: 200px;
-        height: 200px;
+        width: 280px;
+        height: 280px;
     }
     
     .venue-bubble {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
+        border: 3px solid #fff;
     }
     
     .venue-bubble.top-left {
-        left: 30px;
+        top: 60px;
+        left: 20px;
+    }
+    
+    .venue-bubble.top-right {
+        top: 50px;
+        right: 20px;
     }
     
     .venue-bubble.bottom {
-        right: 50px;
+        bottom: 50px;
+        right: 60px;
     }
     
     .hero h1 {
