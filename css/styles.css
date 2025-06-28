@@ -196,7 +196,7 @@ nav {
     justify-content: center;
     text-align: center;
     padding: 0 2rem;
-    padding-top: 390px; /* Ensure content starts well below header */
+    padding-top: 385px; /* Ensure content starts well below header */
 }
 
 .hero-content {
@@ -247,7 +247,7 @@ nav {
 /* Responsive network container */
 @media (max-width: 768px) {
     .hero {
-        padding-top: 310px;
+        padding-top: 305px;
     }
     
     .hero-content {
@@ -272,7 +272,7 @@ nav {
 
 @media (max-width: 480px) {
     .hero {
-        padding-top: 280px;
+        padding-top: 275px;
     }
     
     .hero-content {
