@@ -224,8 +224,8 @@ nav {
 /* Network visualization styles */
 .network-container {
     position: relative;
-    width: 700px;
-    height: 500px;
+    width: 800px;
+    height: 600px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -234,8 +234,8 @@ nav {
 
 .network-center {
     position: absolute;
-    width: 350px;
-    height: 350px;
+    width: 450px;
+    height: 450px;
     background: url('../images/general/network-visualization.png?v=2') center no-repeat;
     background-size: contain;
     animation: pulseNetwork 4s ease-in-out infinite;
@@ -304,13 +304,13 @@ nav {
 /* Responsive network container */
 @media (max-width: 768px) {
     .network-container {
-        width: 500px;
-        height: 350px;
+        width: 600px;
+        height: 450px;
     }
     
     .network-center {
-        width: 280px;
-        height: 280px;
+        width: 350px;
+        height: 350px;
     }
     
     .venue-bubble {
@@ -333,13 +333,13 @@ nav {
 
 @media (max-width: 480px) {
     .network-container {
-        width: 350px;
-        height: 280px;
+        width: 400px;
+        height: 350px;
     }
     
     .network-center {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
     }
     
     .venue-bubble {
