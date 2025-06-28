@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico?v=1748898958595">
@@ -65,62 +66,87 @@
             vertical-align: middle;
             object-fit: contain;
         }
+
+        /* Network visualization styles */
+        .network-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .network-center {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIG9wYWNpdHk9IjAuMyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMiIgZmlsbD0iIzkxNzk2ZSIvPgo8Y2lyY2xlIGN4PSI4MCIgY3k9IjYwIiByPSIxLjUiIGZpbGw9IiM5MTc5NmUiLz4KPGJ5Y2lyY2xlIGN4PSIxMjAiIGN5PSI3MCIgcj0iMS41IiBmaWxsPSIjOTE3OTZlIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjEwMCIgcj0iMiIgZmlsbD0iIzkxNzk2ZSIvPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIxNDAiIHI9IjEuNSIgZmlsbD0iIzkxNzk2ZSIvPgo8Y2lyY2xlIGN4PSI5MCIgY3k9IjE1MCIgcj0iMS41IiBmaWxsPSIjOTE3OTZlIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iMTIwIiByPSIyIiBmaWxsPSIjOTE3OTZlIi8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iODAiIHI9IjEuNSIgZmlsbD0iIzkxNzk2ZSIvPgo8bGluZSB4MT0iMTAwIiB5MT0iMTAwIiB4Mj0iODAiIHkyPSI2MCIgc3Ryb2tlPSIjOTE3OTZlIiBzdHJva2Utd2lkdGg9IjAuNSIvPgo8bGluZSB4MT0iMTAwIiB5MT0iMTAwIiB4Mj0iMTIwIiB5Mj0iNzAiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPGxpbmUgeDE9IjEwMCIgeTE9IjEwMCIgeDI9IjE0MCIgeTI9IjEwMCIgc3Ryb2tlPSIjOTE3OTZlIiBzdHJva2Utd2lkdGg9IjAuNSIvPgo8bGluZSB4MT0iMTAwIiB5MT0iMTAwIiB4Mj0iMTMwIiB5Mj0iMTQwIiBzdHJva2U9IiM5MTc5NmUiIHN0cm9rZS13aWR0aD0iMC41Ii8+CjxsaW5lIHgxPSIxMDAiIHkxPSIxMDAiIHgyPSI5MCIgeTI9IjE1MCIgc3Ryb2tlPSIjOTE3OTZlIiBzdHJva2Utd2lkdGg9IjAuNSIvPgo8bGluZSB4MT0iMTAwIiB5MT0iMTAwIiB4Mj0iNjAiIHkyPSIxMjAiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPGxpbmUgeDE9IjEwMCIgeTE9IjEwMCIgeDI9IjcwIiB5Mj0iODAiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPC9nPgo8L3N2Zz4K') center no-repeat;
+            background-size: contain;
+        }
+
+        .venue-bubble {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 3px solid #fff;
+        }
+
+        .venue-bubble img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .venue-bubble.top-left {
+            top: 0;
+            left: 50px;
+        }
+
+        .venue-bubble.top-right {
+            top: 20px;
+            right: 0;
+        }
+
+        .venue-bubble.bottom {
+            bottom: 0;
+            right: 80px;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo"><img src="images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></div>
-            <button class="menu-toggle" aria-label="Menüyü aç/kapat" type="button">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="logo"><img src="logo transparent.png" alt="TERA MAP" class="logo-img"></div>
             <ul class="nav-links">
                 <li><a href="/" class="active">Ana Sayfa</a></li>
                 <li><a href="/mekanlar">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="/kaydol" class="signup-btn">Keşfet</a></li>
+                <li><a href="/kaydol" class="explore-btn">Keşfet</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1 class="hero-title">En özel bağımsız etkinlik mekan ağı.</h1>
+            <h1>En özel bağımsız etkinlik mekan ağı.</h1>
             <p class="hero-subtitle">İstanbul'daki küçük ve orta ölçekli etkinlik mekanlarını içeren<br>bir sistem ve seçkin insan ağı.</p>
             
-            <div class="network-visualization">
-                <div class="network-graph">
-                    <!-- Central hub -->
-                    <div class="central-node">
-                        <div class="network-pulse"></div>
-                    </div>
-                    
-                    <!-- Venue nodes -->
-                    <div class="venue-node venue-1">
-                        <img src="images/venues/borusan.jpg" alt="Venue 1">
-                    </div>
-                    <div class="venue-node venue-2">
-                        <img src="images/venues/halic.jpg" alt="Venue 2">
-                    </div>
-                    <div class="venue-node venue-3">
-                        <img src="images/venues/metrohan.jpg" alt="Venue 3">
-                    </div>
-                    <div class="venue-node venue-4">
-                        <img src="images/venues/postane.jpg" alt="Venue 4">
-                    </div>
-                    
-                    <!-- Connection lines -->
-                    <svg class="network-connections" viewBox="0 0 800 600">
-                        <line class="connection-line line-1" x1="400" y1="300" x2="200" y2="150"></line>
-                        <line class="connection-line line-2" x1="400" y1="300" x2="600" y2="120"></line>
-                        <line class="connection-line line-3" x1="400" y1="300" x2="650" y2="450"></line>
-                        <line class="connection-line line-4" x1="400" y1="300" x2="150" y2="480"></line>
-                        <line class="connection-line line-5" x1="200" y1="150" x2="600" y2="120"></line>
-                        <line class="connection-line line-6" x1="600" y1="120" x2="650" y2="450"></line>
-                        <line class="connection-line line-7" x1="650" y1="450" x2="150" y2="480"></line>
-                        <line class="connection-line line-8" x1="150" y1="480" x2="200" y2="150"></line>
-                    </svg>
+            <div class="network-container">
+                <div class="network-center"></div>
+                <div class="venue-bubble top-left">
+                    <img src="images/venues/borusan.jpg" alt="Venue 1">
+                </div>
+                <div class="venue-bubble top-right">
+                    <img src="images/venues/halic.jpg" alt="Venue 2">
+                </div>
+                <div class="venue-bubble bottom">
+                    <img src="images/venues/metrohan.jpg" alt="Venue 3">
                 </div>
             </div>
         </div>

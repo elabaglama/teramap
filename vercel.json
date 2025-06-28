@@ -1,8 +1,43 @@
 {
-  "framework": null,
-  "buildCommand": null,
+  "buildCommand": "npm run build",
   "outputDirectory": ".",
-  "rewrites": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/favicon/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+
+    "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
     {
       "source": "/kaydol",
       "destination": "/kaydol/index.html"
@@ -42,51 +77,6 @@
     {
       "source": "/hub/profil",
       "destination": "/hub/profil.html"
-    },
-    {
-      "source": "/mekanlar",
-      "destination": "/mekanlar.html"
-    },
-    {
-      "source": "/genclik-ekipleri",
-      "destination": "/genclik-ekipleri.html"
-    },
-    {
-      "source": "/iletisim",
-      "destination": "/iletisim.html"
-    },
-    {
-      "source": "/ekibimiz",
-      "destination": "/ekibimiz.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/favicon.ico",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/favicon/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/images/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
     }
   ]
 } 
