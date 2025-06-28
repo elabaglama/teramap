@@ -196,7 +196,7 @@ nav {
     justify-content: center;
     text-align: center;
     padding: 0 2rem;
-    padding-top: 365px; /* Ensure content starts well below header */
+    padding-top: 360px; /* Ensure content starts well below header */
 }
 
 .hero-content {
@@ -206,7 +206,7 @@ nav {
 
 .hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     font-weight: 700;
     color: #333;
     margin-bottom: 1.5rem;
@@ -247,7 +247,7 @@ nav {
 /* Responsive network container */
 @media (max-width: 768px) {
     .hero {
-        padding-top: 285px;
+        padding-top: 280px;
     }
     
     .hero-content {
@@ -266,13 +266,13 @@ nav {
     }
     
     .hero h1 {
-        font-size: 2.8rem;
+        font-size: 2.5rem;
     }
 }
 
 @media (max-width: 480px) {
     .hero {
-        padding-top: 255px;
+        padding-top: 250px;
     }
     
     .hero-content {
@@ -291,7 +291,7 @@ nav {
     }
     
     .hero h1 {
-        font-size: 2.2rem;
+        font-size: 1.9rem;
     }
     
     .hero-subtitle {
