@@ -187,6 +187,19 @@ nav {
     display: none !important;
 }
 
+/* Logo link styling */
+.logo a {
+    text-decoration: none;
+    display: block;
+}
+
+/* Hide "Ana Sayfa" button on desktop and tablet */
+@media (min-width: 481px) {
+    .nav-links li:first-child {
+        display: none;
+    }
+}
+
 /* Hero Section */
 .hero {
     height: 100vh;
