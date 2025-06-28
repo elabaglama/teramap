@@ -196,12 +196,12 @@ nav {
     justify-content: center;
     text-align: center;
     padding: 0 2rem;
-    padding-top: 80px; /* Ensure content starts below header */
+    padding-top: 140px; /* Ensure content starts well below header */
 }
 
 .hero-content {
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 2rem auto 0 auto;
 }
 
 .hero h1 {
@@ -227,7 +227,7 @@ nav {
     position: relative;
     width: 800px;
     height: 600px;
-    margin: 4rem auto 2rem auto;
+    margin: 2rem auto 2rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -246,10 +246,18 @@ nav {
 
 /* Responsive network container */
 @media (max-width: 768px) {
+    .hero {
+        padding-top: 120px;
+    }
+    
+    .hero-content {
+        margin: 1.5rem auto 0 auto;
+    }
+    
     .network-container {
         width: 600px;
         height: 450px;
-        margin: 3rem auto 1.5rem auto;
+        margin: 1.5rem auto 1rem auto;
     }
     
     .network-center {
@@ -263,10 +271,18 @@ nav {
 }
 
 @media (max-width: 480px) {
+    .hero {
+        padding-top: 100px;
+    }
+    
+    .hero-content {
+        margin: 1rem auto 0 auto;
+    }
+    
     .network-container {
         width: 400px;
         height: 350px;
-        margin: 2rem auto 1rem auto;
+        margin: 1rem auto 0.5rem auto;
     }
     
     .network-center {
