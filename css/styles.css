@@ -224,8 +224,8 @@ nav {
 /* Network visualization styles */
 .network-container {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 700px;
+    height: 500px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -234,9 +234,9 @@ nav {
 
 .network-center {
     position: absolute;
-    width: 450px;
-    height: 450px;
-    background: url('../images/general/network-visualization-hero-part.png?v=3') center no-repeat;
+    width: 350px;
+    height: 350px;
+    background: url('../images/general/network-visualization-hero-part.png') center no-repeat;
     background-size: contain;
     animation: pulseNetwork 4s ease-in-out infinite;
     filter: sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.9) contrast(1.1);
@@ -304,13 +304,13 @@ nav {
 /* Responsive network container */
 @media (max-width: 768px) {
     .network-container {
-        width: 600px;
-        height: 450px;
+        width: 500px;
+        height: 350px;
     }
     
     .network-center {
-        width: 360px;
-        height: 360px;
+        width: 280px;
+        height: 280px;
     }
     
     .venue-bubble {
@@ -319,11 +319,11 @@ nav {
     }
     
     .venue-bubble.top-left {
-        left: 50px;
+        left: 40px;
     }
     
     .venue-bubble.bottom {
-        right: 80px;
+        right: 70px;
     }
     
     .hero h1 {
@@ -333,13 +333,13 @@ nav {
 
 @media (max-width: 480px) {
     .network-container {
-        width: 400px;
-        height: 350px;
+        width: 350px;
+        height: 280px;
     }
     
     .network-center {
-        width: 250px;
-        height: 250px;
+        width: 200px;
+        height: 200px;
     }
     
     .venue-bubble {
@@ -348,11 +348,11 @@ nav {
     }
     
     .venue-bubble.top-left {
-        left: 35px;
+        left: 30px;
     }
     
     .venue-bubble.bottom {
-        right: 60px;
+        right: 50px;
     }
     
     .hero h1 {
