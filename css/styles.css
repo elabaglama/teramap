@@ -211,12 +211,13 @@ nav {
     color: #333;
     margin-bottom: 1.5rem;
     line-height: 1.2;
+    margin-top: 0;
 }
 
 .hero-subtitle {
     font-size: 1.2rem;
     color: #666;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     line-height: 1.6;
     font-weight: 400;
 }
@@ -226,7 +227,7 @@ nav {
     position: relative;
     width: 800px;
     height: 600px;
-    margin: 3rem auto;
+    margin: 4rem auto 2rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -234,8 +235,8 @@ nav {
 
 .network-center {
     position: absolute;
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     background: url('../images/general/network-visualization-hero-part.png') center no-repeat;
     background-size: contain;
     z-index: 1;
@@ -248,12 +249,12 @@ nav {
     .network-container {
         width: 600px;
         height: 450px;
-        margin: 2rem auto;
+        margin: 3rem auto 1.5rem auto;
     }
     
     .network-center {
-        width: 350px;
-        height: 350px;
+        width: 400px;
+        height: 400px;
     }
     
     .hero h1 {
@@ -265,12 +266,12 @@ nav {
     .network-container {
         width: 400px;
         height: 350px;
-        margin: 1.5rem auto;
+        margin: 2rem auto 1rem auto;
     }
     
     .network-center {
-        width: 280px;
-        height: 280px;
+        width: 320px;
+        height: 320px;
     }
     
     .hero h1 {
