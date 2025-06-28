@@ -196,12 +196,12 @@ nav {
     justify-content: center;
     text-align: center;
     padding: 0 2rem;
-    padding-top: 180px; /* Ensure content starts well below header */
+    padding-top: 220px; /* Ensure content starts well below header */
 }
 
 .hero-content {
     max-width: 1000px;
-    margin: 3rem auto 0 auto;
+    margin: 4rem auto 0 auto;
 }
 
 .hero h1 {
@@ -247,11 +247,11 @@ nav {
 /* Responsive network container */
 @media (max-width: 768px) {
     .hero {
-        padding-top: 150px;
+        padding-top: 180px;
     }
     
     .hero-content {
-        margin: 2rem auto 0 auto;
+        margin: 2.5rem auto 0 auto;
     }
     
     .network-container {
@@ -272,11 +272,11 @@ nav {
 
 @media (max-width: 480px) {
     .hero {
-        padding-top: 130px;
+        padding-top: 160px;
     }
     
     .hero-content {
-        margin: 1.5rem auto 0 auto;
+        margin: 2rem auto 0 auto;
     }
     
     .network-container {
