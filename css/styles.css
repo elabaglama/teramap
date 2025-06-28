@@ -234,13 +234,10 @@ nav {
 
 .network-center {
     position: absolute;
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
     background: url('../images/general/network-visualization-hero-part.png') center no-repeat;
     background-size: contain;
-    animation: pulseNetwork 4s ease-in-out infinite;
-    filter: sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.9) contrast(1.1);
-    border-radius: 50%;
 }
 
 @keyframes pulseNetwork {
