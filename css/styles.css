@@ -236,7 +236,7 @@ nav {
     position: absolute;
     width: 450px;
     height: 450px;
-    background: url('../images/general/network-visualization.png?v=2') center no-repeat;
+    background: url('../images/general/network-visualization-hero-part.png?v=3') center no-repeat;
     background-size: contain;
     animation: pulseNetwork 4s ease-in-out infinite;
     filter: sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.9) contrast(1.1);
