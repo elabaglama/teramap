@@ -224,8 +224,8 @@ nav {
 /* Network visualization styles */
 .network-container {
     position: relative;
-    width: 600px;
-    height: 400px;
+    width: 700px;
+    height: 500px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -234,16 +234,26 @@ nav {
 
 .network-center {
     position: absolute;
-    width: 200px;
-    height: 200px;
-    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIG9wYWNpdHk9IjAuNCI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMyIgZmlsbD0iIzkxNzk2ZSIvPgo8Y2lyY2xlIGN4PSI3NSIgY3k9IjUwIiByPSIyIiBmaWxsPSIjOTE3OTZlIi8+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjYwIiByPSIyLjUiIGZpbGw9IiM5MTc5NmUiLz4KPGJ5Y2lyY2xlIGN4PSIxNTAiIGN5PSIxMTAiIHI9IjIiIGZpbGw9IiM5MTc5NmUiLz4KPGJ5Y2lyY2xlIGN4PSIxMjAiIGN5PSIxNTAiIHI9IjIuNSIgZmlsbD0iIzkxNzk2ZSIvPgo8Y2lyY2xlIGN4PSI3MCIgY3k9IjE0MCIgcj0iMiIgZmlsbD0iIzkxNzk2ZSIvPgo8Y2lyY2xlIGN4PSI0NSIgY3k9IjEwNSIgcj0iMi41IiBmaWxsPSIjOTE3OTZlIi8+CjxjaXJjbGUgY3g9IjY1IiBjeT0iNzUiIHI9IjIiIGZpbGw9IiM5MTc5NmUiLz4KPGxpbmUgeDE9IjEwMCIgeTE9IjEwMCIgeDI9Ijc1IiB5Mj0iNTAiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjgiLz4KPGxpbmUgeDE9IjEwMCIgeTE9IjEwMCIgeDI9IjEzMCIgeTI9IjYwIiBzdHJva2U9IiM5MTc5NmUiIHN0cm9rZS13aWR0aD0iMC44Ii8+CjxsaW5lIHgxPSIxMDAiIHkxPSIxMDAiIHgyPSIxNTAiIHkyPSIxMTAiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjgiLz4KPGxpbmUgeDE9IjEwMCIgeTE9IjEwMCIgeDI9IjEyMCIgeTI9IjE1MCIgc3Ryb2tlPSIjOTE3OTZlIiBzdHJva2Utd2lkdGg9IjAuOCIvPgo8bGluZSB4MT0iMTAwIiB5MT0iMTAwIiB4Mj0iNzAiIHkyPSIxNDAiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjgiLz4KPGxpbmUgeDE9IjEwMCIgeTE9IjEwMCIgeDI9IjQ1IiB5Mj0iMTA1IiBzdHJva2U9IiM5MTc5NmUiIHN0cm9rZS13aWR0aD0iMC44Ii8+CjxsaW5lIHgxPSIxMDAiIHkxPSIxMDAiIHgyPSI2NSIgeTI9Ijc1IiBzdHJva2U9IiM5MTc5NmUiIHN0cm9rZS13aWR0aD0iMC44Ii8+CjxsaW5lIHgxPSI3NSIgeTE9IjUwIiB4Mj0iNjUiIHkyPSI3NSIgc3Ryb2tlPSIjOTE3OTZlIiBzdHJva2Utd2lkdGg9IjAuNSIvPgo8bGluZSB4MT0iMTMwIiB5MT0iNjAiIHgyPSIxNTAiIHkyPSIxMTAiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPGxpbmUgeDE9IjEyMCIgeTE9IjE1MCIgeDI9IjcwIiB5Mj0iMTQwIiBzdHJva2U9IiM5MTc5NmUiIHN0cm9rZS13aWR0aD0iMC41Ii8+CjxsaW5lIHgxPSI0NSIgeTE9IjEwNSIgeDI9IjY1IiB5Mj0iNzUiIHN0cm9rZT0iIzkxNzk2ZSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPC9nPgo8L3N2Zz4K') center no-repeat;
+    width: 350px;
+    height: 350px;
+    background: url('../images/general/network-visualization.png') center no-repeat;
     background-size: contain;
-    animation: pulseNetwork 3s ease-in-out infinite;
+    animation: pulseNetwork 4s ease-in-out infinite;
+    filter: sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.9) contrast(1.1);
+    border-radius: 50%;
 }
 
 @keyframes pulseNetwork {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.05); }
+    0%, 100% { 
+        opacity: 0.8; 
+        transform: scale(1) rotate(0deg); 
+        filter: sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.9) contrast(1.1);
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.03) rotate(1deg); 
+        filter: sepia(30%) saturate(140%) hue-rotate(20deg) brightness(1.1) contrast(1.2);
+    }
 }
 
 .venue-bubble {
@@ -269,20 +279,20 @@ nav {
 }
 
 .venue-bubble.top-left {
-    top: 0;
-    left: 50px;
+    top: 20px;
+    left: 80px;
     animation: float 6s ease-in-out infinite;
 }
 
 .venue-bubble.top-right {
-    top: 20px;
-    right: 0;
+    top: 40px;
+    right: 20px;
     animation: float 6s ease-in-out infinite 2s;
 }
 
 .venue-bubble.bottom {
-    bottom: 0;
-    right: 80px;
+    bottom: 20px;
+    right: 120px;
     animation: float 6s ease-in-out infinite 4s;
 }
 
@@ -294,8 +304,13 @@ nav {
 /* Responsive network container */
 @media (max-width: 768px) {
     .network-container {
-        width: 400px;
-        height: 300px;
+        width: 500px;
+        height: 350px;
+    }
+    
+    .network-center {
+        width: 280px;
+        height: 280px;
     }
     
     .venue-bubble {
@@ -304,11 +319,11 @@ nav {
     }
     
     .venue-bubble.top-left {
-        left: 30px;
+        left: 40px;
     }
     
     .venue-bubble.bottom {
-        right: 60px;
+        right: 70px;
     }
     
     .hero h1 {
@@ -318,13 +333,13 @@ nav {
 
 @media (max-width: 480px) {
     .network-container {
-        width: 300px;
-        height: 250px;
+        width: 350px;
+        height: 280px;
     }
     
     .network-center {
-        width: 150px;
-        height: 150px;
+        width: 200px;
+        height: 200px;
     }
     
     .venue-bubble {
@@ -333,11 +348,11 @@ nav {
     }
     
     .venue-bubble.top-left {
-        left: 20px;
+        left: 30px;
     }
     
     .venue-bubble.bottom {
-        right: 40px;
+        right: 50px;
     }
     
     .hero h1 {
