@@ -179,11 +179,40 @@
             align-items: center;
             padding-top: 0.8rem;
             border-top: 1px solid #eee;
+            gap: 0.5rem;
         }
         
-        .venue-actions button {
+        .venue-actions button,
+        .venue-actions .cta-button {
             padding: 0.5rem 1rem;
             font-size: 0.85rem;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .venue-actions .btn-outline {
+            background: transparent;
+            border: 1px solid #91796e;
+            color: #91796e;
+        }
+        
+        .venue-actions .btn-outline:hover {
+            background: #91796e;
+            color: white;
+        }
+        
+        .venue-actions .cta-button {
+            background: #91796e;
+            color: white;
+        }
+        
+        .venue-actions .cta-button:hover {
+            background: #7a645a;
         }
         
         /* Popup styles */
@@ -203,12 +232,24 @@
         
         .popup-content {
             background-color: white;
-            border-radius: 8px;
+            border-radius: 12px;
             width: 90%;
             max-width: 500px;
             padding: 2rem;
             position: relative;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            animation: popupSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes popupSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
         
         .popup-close {
@@ -217,7 +258,13 @@
             right: 15px;
             font-size: 1.5rem;
             cursor: pointer;
-            color: #333;
+            color: #666;
+            transition: color 0.3s ease;
+            z-index: 10;
+        }
+        
+        .popup-close:hover {
+            color: #91796e;
         }
         
         .popup-form input, 
@@ -503,6 +550,22 @@
                         <a href="/iletisim" class="cta-button">İletişim</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup for Membership Required -->
+    <div class="popup-overlay" id="membershipPopup">
+        <div class="popup-content" style="max-width: 400px; text-align: center;">
+            <span class="popup-close" id="closeMembershipPopup">&times;</span>
+            <div style="margin-bottom: 1.5rem;">
+                <i class="fas fa-lock" style="font-size: 2.5rem; color: #91796e; margin-bottom: 1rem;"></i>
+                <h2 style="color: #333; margin-bottom: 0.5rem; font-size: 1.5rem;">Üyelik Gerekli</h2>
+                <p style="color: #666; line-height: 1.5;">Görüntülemeniz için üye olmanız gerekmektedir.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="/kaydol" class="cta-button" style="flex: 1; text-decoration: none; padding: 0.8rem;">Üye Ol</a>
+                <a href="/giris" class="btn-outline" style="flex: 1; text-decoration: none; padding: 0.8rem; border: 1px solid #91796e; color: #91796e; background: transparent; border-radius: 4px;">Giriş Yap</a>
             </div>
         </div>
     </div>
@@ -898,6 +961,8 @@
             const popup = document.getElementById('accessPopup');
             const closeBtn = document.getElementById('closePopup');
             const accessForm = document.getElementById('accessForm');
+            const membershipPopup = document.getElementById('membershipPopup');
+            const closeMembershipBtn = document.getElementById('closeMembershipPopup');
             const contactButtons = document.querySelectorAll('.venue-actions .cta-button');
             const detailButtons = document.querySelectorAll('.venue-detail');
             const venuePopups = [
@@ -969,14 +1034,32 @@
                 }
             }, 2000);
             
-            // Show popup on contact button click (only for logged in users)
+            // Show membership popup on contact button click
             contactButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
-                    if (isLoggedIn) {
-                        e.preventDefault();
-                        showPopup(popup);
-                    }
+                    e.preventDefault();
+                    showPopup(membershipPopup);
                 });
+            });
+            
+            // Show membership popup on detail button click
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPopup(membershipPopup);
+                });
+            });
+            
+            // Close membership popup when clicking the close button
+            closeMembershipBtn.addEventListener('click', function() {
+                hidePopup(membershipPopup);
+            });
+            
+            // Close membership popup when clicking outside
+            membershipPopup.addEventListener('click', function(e) {
+                if (e.target === membershipPopup) {
+                    hidePopup(membershipPopup);
+                }
             });
             
             // Close popup when clicking the close button
@@ -1001,15 +1084,7 @@
                 }
             });
             
-            // Venue detail buttons
-            detailButtons.forEach((button, index) => {
-                button.addEventListener('click', function(e) {
-                    // Show the venue popup
-                    showPopup(venuePopups[index]);
-                });
-            });
-            
-            // Venue close buttons
+            // Venue close buttons (keeping old functionality intact for completeness)
             venueCloseButtons.forEach((button) => {
                 button.addEventListener('click', function() {
                     const popup = button.closest('.popup-overlay');
@@ -1017,13 +1092,15 @@
                 });
             });
             
-            // Close venue popups when clicking outside
+            // Close venue popups when clicking outside (keeping old functionality intact)
             venuePopups.forEach(popup => {
-                popup.addEventListener('click', function(e) {
-                    if (e.target === popup) {
-                        hidePopup(popup);
-                    }
-                });
+                if (popup) {
+                    popup.addEventListener('click', function(e) {
+                        if (e.target === popup) {
+                            hidePopup(popup);
+                        }
+                    });
+                }
             });
             
             function showPopup(popup) {
