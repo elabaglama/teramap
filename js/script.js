@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Smooth scrolling for navigation links
-    const navLinks = document.querySelectorAll('.nav-links a');
+    const navLinksAnchors = document.querySelectorAll('.nav-links a');
     
-    navLinks.forEach(link => {
+    navLinksAnchors.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
             
@@ -111,49 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize external links
     setupExternalLinks();
     
-    // Animate elements when they come into view
-    const animateOnScroll = () => {
-        const elements = document.querySelectorAll('.card, .about-feature, .testimonial');
-        
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-            
-            if (elementPosition < windowHeight - 100) {
-                element.classList.add('fade-in');
-            }
-        });
-    };
-    
-    // Initial check for elements in view
-    animateOnScroll();
-    
-    // Check on scroll
-    window.addEventListener('scroll', animateOnScroll);
-    
-    // CTA Buttons animation
-    const ctaButtons = document.querySelectorAll('.cta-button');
-    
-    ctaButtons.forEach(button => {
-        button.addEventListener('mouseenter', () => {
-            button.style.transform = 'translateY(-5px)';
-            button.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
-        });
-        
-        button.addEventListener('mouseleave', () => {
-            button.style.transform = 'translateY(0)';
-            button.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        });
-        
-        // Add touch support for mobile devices
-        button.addEventListener('touchstart', () => {
-            button.style.transform = 'translateY(-2px)';
-            button.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.15)';
-        });
-        
-        button.addEventListener('touchend', () => {
-            button.style.transform = 'translateY(0)';
-            button.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        });
-    });
+    // Console log for debugging
+    console.log('✨ Simplified animations loaded!');
 }); 

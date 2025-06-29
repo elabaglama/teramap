@@ -211,7 +211,7 @@ nav {
     justify-content: center;
     text-align: center;
     padding: 0 2rem;
-    padding-top: 357px; /* Ensure content starts well below header */
+    padding-top: 352px; /* Ensure content starts well below header */
 }
 
 .hero-content {
@@ -255,7 +255,7 @@ nav {
     position: absolute;
     width: 500px;
     height: 500px;
-    background: url('../images/general/network-visualization-hero-part.png') center no-repeat;
+    background: url('../images/general/network-visualization-hero-part2.png') center no-repeat;
     background-size: contain;
     z-index: 1;
 }
