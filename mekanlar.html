@@ -1087,8 +1087,13 @@
             const filterButtons = document.querySelectorAll('.filter-btn');
             const venueCards = document.querySelectorAll('.venue-card');
 
+            console.log('Filter buttons found:', filterButtons.length);
+            console.log('Venue cards found:', venueCards.length);
+
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    console.log('Filter button clicked:', this.getAttribute('data-filter'));
+                    
                     // Remove active class from all buttons
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     // Add active class to clicked button
@@ -1098,15 +1103,20 @@
 
                     venueCards.forEach(card => {
                         const venueType = card.getAttribute('data-venue-type');
+                        console.log('Checking card with type:', venueType, 'against filter:', filter);
                         
                         if (filter === 'all') {
                             card.classList.remove('hidden');
+                            console.log('Showing all - removed hidden from card');
                         } else if (filter === 'paid' && (venueType === 'paid' || venueType === 'both')) {
                             card.classList.remove('hidden');
+                            console.log('Paid filter - removed hidden from card');
                         } else if (filter === 'free' && (venueType === 'free' || venueType === 'both')) {
                             card.classList.remove('hidden');
+                            console.log('Free filter - removed hidden from card');
                         } else {
                             card.classList.add('hidden');
+                            console.log('Adding hidden to card');
                         }
                     });
                 });
