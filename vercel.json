@@ -3,6 +3,10 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
+  "alias": [
+    "teramap.works",
+    "www.teramap.works"
+  ],
   "headers": [
     {
       "source": "/favicon.ico",
