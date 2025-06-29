@@ -16,6 +16,7 @@ body {
     background-color: #fbfbfb;
     overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
     font-size: 1rem; /* Use relative font size */
+    animation: pageLoadFade 0.8s ease-out;
 }
 
 /* Hide the "Üye Ol" link in navigation */
@@ -122,6 +123,7 @@ nav {
     font-weight: 700;
     color: #111;
     letter-spacing: 1px;
+    animation: logoEntrance 1s ease-out 0.2s both;
 }
 
 .nav-links {
@@ -225,6 +227,7 @@ nav {
     margin-bottom: 1.5rem;
     line-height: 1.2;
     margin-top: 0;
+    animation: heroTitleSlide 1s ease-out 0.3s both;
 }
 
 .hero-subtitle {
@@ -233,6 +236,7 @@ nav {
     margin-bottom: 4rem;
     line-height: 1.6;
     font-weight: 400;
+    animation: heroTitleSlide 1s ease-out 0.6s both;
 }
 
 /* Network visualization styles */
@@ -244,6 +248,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: heroSlideUp 1.8s ease-out 1s both;
 }
 
 .network-center {
@@ -255,7 +260,224 @@ nav {
     z-index: 1;
 }
 
+/* 9 Floating Dots around network center */
+.network-center::before,
+.network-center::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(145, 121, 110, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    animation: dotFadeIn 0.8s ease-out forwards;
+}
 
+.network-center::before {
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance 4s ease-in-out infinite 1s;
+}
+
+.network-center::after {
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance2 3.5s ease-in-out infinite 1.2s;
+}
+
+.network-center::before {
+    top: -20px; /* Moved down to stay below title level */
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 0.5s;
+}
+
+.network-center::after {
+    bottom: -40px;
+    right: 50%;
+    transform: translateX(50%);
+    animation-delay: 1.2s;
+}
+
+/* Additional 7 dots using CSS-only approach */
+.network-container::before,
+.network-container::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(145, 121, 110, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 2;
+}
+
+.network-container::before {
+    top: 35%; /* Moved down slightly to ensure below title */
+    left: -30px;
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance3 5s ease-in-out infinite 1.8s;
+    animation-delay: 0.8s;
+}
+
+.network-container::after {
+    top: 75%;
+    right: -30px;
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance 4.5s ease-in-out infinite 2.5s;
+    animation-delay: 1.5s;
+}
+
+/* Additional floating dots via pseudo-elements on hero-content */
+.hero-content::before,
+.hero-content::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(145, 121, 110, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.hero-content::before {
+    top: 25%; /* Moved down to stay below title level */
+    right: 10%;
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance2 3.8s ease-in-out infinite 2.8s;
+    animation-delay: 1.8s;
+}
+
+.hero-content::after {
+    bottom: 30%;
+    left: 8%;
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance3 4.2s ease-in-out infinite 3.1s;
+    animation-delay: 2.1s;
+}
+
+/* Final 3 dots to complete the 9 */
+.hero::before,
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(145, 121, 110, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.hero::before {
+    top: 25%; /* Moved down to stay below title level */
+    left: 15%;
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance 3.2s ease-in-out infinite 3.5s;
+    animation-delay: 2.4s;
+}
+
+.hero::after {
+    top: 60%;
+    right: 12%;
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance2 3.6s ease-in-out infinite 3.8s;
+    animation-delay: 2.7s;
+}
+
+/* Fade-in animation for all dots */
+@keyframes dotFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Dancing dots - little dance animation */
+@keyframes dotDance {
+    0% {
+        transform: translateY(0px) translateX(0px) scale(1) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-3px) translateX(2px) scale(1.1) rotate(5deg);
+    }
+    50% {
+        transform: translateY(-1px) translateX(-1px) scale(0.9) rotate(-3deg);
+    }
+    75% {
+        transform: translateY(-4px) translateX(1px) scale(1.05) rotate(2deg);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px) scale(1) rotate(0deg);
+    }
+}
+
+/* Alternative dance pattern for variety */
+@keyframes dotDance2 {
+    0% {
+        transform: translateY(0px) translateX(0px) scale(1);
+    }
+    30% {
+        transform: translateY(-2px) translateX(-2px) scale(1.15);
+    }
+    60% {
+        transform: translateY(-5px) translateX(1px) scale(0.85);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px) scale(1);
+    }
+}
+
+/* Third dance pattern - circular motion */
+@keyframes dotDance3 {
+    0% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-2px) translateX(2px) rotate(90deg);
+    }
+    50% {
+        transform: translateY(0px) translateX(2px) rotate(180deg);
+    }
+    75% {
+        transform: translateY(2px) translateX(0px) rotate(270deg);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px) rotate(360deg);
+    }
+}
+
+/* Position relative for all containers */
+.hero {
+    position: relative;
+}
+
+.hero-content {
+    position: relative;
+}
+
+.network-container {
+    position: relative;
+}
+
+.network-center {
+    position: relative;
+}
+
+/* 9th dot - placed on what-we-do section border */
+.what-we-do::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(145, 121, 110, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    animation: dotFadeIn 0.8s ease-out forwards, dotDance3 4s ease-in-out infinite 4.2s;
+    z-index: 1;
+    top: -15px;
+    right: 25%;
+    animation-delay: 3.0s;
+}
+
+.what-we-do {
+    position: relative;
+}
 
 /* Responsive network container */
 @media (max-width: 768px) {
@@ -1750,7 +1972,7 @@ a:hover {
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1758,8 +1980,8 @@ a:hover {
 }
 
 .audience-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .audience-card h3 {
@@ -2072,5 +2294,94 @@ a:hover {
 
 .team-card:hover .team-actual-image {
     transform: scale(1.05);
-} / *   F o r c e   d e p l o y m e n t   -   0 6 / 2 9 / 2 0 2 5   2 3 : 2 8 : 2 2   * /  
- 
+}
+
+/* ===============================
+   SIMPLIFIED ANIMATIONS
+   =============================== */
+
+/* 1. Sayfa yumuşakça beliriyor (fade-in) */
+@keyframes pageLoadFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+body {
+    animation: pageLoadFade 0.8s ease-out;
+}
+
+/* 2. Menü öğeleri teker teker görünüyor */
+@keyframes navLinkFade {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.nav-links li {
+    animation: navLinkFade 0.6s ease-out both;
+}
+
+.nav-links li:nth-child(1) { animation-delay: 0.1s; }
+.nav-links li:nth-child(2) { animation-delay: 0.2s; }
+.nav-links li:nth-child(3) { animation-delay: 0.3s; }
+.nav-links li:nth-child(4) { animation-delay: 0.4s; }
+.nav-links li:nth-child(5) { animation-delay: 0.5s; }
+
+/* 3. Başlık aşağıdan yukarı kayarak giriyor */
+@keyframes heroTitleSlide {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.hero h1 {
+    animation: heroTitleSlide 1s ease-out 0.3s both;
+}
+
+/* 4. Alt metin de aynı şekilde ama biraz gecikmeli */
+.hero-subtitle {
+    animation: heroTitleSlide 1s ease-out 0.6s both;
+}
+
+/* 5. Kartların üzerine gelince yukarı kalkıyor ve büyüyor - Bu stiller zaten başka yerde tanımlı */
+
+/* 6. Butonların üzerine gelince parlıyor ve yukarı kalkıyor */
+.cta-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.cta-button:hover::before {
+    left: 100%;
+}
