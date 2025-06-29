@@ -195,6 +195,24 @@ nav {
     display: block;
 }
 
+/* Remove hover effects from logo links */
+.logo a:hover,
+.logo a:focus,
+.logo a:active {
+    background-color: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
+    color: inherit !important;
+}
+
+/* Remove hover effects from logo images */
+.logo-img:hover,
+.logo img:hover {
+    background-color: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
 /* Hide "Ana Sayfa" button on desktop and tablet */
 @media (min-width: 481px) {
     .nav-links li:first-child {
