@@ -804,6 +804,11 @@
         // Navigation functionality
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', (e) => {
+                // Eğer link href içeriyorsa ve data-section yoksa, normal linklemesine izin ver
+                if (item.getAttribute('href') && item.getAttribute('href') !== '#' && !item.dataset.section) {
+                    return; // Normal link davranışına izin ver
+                }
+                
                 e.preventDefault();
                 
                 document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
@@ -812,7 +817,9 @@
                 document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
                 
                 const section = item.dataset.section;
-                document.getElementById(section + '-section').style.display = 'block';
+                if (section) {
+                    document.getElementById(section + '-section').style.display = 'block';
+                }
             });
         });
 
