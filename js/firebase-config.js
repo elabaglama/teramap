@@ -13,11 +13,15 @@ const firebaseConfig = {
 import { initializeApp } from 'firebase/app';
 import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Auth with persistence
 const auth = getAuth(app);
+
+// Initialize Firestore
+const db = getFirestore(app);
 
 // Set persistence to local storage (keeps user logged in across browser sessions)
 setPersistence(auth, browserLocalPersistence).catch((error) => {
@@ -32,4 +36,4 @@ googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
 
-export { auth, googleProvider }; 
+export { auth, googleProvider, db }; 
