@@ -195,24 +195,6 @@ nav {
     display: block;
 }
 
-/* Remove hover effects from logo links */
-.logo a:hover,
-.logo a:focus,
-.logo a:active {
-    background-color: transparent !important;
-    transform: none !important;
-    box-shadow: none !important;
-    color: inherit !important;
-}
-
-/* Remove hover effects from logo images */
-.logo-img:hover,
-.logo img:hover {
-    background-color: transparent !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
 /* Hide "Ana Sayfa" button on desktop and tablet */
 @media (min-width: 481px) {
     .nav-links li:first-child {
@@ -229,12 +211,12 @@ nav {
     justify-content: center;
     text-align: center;
     padding: 0 2rem;
-    padding-top: 352px; /* Ensure content starts well below header */
+    padding-top: 357px; /* Ensure content starts well below header */
 }
 
 .hero-content {
     max-width: 1000px;
-    margin: -50px auto 0 auto;
+    margin: -55px auto 0 auto;
 }
 
 .hero h1 {
