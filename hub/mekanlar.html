@@ -833,25 +833,14 @@
             document.getElementById('venue-modal').style.display = 'none';
         };
 
-        // Send message - open in new tab
+        // Rezerve Et - open venue detail in new tab
         window.sendMessage = function(venueId, venueName) {
-            if (venueId && venueName) {
-                // Store venue info for pre-filling message
-                sessionStorage.setItem('messageTarget', JSON.stringify({
-                    type: 'venue',
-                    id: venueId,
-                    name: venueName
-                }));
-                window.open('messages.html', '_blank');
-            } else if (window.currentVenueForMessage) {
-                sessionStorage.setItem('messageTarget', JSON.stringify({
-                    type: 'venue',
-                    id: window.currentVenueForMessage.id,
-                    name: window.currentVenueForMessage.name
-                }));
-                window.open('messages.html', '_blank');
+            if (venueId) {
+                const venueDetailUrl = `https://www.teramap.works/hub/venue-detail?id=${venueId}`;
+                window.open(venueDetailUrl, '_blank');
             } else {
-                window.open('messages.html', '_blank');
+                // Fallback if no venueId
+                window.open('https://www.teramap.works/hub/venue-detail?id=1', '_blank');
             }
         };
 
