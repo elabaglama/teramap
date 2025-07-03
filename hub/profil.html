@@ -6,14 +6,6 @@
     <title>Profil - TeraMap Hub</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="../favicon.ico?v=1748898958595">
-    <link rel="icon" href="../favicon/favicon.svg?v=1748898958595" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="../favicon/favicon.png?v=1748898958595">
-    
     <style>
         body {
             margin: 0;
@@ -52,7 +44,7 @@
             transition: color 0.3s ease;
         }
         
-        .hub-nav a:hover, .hub-nav a.active {
+        .hub-nav a:hover {
             color: #ba9585;
         }
         
@@ -72,13 +64,8 @@
             justify-content: center;
             color: white;
             font-weight: 600;
-            overflow: hidden;
-        }
-        
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            background-size: cover;
+            background-position: center;
         }
         
         .logout-btn {
@@ -103,93 +90,854 @@
             margin-right: auto;
         }
         
-        .loading {
-            text-align: center;
+        .profile-header {
+            background: white;
+            border-radius: 16px;
             padding: 3rem;
-            color: #666;
-            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
         }
         
-        .hidden {
-            display: none !important;
+        .profile-avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #ba9585;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 600;
+            margin: 0 auto;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-upload-btn:hover {
+            background: #a88574;
+            transform: scale(1.1);
+        }
+        
+        .profile-name {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-email {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ba9585;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .profile-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .favorites-section {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title i {
+            color: #ba9585;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #ba9585;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .save-btn {
+            width: 100%;
+            padding: 14px;
+            background: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            background: #a88574;
+        }
+        
+        .save-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .favorite-venue {
+            background: #f8f8f8;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .favorite-venue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .venue-image {
+            width: 100%;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .venue-category {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(186, 149, 133, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .venue-info {
+            padding: 1rem;
+        }
+        
+        .venue-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .venue-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .venue-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .venue-feature {
+            background: #ba9585;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .remove-favorite {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #ba9585;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-favorite:hover {
+            background: #ba9585;
+            color: white;
+        }
+        
+        .empty-favorites {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+        }
+        
+        .empty-favorites i {
+            font-size: 3rem;
+            color: #ba9585;
+            margin-bottom: 1rem;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            background: #efe;
+            color: #363;
+            border: 1px solid #cfc;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+        
+        #avatar-input {
+            display: none;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ba9585;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-time {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .hub-header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .main-content {
+                margin-top: 120px;
+                padding: 1rem;
+            }
+            
+            .profile-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="hub-header">
         <div class="hub-logo">
-            <a href="/">
-                <img src="../images/general/teramaplogo.png" alt="TeraMap">
-            </a>
+            <img src="../images/general/teramaplogo.png" alt="TeraMap Hub">
         </div>
+        
         <nav class="hub-nav">
-            <a href="index.html">Ana Sayfa</a>
-            <a href="mekanlar.html">Mekanlar</a>
+            <a href="/hub">Ana Sayfa</a>
+            <a href="/hub/mekanlar">Mekanlar</a>
             <a href="messages.html">Mesajlar</a>
-            <a href="profil.html" class="active">Profil</a>
+            <a href="/hub/profil" style="color: #ba9585;">Profil</a>
         </nav>
+        
         <div class="user-info">
-            <div class="user-avatar" id="headerAvatar">?</div>
-            <span id="headerUsername">Kullanıcı</span>
+            <div class="user-avatar" id="header-avatar">U</div>
+            <span id="header-name">Kullanıcı</span>
             <button class="logout-btn" onclick="logout()">Çıkış</button>
         </div>
     </header>
-
-    <!-- Main Content -->
+    
     <main class="main-content">
-        <div class="loading" id="loading">
-            <i class="fas fa-spinner fa-spin"></i> Profil yükleniyor...
+        <div class="profile-header">
+            <div class="profile-avatar-container">
+                <div class="profile-avatar" id="profile-avatar" onclick="document.getElementById('avatar-input').click()">U</div>
+                <button class="avatar-upload-btn" onclick="document.getElementById('avatar-input').click()">
+                    <i class="fas fa-camera"></i>
+                </button>
+                <input type="file" id="avatar-input" accept="image/*">
+            </div>
+            <h1 class="profile-name" id="profile-name">Kullanıcı</h1>
+            <p class="profile-email" id="profile-email">user@example.com</p>
+            
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="visited-count">0</span>
+                    <span class="stat-label">Ziyaret Edilen Mekan</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="messages-count">0</span>
+                    <span class="stat-label">Gönderilen Mesaj</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="favorites-count">0</span>
+                    <span class="stat-label">Favori Mekan</span>
+                </div>
+            </div>
         </div>
         
-        <div id="profileContent" class="hidden">
-            <h1>Profil sayfası geliştiriliyor...</h1>
-            <p>Yakında tüm özellikler eklenecek!</p>
+        <div class="profile-sections">
+            <div class="profile-section">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i>
+                    Profil Bilgileri
+                </h2>
+                
+                <div id="profile-message" class="message"></div>
+                
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="display-name">Ad Soyad</label>
+                        <input type="text" id="display-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-posta</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio">Hakkında</label>
+                        <textarea id="bio" placeholder="Kendiniz hakkında birkaç kelime..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Telefon</label>
+                        <input type="tel" id="phone" placeholder="+90 555 123 45 67">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-password">Yeni Şifre</label>
+                        <input type="password" id="new-password" placeholder="Değiştirmek istiyorsanız girin">
+                    </div>
+                    
+                    <button type="submit" class="save-btn" id="save-profile-btn">Bilgileri Güncelle</button>
+                </form>
+            </div>
+            
+            <div class="profile-section">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i>
+                    Son Aktiviteler
+                </h2>
+                
+                <div id="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Profil oluşturuldu</div>
+                            <div class="activity-time">Bugün</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="favorites-section">
+            <h2 class="section-title">
+                <i class="fas fa-heart"></i>
+                Favori Mekanlarım
+            </h2>
+            
+            <div id="favorites-grid" class="favorites-grid">
+                <div class="empty-favorites">
+                    <i class="fas fa-heart"></i>
+                    <p>Henüz favori mekanınız yok.</p>
+                    <p>Mekanlar sayfasından beğendiğiniz mekanları favorilerinize ekleyebilirsiniz.</p>
+                </div>
+            </div>
         </div>
     </main>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
-
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            signOut, 
+            updateProfile, 
+            updateEmail,
+            updatePassword
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc, 
+            setDoc, 
+            collection,
+            query,
+            where,
+            getDocs,
+            deleteDoc
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+        import { 
+            getStorage, 
+            ref, 
+            uploadBytes, 
+            getDownloadURL 
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js';
+        
         const firebaseConfig = {
-            apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
-            authDomain: "teramapcursor.firebaseapp.com",
-            projectId: "teramapcursor",
-            storageBucket: "teramapcursor.firebasestorage.app",
-            messagingSenderId: "446128373922",
-            appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+          apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
+          authDomain: "teramapcursor.firebaseapp.com",
+          projectId: "teramapcursor",
+          storageBucket: "teramapcursor.firebasestorage.app",
+          messagingSenderId: "446128373922",
+          appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
         };
-
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-
-        // Initialize page
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('headerUsername').textContent = user.displayName || 'Kullanıcı';
-                if (user.photoURL) {
-                    document.getElementById('headerAvatar').innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
-                } else {
-                    document.getElementById('headerAvatar').textContent = (user.displayName || 'K').charAt(0).toUpperCase();
-                }
-                
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('profileContent').classList.remove('hidden');
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        
+        let currentUser = null;
+        let venuesData = [];
+        
+        // Load venues data
+        async function loadVenuesData() {
+            try {
+                const response = await fetch('../data/venues.json');
+                const data = await response.json();
+                venuesData = data.venues;
+            } catch (error) {
+                console.error('Error loading venues:', error);
+            }
+        }
+        
+        function showMessage(message, type = 'success') {
+            const messageElement = document.getElementById('profile-message');
+            messageElement.textContent = message;
+            messageElement.className = `message ${type}-message`;
+            messageElement.style.display = 'block';
+            
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Update profile avatar display
+        function updateAvatarDisplay(photoURL, displayName) {
+            const profileAvatar = document.getElementById('profile-avatar');
+            const headerAvatar = document.getElementById('header-avatar');
+            
+            if (photoURL) {
+                profileAvatar.style.backgroundImage = `url(${photoURL})`;
+                profileAvatar.textContent = '';
+                headerAvatar.style.backgroundImage = `url(${photoURL})`;
+                headerAvatar.textContent = '';
             } else {
-                window.location.href = 'giris.html';
+                const initial = displayName ? displayName.charAt(0).toUpperCase() : 'U';
+                profileAvatar.style.backgroundImage = '';
+                profileAvatar.textContent = initial;
+                headerAvatar.style.backgroundImage = '';
+                headerAvatar.textContent = initial;
+            }
+        }
+        
+        // Handle avatar upload
+        document.getElementById('avatar-input').addEventListener('change', async function(e) {
+            if (!currentUser || !e.target.files[0]) return;
+            
+            const file = e.target.files[0];
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showMessage('Lütfen geçerli bir resim dosyası seçin.', 'error');
+                return;
+            }
+            
+            // Validate file size (5MB limit)
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage('Dosya boyutu 5MB\'dan küçük olmalıdır.', 'error');
+                return;
+            }
+            
+            try {
+                const storageRef = ref(storage, `avatars/${currentUser.uid}`);
+                await uploadBytes(storageRef, file);
+                const photoURL = await getDownloadURL(storageRef);
+                
+                await updateProfile(currentUser, { photoURL });
+                updateAvatarDisplay(photoURL, currentUser.displayName);
+                
+                showMessage('Profil fotoğrafınız başarıyla güncellendi.');
+            } catch (error) {
+                console.error('Avatar upload error:', error);
+                showMessage('Profil fotoğrafı yüklenirken bir hata oluştu.', 'error');
             }
         });
-
+        
+        // Load user profile data
+        async function loadUserProfile(user) {
+            try {
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
+                
+                let userData = {
+                    displayName: user.displayName || '',
+                    email: user.email || '',
+                    bio: '',
+                    phone: '',
+                    photoURL: user.photoURL || ''
+                };
+                
+                if (userDoc.exists()) {
+                    userData = { ...userData, ...userDoc.data() };
+                }
+                
+                // Update form fields
+                document.getElementById('display-name').value = userData.displayName;
+                document.getElementById('email').value = userData.email;
+                document.getElementById('bio').value = userData.bio || '';
+                document.getElementById('phone').value = userData.phone || '';
+                
+                // Update profile display
+                document.getElementById('profile-name').textContent = userData.displayName || 'Kullanıcı';
+                document.getElementById('profile-email').textContent = userData.email;
+                document.getElementById('header-name').textContent = userData.displayName || 'Kullanıcı';
+                
+                updateAvatarDisplay(userData.photoURL, userData.displayName);
+                
+                // Load user favorites and stats
+                await loadUserFavorites();
+                await loadUserStats();
+                
+            } catch (error) {
+                console.error('Error loading user profile:', error);
+                showMessage('Profil yüklenirken bir hata oluştu.', 'error');
+            }
+        }
+        
+        // Load user favorites
+        async function loadUserFavorites() {
+            if (!currentUser) return;
+            
+            try {
+                const favoritesQuery = query(
+                    collection(db, 'favorites'),
+                    where('userId', '==', currentUser.uid)
+                );
+                
+                const querySnapshot = await getDocs(favoritesQuery);
+                const favorites = [];
+                
+                querySnapshot.forEach((doc) => {
+                    favorites.push({ id: doc.id, ...doc.data() });
+                });
+                
+                displayFavorites(favorites);
+                document.getElementById('favorites-count').textContent = favorites.length;
+                
+            } catch (error) {
+                console.error('Error loading favorites:', error);
+            }
+        }
+        
+        // Display favorites
+        function displayFavorites(favorites) {
+            const favoritesGrid = document.getElementById('favorites-grid');
+            
+            if (favorites.length === 0) {
+                favoritesGrid.innerHTML = `
+                    <div class="empty-favorites">
+                        <i class="fas fa-heart"></i>
+                        <p>Henüz favori mekanınız yok.</p>
+                        <p>Mekanlar sayfasından beğendiğiniz mekanları favorilerinize ekleyebilirsiniz.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            favoritesGrid.innerHTML = '';
+            
+            favorites.forEach(favorite => {
+                const venue = venuesData.find(v => v.id === favorite.venueId);
+                if (!venue) return;
+                
+                const venueElement = document.createElement('div');
+                venueElement.className = 'favorite-venue';
+                venueElement.innerHTML = `
+                    <div class="venue-image" style="background-image: url('${venue.image}')">
+                        <div class="venue-category">${venue.category}</div>
+                        <button class="remove-favorite" onclick="removeFavorite('${favorite.id}', '${venue.id}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="venue-info">
+                        <div class="venue-name">${venue.name}</div>
+                        <div class="venue-location">${venue.location}</div>
+                        <div class="venue-features">
+                            ${venue.features.slice(0, 3).map(feature => 
+                                `<span class="venue-feature">${feature}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                venueElement.addEventListener('click', (e) => {
+                    if (!e.target.closest('.remove-favorite')) {
+                        window.location.href = `/hub/venue-detail.html?id=${venue.id}`;
+                    }
+                });
+                
+                favoritesGrid.appendChild(venueElement);
+            });
+        }
+        
+        // Remove favorite
+        window.removeFavorite = async function(favoriteId, venueId) {
+            if (!currentUser) return;
+            
+            try {
+                await deleteDoc(doc(db, 'favorites', favoriteId));
+                await loadUserFavorites();
+                showMessage('Mekan favorilerinizden kaldırıldı.');
+            } catch (error) {
+                console.error('Error removing favorite:', error);
+                showMessage('Favori kaldırılırken bir hata oluştu.', 'error');
+            }
+        };
+        
+        // Load user statistics
+        async function loadUserStats() {
+            if (!currentUser) return;
+            
+            try {
+                // This would normally come from activity tracking
+                // For now, we'll use placeholder values
+                document.getElementById('visited-count').textContent = '5';
+                document.getElementById('messages-count').textContent = '12';
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        // Handle profile form submission
+        document.getElementById('profile-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+            
+            const saveBtn = document.getElementById('save-profile-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Güncelleniyor...';
+            
+            try {
+                const displayName = document.getElementById('display-name').value;
+                const email = document.getElementById('email').value;
+                const bio = document.getElementById('bio').value;
+                const phone = document.getElementById('phone').value;
+                const newPassword = document.getElementById('new-password').value;
+                
+                // Update Firebase Auth profile
+                await updateProfile(currentUser, { displayName });
+                
+                // Update email if changed
+                if (email !== currentUser.email) {
+                    await updateEmail(currentUser, email);
+                }
+                
+                // Update password if provided
+                if (newPassword.trim()) {
+                    await updatePassword(currentUser, newPassword);
+                    document.getElementById('new-password').value = '';
+                }
+                
+                // Update Firestore user document
+                const userDocRef = doc(db, 'users', currentUser.uid);
+                await setDoc(userDocRef, {
+                    displayName,
+                    email,
+                    bio,
+                    phone,
+                    photoURL: currentUser.photoURL || '',
+                    updatedAt: new Date()
+                }, { merge: true });
+                
+                // Update display
+                document.getElementById('profile-name').textContent = displayName;
+                document.getElementById('profile-email').textContent = email;
+                document.getElementById('header-name').textContent = displayName;
+                updateAvatarDisplay(currentUser.photoURL, displayName);
+                
+                showMessage('Profil bilgileriniz başarıyla güncellendi.');
+                
+            } catch (error) {
+                console.error('Profile update error:', error);
+                let errorMessage = 'Profil güncellenirken bir hata oluştu.';
+                
+                if (error.code === 'auth/requires-recent-login') {
+                    errorMessage = 'Güvenlik nedeniyle lütfen tekrar giriş yapın.';
+                } else if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'Bu e-posta adresi zaten kullanımda.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Şifre en az 6 karakter olmalıdır.';
+                }
+                
+                showMessage(errorMessage, 'error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Bilgileri Güncelle';
+            }
+        });
+        
+        // Auth state management
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadVenuesData();
+                await loadUserProfile(user);
+            } else {
+                window.location.href = '/hub/giris';
+            }
+        });
+        
         // Logout function
         window.logout = async function() {
             try {
                 await signOut(auth);
-                window.location.href = 'index.html';
             } catch (error) {
                 console.error('Logout error:', error);
             }
         };
     </script>
 </body>
-</html>
+</html> 

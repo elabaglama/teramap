@@ -86,6 +86,35 @@
             cursor: pointer;
         }
 
+        .favorite-btn {
+            background: transparent;
+            border: 2px solid #ba9585;
+            color: #ba9585;
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .favorite-btn:hover {
+            background: #ba9585;
+            color: white;
+        }
+
+        .favorite-btn.favorited {
+            background: #ba9585;
+            color: white;
+        }
+
+        .favorite-btn.favorited:hover {
+            background: #a88574;
+        }
+
 
 
         /* Main Content */
@@ -150,14 +179,6 @@
 
         .venue-header {
             margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .venue-title-section {
-            flex: 1;
         }
 
         .venue-title {
@@ -173,55 +194,6 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 1rem;
-        }
-
-        .venue-actions {
-            display: flex;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
-
-        .favorite-btn {
-            background: none;
-            border: 2px solid #ba9585;
-            color: #ba9585;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .favorite-btn:hover {
-            background: #ba9585;
-            color: white;
-        }
-
-        .favorite-btn.favorited {
-            background: #ba9585;
-            color: white;
-        }
-
-        .share-btn {
-            background: none;
-            border: 2px solid #ddd;
-            color: #666;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .share-btn:hover {
-            border-color: #ba9585;
-            color: #ba9585;
         }
 
         .venue-description {
@@ -595,22 +567,10 @@
             <!-- Details -->
             <div class="venue-details">
                 <div class="venue-header">
-                    <div class="venue-title-section">
-                        <h1 class="venue-title" id="venue-title">Mekan Adı</h1>
-                        <div class="venue-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span id="venue-location">Mekan Konumu</span>
-                        </div>
-                    </div>
-                    <div class="venue-actions">
-                        <button class="favorite-btn" id="favorite-btn">
-                            <i class="far fa-heart"></i>
-                            <span>Favori</span>
-                        </button>
-                        <button class="share-btn" id="share-btn">
-                            <i class="fas fa-share"></i>
-                            <span>Paylaş</span>
-                        </button>
+                    <h1 class="venue-title" id="venue-title">Mekan Adı</h1>
+                    <div class="venue-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="venue-location">Mekan Konumu</span>
                     </div>
                 </div>
 
@@ -672,13 +632,17 @@
                 <div class="price-value" id="venue-price">Ücretsiz</div>
             </div>
 
+            <!-- Favorite Button -->
+            <button class="favorite-btn" id="favorite-button">
+                <i class="fas fa-heart"></i>
+                <span id="favorite-text">Favorilere Ekle</span>
+            </button>
+
             <!-- Book Button -->
-            <button class="book-button" id="book-button">Rezervasyon Talebi Gönder</button>
-            <div id="reservation-status" style="margin-top: 1rem; text-align: center; font-size: 0.9rem; color: #666;"></div>
+            <button class="book-button" id="book-button">Şimdi Rezerve Et</button>
         </div>
     </div>
 
-    <script src="../js/nav-auth.js"></script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
@@ -686,35 +650,118 @@
             getFirestore, 
             doc, 
             setDoc, 
-            getDoc, 
+            deleteDoc, 
             collection, 
-            addDoc, 
             query, 
             where, 
-            getDocs,
-            deleteDoc 
+            getDocs 
         } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
-            authDomain: "teramapcursor.firebaseapp.com",
-            projectId: "teramapcursor",
-            storageBucket: "teramapcursor.firebasestorage.app",
-            messagingSenderId: "446128373922",
-            appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+          apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
+          authDomain: "teramapcursor.firebaseapp.com",
+          projectId: "teramapcursor",
+          storageBucket: "teramapcursor.firebasestorage.app",
+          messagingSenderId: "446128373922",
+          appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
         };
-
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-
+        
         let currentUser = null;
         let currentVenue = null;
-        let isFavorited = false;
-
+        let userFavorites = new Set();
+        
         // Get venue ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const venueId = urlParams.get('id') || '1';
+        
+        // Auth state management
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                document.getElementById('profile-avatar').textContent = initial;
+                await loadUserFavorites();
+                updateFavoriteButton();
+            } else {
+                window.location.href = '/hub/giris';
+            }
+        });
+        
+        // Load user favorites
+        async function loadUserFavorites() {
+            if (!currentUser) return;
+            
+            try {
+                const favoritesQuery = query(
+                    collection(db, 'favorites'),
+                    where('userId', '==', currentUser.uid)
+                );
+                
+                const querySnapshot = await getDocs(favoritesQuery);
+                userFavorites.clear();
+                
+                querySnapshot.forEach((doc) => {
+                    userFavorites.add(doc.data().venueId);
+                });
+            } catch (error) {
+                console.error('Error loading favorites:', error);
+            }
+        }
+        
+        // Update favorite button
+        function updateFavoriteButton() {
+            const favoriteBtn = document.getElementById('favorite-button');
+            const favoriteText = document.getElementById('favorite-text');
+            
+            if (userFavorites.has(venueId)) {
+                favoriteBtn.classList.add('favorited');
+                favoriteText.textContent = 'Favorilerden Çıkar';
+            } else {
+                favoriteBtn.classList.remove('favorited');
+                favoriteText.textContent = 'Favorilere Ekle';
+            }
+        }
+        
+        // Toggle favorite functionality
+        async function toggleFavorite() {
+            if (!currentUser || !currentVenue) {
+                alert('Favorilere eklemek için giriş yapmanız gerekiyor.');
+                return;
+            }
+
+            try {
+                const favoriteId = `${currentUser.uid}_${venueId}`;
+                
+                if (userFavorites.has(venueId)) {
+                    // Remove from favorites
+                    await deleteDoc(doc(db, 'favorites', favoriteId));
+                    userFavorites.delete(venueId);
+                } else {
+                    // Add to favorites
+                    await setDoc(doc(db, 'favorites', favoriteId), {
+                        userId: currentUser.uid,
+                        venueId: venueId,
+                        venueName: currentVenue.name,
+                        venueImage: currentVenue.image,
+                        createdAt: new Date()
+                    });
+                    userFavorites.add(venueId);
+                }
+                
+                updateFavoriteButton();
+                
+            } catch (error) {
+                console.error('Error toggling favorite:', error);
+                alert('Favori işlemi sırasında bir hata oluştu.');
+            }
+        }
+        
+        // Add event listener for favorite button
+        document.getElementById('favorite-button').addEventListener('click', toggleFavorite);
 
         // Load venue data
         async function loadVenueData() {
@@ -728,6 +775,8 @@
                     return;
                 }
 
+                currentVenue = venue;
+
                 // Update page content
                 document.getElementById('venue-title').textContent = venue.name;
                 document.getElementById('venue-location').textContent = venue.location;
@@ -739,18 +788,14 @@
 
 
                 // Set images
-                const venueImages = venue.images || [venue.image, venue.image, venue.image, venue.image, venue.image];
-                document.getElementById('main-image').style.backgroundImage = `url('${venueImages[0]}')`;
+                document.getElementById('main-image').style.backgroundImage = `url('${venue.image}')`;
                 
-                // Set gallery images from the images array
+                // Set dummy images for gallery (you can add more images to venues.json later)
+                const galleryImages = [venue.image, venue.image, venue.image, venue.image];
                 for (let i = 1; i <= 4; i++) {
                     const element = document.getElementById(`gallery-${i}`);
-                    if (element && venueImages[i]) {
-                        element.style.backgroundImage = `url('${venueImages[i]}')`;
-                        element.addEventListener('click', () => {
-                            // Change main image when gallery image is clicked
-                            document.getElementById('main-image').style.backgroundImage = `url('${venueImages[i]}')`;
-                        });
+                    if (element) {
+                        element.style.backgroundImage = `url('${galleryImages[i-1]}')`;
                     }
                 }
 
@@ -767,193 +812,14 @@
                 // Update page title
                 document.title = `${venue.name} - TeraMap Hub`;
                 
-                currentVenue = venue;
+                // Update favorite button if user is logged in
+                if (currentUser) {
+                    updateFavoriteButton();
+                }
 
             } catch (error) {
                 console.error('Mekan verileri yüklenirken hata:', error);
             }
-        }
-
-        // Auth state observer
-        onAuthStateChanged(auth, async (user) => {
-            currentUser = user;
-            if (user) {
-                await checkFavoriteStatus();
-                setupEventListeners();
-            } else {
-                // Redirect to login if trying to favorite or book
-                document.getElementById('favorite-btn').addEventListener('click', () => {
-                    window.location.href = 'giris.html';
-                });
-                document.getElementById('book-button').addEventListener('click', () => {
-                    window.location.href = 'giris.html';
-                });
-            }
-        });
-
-        // Check if venue is favorited
-        async function checkFavoriteStatus() {
-            if (!currentUser) return;
-            
-            try {
-                const favoritesRef = collection(db, 'favorites');
-                const q = query(favoritesRef, 
-                    where('userId', '==', currentUser.uid),
-                    where('venueId', '==', venueId)
-                );
-                const querySnapshot = await getDocs(q);
-                
-                isFavorited = !querySnapshot.empty;
-                updateFavoriteButton();
-                
-            } catch (error) {
-                console.error('Error checking favorite status:', error);
-            }
-        }
-
-        // Update favorite button
-        function updateFavoriteButton() {
-            const favoriteBtn = document.getElementById('favorite-btn');
-            const icon = favoriteBtn.querySelector('i');
-            const text = favoriteBtn.querySelector('span');
-            
-            if (isFavorited) {
-                favoriteBtn.classList.add('favorited');
-                icon.className = 'fas fa-heart';
-                text.textContent = 'Favorilerimde';
-            } else {
-                favoriteBtn.classList.remove('favorited');
-                icon.className = 'far fa-heart';
-                text.textContent = 'Favori';
-            }
-        }
-
-        // Toggle favorite
-        async function toggleFavorite() {
-            if (!currentUser) {
-                window.location.href = 'giris.html';
-                return;
-            }
-
-            try {
-                if (isFavorited) {
-                    // Remove from favorites
-                    const favoritesRef = collection(db, 'favorites');
-                    const q = query(favoritesRef, 
-                        where('userId', '==', currentUser.uid),
-                        where('venueId', '==', venueId)
-                    );
-                    const querySnapshot = await getDocs(q);
-                    
-                    querySnapshot.forEach(async (document) => {
-                        await deleteDoc(doc(db, 'favorites', document.id));
-                    });
-                    
-                    isFavorited = false;
-                    showMessage('Favorilerden kaldırıldı!', 'success');
-                } else {
-                    // Add to favorites
-                    await addDoc(collection(db, 'favorites'), {
-                        userId: currentUser.uid,
-                        venueId: venueId,
-                        venueName: currentVenue.name,
-                        venueImage: currentVenue.image,
-                        createdAt: new Date()
-                    });
-                    
-                    isFavorited = true;
-                    showMessage('Favorilere eklendi!', 'success');
-                }
-                
-                updateFavoriteButton();
-                
-            } catch (error) {
-                console.error('Error toggling favorite:', error);
-                showMessage('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
-            }
-        }
-
-        // Send reservation request
-        async function sendReservationRequest() {
-            if (!currentUser) {
-                window.location.href = 'giris.html';
-                return;
-            }
-
-            if (!selectedDate) {
-                showMessage('Lütfen bir tarih seçin.', 'error');
-                return;
-            }
-
-            try {
-                const reservationDate = new Date(currentYear, currentMonth, selectedDate);
-                
-                // Create reservation request message
-                const messageData = {
-                    fromUserId: currentUser.uid,
-                    fromUserName: currentUser.displayName || currentUser.email,
-                    toUserId: 'admin', // Admin receives all reservation requests
-                    venueId: venueId,
-                    venueName: currentVenue.name,
-                    reservationDate: reservationDate.toISOString(),
-                    message: `${currentVenue.name} mekanı için ${reservationDate.toLocaleDateString('tr-TR')} tarihinde rezervasyon talebinde bulunuyorum.`,
-                    type: 'reservation_request',
-                    status: 'pending',
-                    createdAt: new Date()
-                };
-
-                await addDoc(collection(db, 'messages'), messageData);
-                
-                // Also create a reservation record
-                await addDoc(collection(db, 'reservations'), {
-                    userId: currentUser.uid,
-                    venueId: venueId,
-                    date: reservationDate.toISOString(),
-                    status: 'pending',
-                    createdAt: new Date()
-                });
-
-                showMessage('Rezervasyon talebiniz gönderildi! Mesajlar bölümünden takip edebilirsiniz.', 'success');
-                document.getElementById('reservation-status').innerHTML = 
-                    '<i class="fas fa-check-circle" style="color: #28a745;"></i> Rezervasyon talebi gönderildi';
-
-            } catch (error) {
-                console.error('Error sending reservation request:', error);
-                showMessage('Rezervasyon talebi gönderilirken hata oluştu.', 'error');
-            }
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            document.getElementById('favorite-btn').addEventListener('click', toggleFavorite);
-            document.getElementById('book-button').addEventListener('click', sendReservationRequest);
-            
-            // Share button
-            document.getElementById('share-btn').addEventListener('click', () => {
-                if (navigator.share) {
-                    navigator.share({
-                        title: currentVenue.name,
-                        text: currentVenue.description,
-                        url: window.location.href
-                    });
-                } else {
-                    // Fallback: copy to clipboard
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        showMessage('Bağlantı kopyalandı!', 'success');
-                    });
-                }
-            });
-        }
-
-        // Show message function
-        function showMessage(message, type) {
-            const statusDiv = document.getElementById('reservation-status');
-            statusDiv.style.color = type === 'error' ? '#dc3545' : '#28a745';
-            statusDiv.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'check-circle'}"></i> ${message}`;
-            
-            setTimeout(() => {
-                statusDiv.innerHTML = '';
-            }, 5000);
         }
 
         // Calendar functionality
@@ -1040,7 +906,14 @@
             generateCalendar();
         });
 
-        // Book button functionality will be handled by setupEventListeners when user is authenticated
+        // Book button functionality
+        document.getElementById('book-button').addEventListener('click', () => {
+            if (selectedDate) {
+                alert(`${selectedDate} ${monthNames[currentMonth]} ${currentYear} tarihi için rezervasyon talebi gönderildi`);
+            } else {
+                alert('Lütfen önce bir tarih seçin');
+            }
+        });
 
         // Mobile menu toggle
         document.getElementById('menu-toggle').addEventListener('click', () => {
