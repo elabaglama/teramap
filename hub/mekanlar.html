@@ -833,7 +833,7 @@
             document.getElementById('venue-modal').style.display = 'none';
         };
 
-        // Send message - redirect to messages page
+        // Send message - open in new tab
         window.sendMessage = function(venueId, venueName) {
             if (venueId && venueName) {
                 // Store venue info for pre-filling message
@@ -842,16 +842,16 @@
                     id: venueId,
                     name: venueName
                 }));
-                window.location.href = 'messages.html';
+                window.open('messages.html', '_blank');
             } else if (window.currentVenueForMessage) {
                 sessionStorage.setItem('messageTarget', JSON.stringify({
                     type: 'venue',
                     id: window.currentVenueForMessage.id,
                     name: window.currentVenueForMessage.name
                 }));
-                window.location.href = 'messages.html';
+                window.open('messages.html', '_blank');
             } else {
-                window.location.href = 'messages.html';
+                window.open('messages.html', '_blank');
             }
         };
 

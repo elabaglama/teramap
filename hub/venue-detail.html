@@ -86,37 +86,13 @@
             cursor: pointer;
         }
 
-        /* Breadcrumb */
-        .breadcrumb {
-            margin-top: 80px;
-            padding: 1rem 2rem;
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
-        }
 
-        .breadcrumb-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .breadcrumb a {
-            color: #ba9585;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
 
         /* Main Content */
         .main-container {
             max-width: 1400px;
             margin: 0 auto;
+            margin-top: 80px;
             padding: 2rem;
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -544,16 +520,7 @@
         </div>
     </header>
 
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-        <div class="breadcrumb-content">
-            <a href="index.html">Ana Sayfa</a>
-            <i class="fas fa-chevron-right"></i>
-            <a href="mekanlar.html">Mekanlar</a>
-            <i class="fas fa-chevron-right"></i>
-            <span id="venue-breadcrumb">Mekan Detayı</span>
-        </div>
-    </div>
+
 
     <!-- Main Content -->
     <div class="main-container">
@@ -660,7 +627,6 @@
                 }
 
                 // Update page content
-                document.getElementById('venue-breadcrumb').textContent = venue.name;
                 document.getElementById('venue-title').textContent = venue.name;
                 document.getElementById('venue-location').textContent = venue.location;
                 document.getElementById('venue-capacity').textContent = venue.capacity;
