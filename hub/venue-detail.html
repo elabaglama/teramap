@@ -86,35 +86,6 @@
             cursor: pointer;
         }
 
-        .favorite-btn {
-            background: transparent;
-            border: 2px solid #ba9585;
-            color: #ba9585;
-            border-radius: 8px;
-            padding: 12px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 1rem;
-        }
-
-        .favorite-btn:hover {
-            background: #ba9585;
-            color: white;
-        }
-
-        .favorite-btn.favorited {
-            background: #ba9585;
-            color: white;
-        }
-
-        .favorite-btn.favorited:hover {
-            background: #a88574;
-        }
-
 
 
         /* Main Content */
@@ -632,136 +603,16 @@
                 <div class="price-value" id="venue-price">Ücretsiz</div>
             </div>
 
-            <!-- Favorite Button -->
-            <button class="favorite-btn" id="favorite-button">
-                <i class="fas fa-heart"></i>
-                <span id="favorite-text">Favorilere Ekle</span>
-            </button>
-
             <!-- Book Button -->
             <button class="book-button" id="book-button">Şimdi Rezerve Et</button>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            deleteDoc, 
-            collection, 
-            query, 
-            where, 
-            getDocs 
-        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
-          authDomain: "teramapcursor.firebaseapp.com",
-          projectId: "teramapcursor",
-          storageBucket: "teramapcursor.firebasestorage.app",
-          messagingSenderId: "446128373922",
-          appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        let currentUser = null;
-        let currentVenue = null;
-        let userFavorites = new Set();
-        
+    <script src="../js/nav-auth.js"></script>
+    <script>
         // Get venue ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const venueId = urlParams.get('id') || '1';
-        
-        // Auth state management
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                document.getElementById('profile-avatar').textContent = initial;
-                await loadUserFavorites();
-                updateFavoriteButton();
-            } else {
-                window.location.href = '/hub/giris';
-            }
-        });
-        
-        // Load user favorites
-        async function loadUserFavorites() {
-            if (!currentUser) return;
-            
-            try {
-                const favoritesQuery = query(
-                    collection(db, 'favorites'),
-                    where('userId', '==', currentUser.uid)
-                );
-                
-                const querySnapshot = await getDocs(favoritesQuery);
-                userFavorites.clear();
-                
-                querySnapshot.forEach((doc) => {
-                    userFavorites.add(doc.data().venueId);
-                });
-            } catch (error) {
-                console.error('Error loading favorites:', error);
-            }
-        }
-        
-        // Update favorite button
-        function updateFavoriteButton() {
-            const favoriteBtn = document.getElementById('favorite-button');
-            const favoriteText = document.getElementById('favorite-text');
-            
-            if (userFavorites.has(venueId)) {
-                favoriteBtn.classList.add('favorited');
-                favoriteText.textContent = 'Favorilerden Çıkar';
-            } else {
-                favoriteBtn.classList.remove('favorited');
-                favoriteText.textContent = 'Favorilere Ekle';
-            }
-        }
-        
-        // Toggle favorite functionality
-        async function toggleFavorite() {
-            if (!currentUser || !currentVenue) {
-                alert('Favorilere eklemek için giriş yapmanız gerekiyor.');
-                return;
-            }
-
-            try {
-                const favoriteId = `${currentUser.uid}_${venueId}`;
-                
-                if (userFavorites.has(venueId)) {
-                    // Remove from favorites
-                    await deleteDoc(doc(db, 'favorites', favoriteId));
-                    userFavorites.delete(venueId);
-                } else {
-                    // Add to favorites
-                    await setDoc(doc(db, 'favorites', favoriteId), {
-                        userId: currentUser.uid,
-                        venueId: venueId,
-                        venueName: currentVenue.name,
-                        venueImage: currentVenue.image,
-                        createdAt: new Date()
-                    });
-                    userFavorites.add(venueId);
-                }
-                
-                updateFavoriteButton();
-                
-            } catch (error) {
-                console.error('Error toggling favorite:', error);
-                alert('Favori işlemi sırasında bir hata oluştu.');
-            }
-        }
-        
-        // Add event listener for favorite button
-        document.getElementById('favorite-button').addEventListener('click', toggleFavorite);
 
         // Load venue data
         async function loadVenueData() {
@@ -774,8 +625,6 @@
                     console.error('Mekan bulunamadı');
                     return;
                 }
-
-                currentVenue = venue;
 
                 // Update page content
                 document.getElementById('venue-title').textContent = venue.name;
@@ -811,11 +660,6 @@
 
                 // Update page title
                 document.title = `${venue.name} - TeraMap Hub`;
-                
-                // Update favorite button if user is logged in
-                if (currentUser) {
-                    updateFavoriteButton();
-                }
 
             } catch (error) {
                 console.error('Mekan verileri yüklenirken hata:', error);

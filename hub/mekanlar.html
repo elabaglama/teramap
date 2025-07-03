@@ -354,7 +354,7 @@
 
         .venue-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
         }
 
         .btn-primary {
@@ -389,35 +389,6 @@
         .btn-secondary:hover {
             background: #ba9585;
             color: white;
-        }
-
-        .favorite-btn {
-            background: transparent;
-            border: 2px solid #ba9585;
-            color: #ba9585;
-            border-radius: 8px;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .favorite-btn:hover {
-            background: #ba9585;
-            color: white;
-        }
-
-        .favorite-btn.favorited {
-            background: #ba9585;
-            color: white;
-        }
-
-        .favorite-btn.favorited:hover {
-            background: #a88574;
         }
 
 
@@ -719,16 +690,6 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            deleteDoc, 
-            collection, 
-            query, 
-            where, 
-            getDocs 
-        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
         
         const firebaseConfig = {
           apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
@@ -741,15 +702,13 @@
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
         
         let currentUser = null;
         let venues = [];
         let currentFilter = 'all';
-        let userFavorites = new Set();
 
         // Auth state management
-        onAuthStateChanged(auth, async (user) => {
+        onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
@@ -757,33 +716,11 @@
                 document.getElementById('profile-photo').textContent = initial;
                 document.getElementById('profile-name').textContent = user.displayName || 'Kullanıcı';
                 document.getElementById('profile-email').textContent = user.email;
-                await loadUserFavorites();
                 loadVenues();
             } else {
                 window.location.href = '/hub/giris';
             }
         });
-
-        // Load user favorites
-        async function loadUserFavorites() {
-            if (!currentUser) return;
-            
-            try {
-                const favoritesQuery = query(
-                    collection(db, 'favorites'),
-                    where('userId', '==', currentUser.uid)
-                );
-                
-                const querySnapshot = await getDocs(favoritesQuery);
-                userFavorites.clear();
-                
-                querySnapshot.forEach((doc) => {
-                    userFavorites.add(doc.data().venueId);
-                });
-            } catch (error) {
-                console.error('Error loading favorites:', error);
-            }
-        }
 
         // Load venues
         async function loadVenues() {
@@ -809,9 +746,7 @@
                 return;
             }
             
-            grid.innerHTML = venueList.map(venue => {
-                const isFavorited = userFavorites.has(venue.id);
-                return `
+            grid.innerHTML = venueList.map(venue => `
                 <div class="venue-card" onclick="showVenueDetail('${venue.id}')">
                     <div class="venue-image" style="background-image: url('${venue.image}')">
                         <div class="venue-category-badge">${venue.category}</div>
@@ -839,16 +774,10 @@
                             <button class="btn-primary" onclick="event.stopPropagation(); sendMessage('${venue.id}', '${venue.name}')">
                                 <i class="fas fa-envelope"></i> Rezerve Et
                             </button>
-                            <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" 
-                                    onclick="event.stopPropagation(); toggleFavorite('${venue.id}')"
-                                    title="${isFavorited ? 'Favorilerden çıkar' : 'Favorilere ekle'}">
-                                <i class="fas fa-heart"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
-                `;
-            }).join('');
+            `).join('');
         }
 
                  // Filter functionality
@@ -956,47 +885,6 @@
         window.changePassword = function() {
             alert('Şifre değiştirme özelliği yakında eklenecek!');
             document.getElementById('profile-dropdown').classList.remove('active');
-        };
-
-        // Toggle favorite functionality
-        window.toggleFavorite = async function(venueId) {
-            if (!currentUser) {
-                alert('Favorilere eklemek için giriş yapmanız gerekiyor.');
-                return;
-            }
-
-            const venue = venues.find(v => v.id === venueId);
-            if (!venue) return;
-
-            try {
-                const favoriteId = `${currentUser.uid}_${venueId}`;
-                
-                if (userFavorites.has(venueId)) {
-                    // Remove from favorites
-                    await deleteDoc(doc(db, 'favorites', favoriteId));
-                    userFavorites.delete(venueId);
-                } else {
-                    // Add to favorites
-                    await setDoc(doc(db, 'favorites', favoriteId), {
-                        userId: currentUser.uid,
-                        venueId: venueId,
-                        venueName: venue.name,
-                        venueImage: venue.image,
-                        createdAt: new Date()
-                    });
-                    userFavorites.add(venueId);
-                }
-                
-                // Re-render venues to update favorite buttons
-                const filteredVenues = currentFilter === 'all' ? venues :
-                    currentFilter === 'paid' ? venues.filter(v => v.isPaid) :
-                    venues.filter(v => v.isYouthFree);
-                displayVenues(filteredVenues);
-                
-            } catch (error) {
-                console.error('Error toggling favorite:', error);
-                alert('Favori işlemi sırasında bir hata oluştu.');
-            }
         };
 
         // Logout functionality
