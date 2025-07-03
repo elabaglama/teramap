@@ -5,6 +5,13 @@
             "name": "Postane Galata",
             "location": "Galata, Beyoğlu",
             "image": "../images/venues/postane.jpg",
+            "images": [
+                "../images/venues/postane.jpg",
+                "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800",
+                "https://images.unsplash.com/photo-1523050854058-8df90110c9d1?w=800",
+                "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800",
+                "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800"
+            ],
             "category": "Gençlik Ekiplerine Ücretsiz",
             "capacity": "50-80 kişi",
             "area": "20 m²",
@@ -29,6 +36,13 @@
             "name": "Rahat ve Bahçeli Ev",
             "location": "Sarıyer, İstanbul",
             "image": "../images/venues/airbnb1.png",
+            "images": [
+                "../images/venues/airbnb1.png",
+                "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800",
+                "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800",
+                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+            ],
             "category": "Ücretli Kiralama",
             "capacity": "35 kişi",
             "area": "120 m²",
@@ -53,6 +67,13 @@
             "name": "Fener Evleri 1: Haliç Sanat",
             "location": "Fener, Fatih",
             "image": "../images/venues/halic.jpg",
+            "images": [
+                "../images/venues/halic.jpg",
+                "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800",
+                "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800",
+                "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800"
+            ],
             "category": "Gençlik Ekiplerine Ücretsiz",
             "capacity": "50-70 kişi",
             "area": "180 m²",
@@ -77,6 +98,13 @@
             "name": "Metrohan Sanat Merkezi",
             "location": "Karaköy, Beyoğlu",
             "image": "../images/venues/metrohan.jpg",
+            "images": [
+                "../images/venues/metrohan.jpg",
+                "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800",
+                "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800",
+                "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
+                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+            ],
             "category": "Gençlik Ekiplerine Ücretsiz",
             "capacity": "100-150 kişi",
             "area": "300 m²",
@@ -101,6 +129,13 @@
             "name": "Borusan Sanat",
             "location": "Perşembe Pazarı, Karaköy",
             "image": "../images/venues/borusan.jpg",
+            "images": [
+                "../images/venues/borusan.jpg",
+                "https://images.unsplash.com/photo-1565554340550-2413bd67bb25?w=800",
+                "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800",
+                "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800",
+                "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800"
+            ],
             "category": "Ücretli Kiralama",
             "capacity": "80-120 kişi",
             "area": "250 m²",
