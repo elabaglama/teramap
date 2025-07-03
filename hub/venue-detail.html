@@ -276,12 +276,7 @@
             padding-bottom: 1rem;
         }
 
-        .widget-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
+
 
         .calendar-container {
             margin-bottom: 1rem;
@@ -292,19 +287,48 @@
 
         .calendar-header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 0.3rem;
+        }
+
+        .calendar-nav-group {
+            display: flex;
+            gap: 2px;
         }
 
         .month-year {
             font-weight: 500;
             color: #333;
             font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .month-year:hover {
+            background: #f5f5f5;
         }
 
         .calendar-nav {
-            display: none;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 0.6rem;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-nav:hover {
+            background: #f0f0f0;
+            color: #333;
         }
 
         .calendar-grid {
@@ -389,26 +413,7 @@
             transform: none;
         }
 
-        /* Contact Section */
-        .contact-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e0e0e0;
-        }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 0.6rem;
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        .contact-icon {
-            color: #ba9585;
-            width: 14px;
-        }
 
         /* Responsive Design */
         @media (max-width: 992px) {
@@ -606,20 +611,18 @@
 
         <!-- Right Section - Booking Widget -->
         <div class="booking-widget">
-            <div class="widget-header">
-                <h2 class="widget-title">Uygunluk ve Fiyatlandırma</h2>
-            </div>
-
             <!-- Calendar -->
             <div class="calendar-container">
                 <div class="calendar-header">
-                    <button class="calendar-nav" id="prev-month">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="month-year" id="month-year">Temmuz 2024</div>
-                    <button class="calendar-nav" id="next-month">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                    <div class="month-year" id="month-year" style="cursor: pointer;">Temmuz 2024</div>
+                    <div class="calendar-nav-group">
+                        <button class="calendar-nav" id="prev-month">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="calendar-nav" id="next-month">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="calendar-grid" id="calendar-grid">
@@ -635,18 +638,6 @@
 
             <!-- Book Button -->
             <button class="book-button" id="book-button">Şimdi Rezerve Et</button>
-
-            <!-- Contact Information -->
-            <div class="contact-section">
-                <div class="contact-item">
-                    <i class="fas fa-phone contact-icon"></i>
-                    <span id="venue-phone">+90 212 555 0101</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope contact-icon"></i>
-                    <span id="venue-email">info@venue.com</span>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -677,8 +668,7 @@
                 document.getElementById('venue-category').textContent = venue.category;
                 document.getElementById('venue-description').textContent = venue.description;
                 document.getElementById('venue-price').textContent = venue.price;
-                document.getElementById('venue-phone').textContent = venue.contact.phone;
-                document.getElementById('venue-email').textContent = venue.contact.email;
+
 
                 // Set images
                 document.getElementById('main-image').style.backgroundImage = `url('${venue.image}')`;
