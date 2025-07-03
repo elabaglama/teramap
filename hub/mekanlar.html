@@ -823,32 +823,9 @@
             });
         });
 
-        // Show venue detail modal
+        // Show venue detail - redirect to detail page
         window.showVenueDetail = function(venueId) {
-            const venue = venues.find(v => v.id === venueId);
-            if (!venue) return;
-            
-            document.getElementById('modal-venue-name').textContent = venue.name;
-            document.getElementById('modal-venue-image').style.backgroundImage = `url('${venue.image}')`;
-            document.getElementById('modal-venue-description').textContent = venue.description;
-            
-            document.getElementById('modal-venue-features').innerHTML = venue.features.map(feature => 
-                `<span class="feature-tag">${feature}</span>`
-            ).join('');
-            
-            const dates = venue.availableDates.map(date => {
-                const formattedDate = new Date(date).toLocaleDateString('tr-TR');
-                return `<div style="margin-bottom: 0.5rem;"><i class="fas fa-calendar"></i> ${formattedDate}</div>`;
-            }).join('');
-            
-            document.getElementById('modal-venue-dates').innerHTML = dates;
-            document.getElementById('modal-venue-phone').textContent = venue.contact.phone;
-            document.getElementById('modal-venue-email').textContent = venue.contact.email;
-            
-            document.getElementById('venue-modal').style.display = 'block';
-            
-            // Store current venue for messaging
-            window.currentVenueForMessage = venue;
+            window.location.href = `venue-detail.html?id=${venueId}`;
         };
 
         // Close modal

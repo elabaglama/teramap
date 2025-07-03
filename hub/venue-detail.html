@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mekan Detayları - TeraMap Hub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ba9585;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #ba9585;
+            font-weight: 600;
+        }
+
+        .nav-item:hover {
+            color: #ba9585;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ba9585;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            margin-top: 80px;
+            padding: 1rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .breadcrumb-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #ba9585;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        /* Left Section */
+        .venue-info {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .venue-gallery {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 200px 200px;
+            gap: 0.5rem;
+            height: 400px;
+        }
+
+        .main-image {
+            grid-row: 1 / 3;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .gallery-image {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            cursor: pointer;
+            transition: filter 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            filter: brightness(0.9);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 1rem;
+            color: white;
+        }
+
+        .venue-details {
+            padding: 2rem;
+        }
+
+        .venue-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .venue-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .venue-location {
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .venue-description {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .features-section {
+            margin-bottom: 2rem;
+        }
+
+        .features-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .feature-tag {
+            background: #f0f0f0;
+            color: #555;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .venue-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .spec-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .spec-icon {
+            font-size: 1.5rem;
+            color: #ba9585;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-label {
+            color: #666;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spec-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Right Section - Booking Widget */
+        .booking-widget {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .widget-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 1.5rem;
+        }
+
+        .widget-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .calendar-container {
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .month-year {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .calendar-nav {
+            background: none;
+            border: none;
+            color: #ba9585;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .calendar-nav:hover {
+            background: #f0f0f0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .calendar-day.header {
+            font-weight: 600;
+            color: #666;
+            cursor: default;
+            font-size: 0.8rem;
+        }
+
+        .calendar-day.available {
+            color: #333;
+        }
+
+        .calendar-day.available:hover {
+            background: #f0f0f0;
+        }
+
+        .calendar-day.selected {
+            background: #ba9585;
+            color: white;
+        }
+
+        .calendar-day.unavailable {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .price-section {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .price-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .book-button {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-button:hover {
+            background: #222;
+            transform: translateY(-2px);
+        }
+
+        .book-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: #666;
+        }
+
+        .contact-icon {
+            color: #ba9585;
+            width: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .booking-widget {
+                position: static;
+            }
+
+            .venue-gallery {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 180px 180px;
+                height: 360px;
+            }
+
+            .main-image {
+                grid-column: 1 / 3;
+                grid-row: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .venue-gallery {
+                grid-template-columns: 1fr;
+                grid-template-rows: 250px;
+                height: 250px;
+            }
+
+            .main-image {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .gallery-image {
+                display: none;
+            }
+
+            .venue-details {
+                padding: 1.5rem;
+            }
+
+            .booking-widget {
+                padding: 1.5rem;
+            }
+
+            .venue-specs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                transition: left 0.3s ease;
+                padding-top: 2rem;
+                gap: 2rem;
+            }
+
+            .nav-menu.show {
+                left: 0;
+            }
+
+            .nav-item {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">living</a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="mekanlar.html" class="nav-item active">Mekanlar</a>
+                <a href="messages.html" class="nav-item">Mesajlar</a>
+                <a href="#" class="nav-item">Bildirimler</a>
+            </nav>
+
+            <div class="profile-section">
+                <div class="profile-avatar" id="profile-avatar">E</div>
+            </div>
+
+            <button class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="index.html">Ana Sayfa</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="mekanlar.html">Venues</a>
+            <i class="fas fa-chevron-right"></i>
+            <span id="venue-breadcrumb">The Grand Ballroom</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Left Section - Venue Info -->
+        <div class="venue-info">
+            <!-- Gallery -->
+            <div class="venue-gallery">
+                <div class="main-image" id="main-image"></div>
+                <div class="gallery-image" id="gallery-1"></div>
+                <div class="gallery-image" id="gallery-2"></div>
+                <div class="gallery-image" id="gallery-3"></div>
+                <div class="gallery-image" id="gallery-4"></div>
+            </div>
+
+            <!-- Details -->
+            <div class="venue-details">
+                <div class="venue-header">
+                    <h1 class="venue-title" id="venue-title">The Grand Ballroom</h1>
+                    <div class="venue-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="venue-location">123 Main Street, Anytown</span>
+                    </div>
+                </div>
+
+                <div class="venue-specs">
+                    <div class="spec-item">
+                        <div class="spec-icon"><i class="fas fa-users"></i></div>
+                        <div class="spec-label">Kapasite</div>
+                        <div class="spec-value" id="venue-capacity">50-100 kişi</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                        <div class="spec-label">Alan</div>
+                        <div class="spec-value" id="venue-area">250 m²</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-icon"><i class="fas fa-tag"></i></div>
+                        <div class="spec-label">Kategori</div>
+                        <div class="spec-value" id="venue-category">Ücretli</div>
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <h3 class="features-title">Özellikler</h3>
+                    <div class="features-grid" id="venue-features">
+                        <!-- Features will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <div class="venue-description" id="venue-description">
+                    The Grand Ballroom is a premier event space located in the heart of Anytown. With its elegant design and spacious layout, it's perfect for weddings, corporate events, and large gatherings. The venue features state-of-the-art lighting and sound systems, customizable decor options, a dedicated event planning team to ensure a seamless experience, a beautiful garden 🌺, and a large screen 📺 for presentations. Catering 🍽️ is included. The venue can accommodate 50–100 people 🎭 and is ideal for launch events 🚀. It has a rating of 4.5 stars ⭐.
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section - Booking Widget -->
+        <div class="booking-widget">
+            <div class="widget-header">
+                <h2 class="widget-title">Availability and Pricing</h2>
+            </div>
+
+            <!-- Calendar -->
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="calendar-nav" id="prev-month">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="month-year" id="month-year">July 2024</div>
+                    <button class="calendar-nav" id="next-month">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar will be generated dynamically -->
+                </div>
+            </div>
+
+            <!-- Price -->
+            <div class="price-section">
+                <div class="price-label">Price for selected dates</div>
+                <div class="price-value" id="venue-price">Ücretsiz</div>
+            </div>
+
+            <!-- Book Button -->
+            <button class="book-button" id="book-button">Book Now</button>
+
+            <!-- Contact Information -->
+            <div class="contact-section">
+                <div class="contact-item">
+                    <i class="fas fa-phone contact-icon"></i>
+                    <span id="venue-phone">+90 212 555 0101</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <span id="venue-email">info@venue.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/nav-auth.js"></script>
+    <script>
+        // Get venue ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const venueId = urlParams.get('id') || '1';
+
+        // Load venue data
+        async function loadVenueData() {
+            try {
+                const response = await fetch('../data/venues.json');
+                const data = await response.json();
+                const venue = data.venues.find(v => v.id === venueId);
+                
+                if (!venue) {
+                    console.error('Venue not found');
+                    return;
+                }
+
+                // Update page content
+                document.getElementById('venue-breadcrumb').textContent = venue.name;
+                document.getElementById('venue-title').textContent = venue.name;
+                document.getElementById('venue-location').textContent = venue.location;
+                document.getElementById('venue-capacity').textContent = venue.capacity;
+                document.getElementById('venue-area').textContent = venue.area;
+                document.getElementById('venue-category').textContent = venue.category;
+                document.getElementById('venue-description').textContent = venue.description;
+                document.getElementById('venue-price').textContent = venue.price;
+                document.getElementById('venue-phone').textContent = venue.contact.phone;
+                document.getElementById('venue-email').textContent = venue.contact.email;
+
+                // Set images
+                document.getElementById('main-image').style.backgroundImage = `url('${venue.image}')`;
+                
+                // Set dummy images for gallery (you can add more images to venues.json later)
+                const galleryImages = [venue.image, venue.image, venue.image, venue.image];
+                for (let i = 1; i <= 4; i++) {
+                    const element = document.getElementById(`gallery-${i}`);
+                    if (element) {
+                        element.style.backgroundImage = `url('${galleryImages[i-1]}')`;
+                    }
+                }
+
+                // Load features
+                const featuresContainer = document.getElementById('venue-features');
+                featuresContainer.innerHTML = '';
+                venue.features.forEach(feature => {
+                    const tag = document.createElement('div');
+                    tag.className = 'feature-tag';
+                    tag.textContent = feature;
+                    featuresContainer.appendChild(tag);
+                });
+
+                // Update page title
+                document.title = `${venue.name} - TeraMap Hub`;
+
+            } catch (error) {
+                console.error('Error loading venue data:', error);
+            }
+        }
+
+        // Calendar functionality
+        let currentMonth = 6; // July (0-indexed)
+        let currentYear = 2024;
+        let selectedDate = null;
+
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+        function generateCalendar() {
+            const monthYearElement = document.getElementById('month-year');
+            const calendarGrid = document.getElementById('calendar-grid');
+            
+            monthYearElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            calendarGrid.innerHTML = '';
+
+            // Add day headers
+            dayNames.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day header';
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+
+            // Get first day of month and number of days
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day available';
+                dayElement.textContent = day;
+                
+                // Highlight day 5 as selected initially
+                if (day === 5) {
+                    dayElement.classList.add('selected');
+                    selectedDate = day;
+                }
+
+                dayElement.addEventListener('click', () => {
+                    // Remove previous selection
+                    document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    
+                    // Add selection to clicked day
+                    dayElement.classList.add('selected');
+                    selectedDate = day;
+                });
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // Calendar navigation
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar();
+        });
+
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        });
+
+        // Book button functionality
+        document.getElementById('book-button').addEventListener('click', () => {
+            if (selectedDate) {
+                alert(`Booking request submitted for ${selectedDate} ${monthNames[currentMonth]} ${currentYear}`);
+            } else {
+                alert('Please select a date first');
+            }
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('show');
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadVenueData();
+            generateCalendar();
+        });
+    </script>
+</body>
+</html> 
