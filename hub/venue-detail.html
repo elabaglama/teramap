@@ -257,55 +257,56 @@
             font-size: 1rem;
         }
 
-        /* Right Section - Booking Widget */
+        /* Right Section - Booking Widget - KÜÇÜLTÜLMÜŞ */
         .booking-widget {
             background: white;
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: 0 8px 30px rgba(0,0,0,0.08);
             height: fit-content;
             position: sticky;
             top: 100px;
+            max-width: 300px;
         }
 
         .widget-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 1.5rem;
+            padding-bottom: 1rem;
         }
 
         .widget-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #333;
             margin-bottom: 0.5rem;
         }
 
         .calendar-container {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .calendar-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .month-year {
             font-weight: 600;
             color: #333;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
 
         .calendar-nav {
             background: none;
             border: none;
             color: #ba9585;
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
-            padding: 0.5rem;
+            padding: 0.3rem;
             border-radius: 50%;
             transition: background 0.3s ease;
         }
@@ -317,7 +318,7 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
+            gap: 0.25rem;
         }
 
         .calendar-day {
@@ -325,18 +326,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            border-radius: 8px;
+            font-size: 0.75rem;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            min-height: 24px;
         }
 
         .calendar-day.header {
             font-weight: 600;
             color: #666;
             cursor: default;
-            font-size: 0.8rem;
+            font-size: 0.65rem;
         }
 
         .calendar-day.available {
@@ -358,19 +360,19 @@
         }
 
         .price-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: center;
         }
 
         .price-label {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             margin-bottom: 0.5rem;
         }
 
         .price-value {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: #333;
             font-weight: 700;
         }
@@ -380,9 +382,9 @@
             background: #333;
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -401,22 +403,23 @@
 
         /* Contact Section */
         .contact-section {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
             border-top: 1px solid #e0e0e0;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
+            gap: 0.6rem;
+            margin-bottom: 0.6rem;
             color: #666;
+            font-size: 0.8rem;
         }
 
         .contact-icon {
             color: #ba9585;
-            width: 20px;
+            width: 14px;
         }
 
         /* Responsive Design */
@@ -428,6 +431,7 @@
 
             .booking-widget {
                 position: static;
+                max-width: none;
             }
 
             .venue-gallery {
@@ -552,9 +556,9 @@
         <div class="breadcrumb-content">
             <a href="index.html">Ana Sayfa</a>
             <i class="fas fa-chevron-right"></i>
-            <a href="mekanlar.html">Venues</a>
+            <a href="mekanlar.html">Mekanlar</a>
             <i class="fas fa-chevron-right"></i>
-            <span id="venue-breadcrumb">The Grand Ballroom</span>
+            <span id="venue-breadcrumb">Mekan Detayı</span>
         </div>
     </div>
 
@@ -574,10 +578,10 @@
             <!-- Details -->
             <div class="venue-details">
                 <div class="venue-header">
-                    <h1 class="venue-title" id="venue-title">The Grand Ballroom</h1>
+                    <h1 class="venue-title" id="venue-title">Mekan Adı</h1>
                     <div class="venue-location">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span id="venue-location">123 Main Street, Anytown</span>
+                        <span id="venue-location">Mekan Konumu</span>
                     </div>
                 </div>
 
@@ -607,7 +611,7 @@
                 </div>
 
                 <div class="venue-description" id="venue-description">
-                    The Grand Ballroom is a premier event space located in the heart of Anytown. With its elegant design and spacious layout, it's perfect for weddings, corporate events, and large gatherings. The venue features state-of-the-art lighting and sound systems, customizable decor options, a dedicated event planning team to ensure a seamless experience, a beautiful garden 🌺, and a large screen 📺 for presentations. Catering 🍽️ is included. The venue can accommodate 50–100 people 🎭 and is ideal for launch events 🚀. It has a rating of 4.5 stars ⭐.
+                    Mekan açıklaması yükleniyor...
                 </div>
             </div>
         </div>
@@ -615,7 +619,7 @@
         <!-- Right Section - Booking Widget -->
         <div class="booking-widget">
             <div class="widget-header">
-                <h2 class="widget-title">Availability and Pricing</h2>
+                <h2 class="widget-title">Uygunluk ve Fiyatlandırma</h2>
             </div>
 
             <!-- Calendar -->
@@ -624,7 +628,7 @@
                     <button class="calendar-nav" id="prev-month">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <div class="month-year" id="month-year">July 2024</div>
+                    <div class="month-year" id="month-year">Temmuz 2024</div>
                     <button class="calendar-nav" id="next-month">
                         <i class="fas fa-chevron-right"></i>
                     </button>
@@ -637,12 +641,12 @@
 
             <!-- Price -->
             <div class="price-section">
-                <div class="price-label">Price for selected dates</div>
+                <div class="price-label">Seçilen tarihler için fiyat</div>
                 <div class="price-value" id="venue-price">Ücretsiz</div>
             </div>
 
             <!-- Book Button -->
-            <button class="book-button" id="book-button">Book Now</button>
+            <button class="book-button" id="book-button">Şimdi Rezerve Et</button>
 
             <!-- Contact Information -->
             <div class="contact-section">
@@ -672,7 +676,7 @@
                 const venue = data.venues.find(v => v.id === venueId);
                 
                 if (!venue) {
-                    console.error('Venue not found');
+                    console.error('Mekan bulunamadı');
                     return;
                 }
 
@@ -714,21 +718,21 @@
                 document.title = `${venue.name} - TeraMap Hub`;
 
             } catch (error) {
-                console.error('Error loading venue data:', error);
+                console.error('Mekan verileri yüklenirken hata:', error);
             }
         }
 
         // Calendar functionality
-        let currentMonth = 6; // July (0-indexed)
+        let currentMonth = 6; // Temmuz (0-indexed)
         let currentYear = 2024;
         let selectedDate = null;
 
         const monthNames = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
+            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
         ];
 
-        const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+        const dayNames = ['P', 'P', 'S', 'Ç', 'P', 'C', 'C'];
 
         function generateCalendar() {
             const monthYearElement = document.getElementById('month-year');
@@ -805,9 +809,9 @@
         // Book button functionality
         document.getElementById('book-button').addEventListener('click', () => {
             if (selectedDate) {
-                alert(`Booking request submitted for ${selectedDate} ${monthNames[currentMonth]} ${currentYear}`);
+                alert(`${selectedDate} ${monthNames[currentMonth]} ${currentYear} tarihi için rezervasyon talebi gönderildi`);
             } else {
-                alert('Please select a date first');
+                alert('Lütfen önce bir tarih seçin');
             }
         });
 
