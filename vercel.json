@@ -81,6 +81,10 @@
     {
       "source": "/hub/profil",
       "destination": "/hub/profil.html"
+    },
+    {
+      "source": "/hub/venue-detail",
+      "destination": "/hub/venue-detail.html"
     }
   ]
 } 
