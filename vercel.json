@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/dist",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
   "alias": [
@@ -36,36 +36,63 @@
       ]
     }
   ],
-  "rewrites": [
+
+    "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/kaydol",
+      "destination": "/kaydol/index.html"
+    },
+    {
+      "source": "/kaydol/(.*)",
+      "destination": "/kaydol/index.html"
+    },
+    {
+      "source": "/kaydol-custom",
+      "destination": "/kaydol-custom.html"
+    },
+    {
+      "source": "/giris",
+      "destination": "/giris/index.html"
+    },
+    {
+      "source": "/hub",
+      "destination": "/hub/index.html"
+    },
+    {
+      "source": "/hub/",
+      "destination": "/hub/index.html"
+    },
+    {
+      "source": "/hub/giris",
+      "destination": "/hub/giris.html"
+    },
+    {
+      "source": "/hub/kaydol",
+      "destination": "/hub/kaydol.html"
+    },
+    {
+      "source": "/hub/mekanlar",
+      "destination": "/hub/mekanlar.html"
+    },
+    {
+      "source": "/hub/profil",
+      "destination": "/hub/profil.html"
+    },
+    {
+      "source": "/hub/venue-detail",
+      "destination": "/hub/venue-detail.html"
+    },
     {
       "source": "/app",
       "destination": "/app/index.html"
     },
     {
-      "source": "/app/(.*)",
+      "source": "/app/",
       "destination": "/app/index.html"
-    },
-    {
-      "source": "/api/venues",
-      "destination": "/backend/api/venues"
-    },
-    {
-      "source": "/api/venues/:id",
-      "destination": "/backend/api/venues/:id"
-    },
-    {
-      "source": "/api/reservations",
-      "destination": "/backend/api/reservations"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/site.webmanifest",
-      "dest": "/site.webmanifest"
-    },
-    {
-      "src": "/favicon/(.*)",
-      "dest": "/favicon/$1"
     }
   ]
 } 
