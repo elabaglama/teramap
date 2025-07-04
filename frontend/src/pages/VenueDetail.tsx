@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config';
 
 interface Amenity {
   name: string;
@@ -26,7 +27,7 @@ export const VenueDetail = () => {
   useEffect(() => {
     const fetchVenue = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/venues/${id}`);
+        const response = await axios.get(`${API_URL}/venues/${id}`);
         setVenue(response.data);
       } catch (error) {
         console.error('Error fetching venue:', error);
@@ -43,7 +44,7 @@ export const VenueDetail = () => {
     }
 
     try {
-      await axios.post('http://localhost:3001/api/reservations', {
+      await axios.post(`${API_URL}/reservations`, {
         venueId: id,
         date: selectedDate,
       });

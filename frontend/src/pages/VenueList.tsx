@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { VenueCard } from '../components/VenueCard';
+import { API_URL } from '../config';
 
 interface Venue {
   id: string;
@@ -18,7 +19,7 @@ export const VenueList = () => {
   useEffect(() => {
     const fetchVenues = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/venues?type=${filter}`);
+        const response = await axios.get(`${API_URL}/venues?type=${filter}`);
         setVenues(response.data);
       } catch (error) {
         console.error('Error fetching venues:', error);
