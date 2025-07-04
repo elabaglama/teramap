@@ -85,6 +85,14 @@
     {
       "source": "/hub/venue-detail",
       "destination": "/hub/venue-detail.html"
+    },
+    {
+      "source": "/app",
+      "destination": "/app/index.html"
+    },
+    {
+      "source": "/app/",
+      "destination": "/app/index.html"
     }
   ]
 } 
