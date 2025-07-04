@@ -39,17 +39,20 @@
         window.sendPasswordResetEmail = sendPasswordResetEmail;
     </script>
     
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
-    <link rel="icon" href="favicon.ico?v=1748898958595">
-    <link rel="icon" href="favicon/favicon.svg?v=1748898958595" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="favicon/favicon.png?v=1748898958595">
-    <link rel="manifest" href="site.webmanifest?v=1748898958595">
+    <link rel="icon" href="../favicon.ico?v=1748898958595">
+    <link rel="icon" href="../favicon/favicon.svg?v=1748898958595" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon/favicon.png?v=1748898958595">
+    <link rel="manifest" href="../site.webmanifest?v=1748898958595">
+
+    <!-- Scripts -->
+    <script src="../js/script.js" defer></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -324,160 +327,59 @@
 
     <!-- Firebase Authentication Script -->
     <script>
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const signinForm = document.getElementById('signin-form');
-            const googleSigninBtn = document.getElementById('google-signin');
-            const forgotPasswordLink = document.getElementById('forgot-password');
-            const errorMessage = document.getElementById('error-message');
-            const successMessage = document.getElementById('success-message');
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signin-form');
+            const googleBtn = document.getElementById('google-signin');
+            const forgotPasswordBtn = document.getElementById('forgot-password');
             
-            // Hide all messages
-            function hideAllMessages() {
-                errorMessage.style.display = 'none';
-                successMessage.style.display = 'none';
-            }
-            
-            // Show error message
-            function showError(message) {
-                hideAllMessages();
-                errorMessage.textContent = message;
-                errorMessage.style.display = 'block';
-            }
-            
-            // Show success message
-            function showSuccess(message) {
-                hideAllMessages();
-                successMessage.textContent = message;
-                successMessage.style.display = 'block';
-            }
-            
-            // Email/Password Sign In
-            signinForm.addEventListener('submit', async (e) => {
+            // Handle form submission
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                const email = document.getElementById('email').value.trim();
+                const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
                 
-                if (!email || !password) {
-                    showError('Lütfen e-posta ve şifrenizi girin.');
-                    return;
-                }
-                
-                const submitBtn = signinForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.textContent = 'Giriş yapılıyor...';
-                submitBtn.disabled = true;
-                
                 try {
-                    const userCredential = await window.signInWithEmailAndPassword(
-                        window.firebaseAuth, 
-                        email, 
-                        password
-                    );
+                    await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
                     showSuccess('Başarıyla giriş yaptınız!');
-                    
-                    // Redirect to hub page after 1 second
                     setTimeout(() => {
-                        window.location.href = '/hub/mekanlar';
+                        window.location.href = '/hub';
                     }, 1000);
                 } catch (error) {
-                    console.error('Sign in error:', error);
-                    
-                    let errorMessage = 'Giriş sırasında bir hata oluştu.';
-                    
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                            errorMessage = 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.';
-                            break;
-                        case 'auth/wrong-password':
-                            errorMessage = 'Yanlış şifre.';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage = 'Geçersiz e-posta adresi.';
-                            break;
-                        case 'auth/user-disabled':
-                            errorMessage = 'Bu hesap devre dışı bırakılmış.';
-                            break;
-                        default:
-                            errorMessage = error.message;
-                    }
-                    
-                    showError(errorMessage);
-                } finally {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
+                    console.error('Error:', error);
+                    showError('Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.');
                 }
             });
             
-            // Google Sign In
-            googleSigninBtn.addEventListener('click', async () => {
-                const originalText = googleSigninBtn.textContent;
-                googleSigninBtn.textContent = 'Google ile giriş yapılıyor...';
-                googleSigninBtn.disabled = true;
-                
+            // Handle Google sign in
+            googleBtn.addEventListener('click', async function() {
                 try {
-                    const result = await window.signInWithPopup(window.firebaseAuth, window.googleProvider);
+                    await window.signInWithPopup(window.firebaseAuth, window.googleProvider);
                     showSuccess('Google ile başarıyla giriş yaptınız!');
-                    
-                    // Redirect to hub page after 1 second
                     setTimeout(() => {
-                        window.location.href = '/hub/mekanlar';
+                        window.location.href = '/hub';
                     }, 1000);
                 } catch (error) {
-                    console.error('Google sign in error:', error);
-                    
-                    let errorMessage = 'Google ile giriş yapılırken bir hata oluştu.';
-                    
-                    switch (error.code) {
-                        case 'auth/popup-closed-by-user':
-                            errorMessage = 'Giriş penceresi kapatıldı.';
-                            break;
-                        case 'auth/popup-blocked':
-                            errorMessage = 'Açılır pencere engellendi. Lütfen tarayıcı ayarlarınızı kontrol edin.';
-                            break;
-                        default:
-                            errorMessage = error.message;
-                    }
-                    
-                    showError(errorMessage);
-                } finally {
-                    googleSigninBtn.innerHTML = '<i class="fab fa-google"></i> Google ile Giriş Yap';
-                    googleSigninBtn.disabled = false;
+                    console.error('Error:', error);
+                    showError('Google ile giriş yapılamadı.');
                 }
             });
             
-            // Forgot Password
-            forgotPasswordLink.addEventListener('click', async (e) => {
-                e.preventDefault();
-                
-                const email = document.getElementById('email').value.trim();
+            // Handle forgot password
+            forgotPasswordBtn.addEventListener('click', async function() {
+                const email = document.getElementById('email').value;
                 
                 if (!email) {
-                    showError('Şifre sıfırlama için lütfen e-posta adresinizi girin.');
+                    showError('Lütfen e-posta adresinizi girin.');
                     return;
                 }
                 
                 try {
                     await window.sendPasswordResetEmail(window.firebaseAuth, email);
-                    showSuccess('Şifre sıfırlama e-postası gönderildi. E-posta kutunuzu kontrol edin.');
+                    showSuccess('Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.');
                 } catch (error) {
-                    console.error('Password reset error:', error);
-                    
-                    let errorMessage = 'Şifre sıfırlanırken bir hata oluştu.';
-                    
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                            errorMessage = 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage = 'Geçersiz e-posta adresi.';
-                            break;
-                        default:
-                            errorMessage = error.message;
-                    }
-                    
-                    showError(errorMessage);
+                    console.error('Error:', error);
+                    showError('Şifre sıfırlama bağlantısı gönderilemedi.');
                 }
             });
         });
