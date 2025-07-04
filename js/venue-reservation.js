@@ -28,6 +28,11 @@ export async function initializeVenueReservation() {
         if (venueDoc.exists()) {
             currentVenue = venueDoc.data();
             currentVenue.id = venueDoc.id;
+            
+            // Display venue information
+            displayVenueInfo();
+            
+            // Setup reservation components
             setupDatePicker();
             displayAvailableDates();
             setupRequestButton();
@@ -36,6 +41,56 @@ export async function initializeVenueReservation() {
         }
     } catch (error) {
         console.error('Error fetching venue:', error);
+    }
+}
+
+// Display venue information
+function displayVenueInfo() {
+    // Update quick info
+    document.getElementById('venue-capacity').textContent = currentVenue.capacity || '-';
+    document.getElementById('venue-area').textContent = currentVenue.area || '-';
+    document.getElementById('venue-category').textContent = currentVenue.category || '-';
+    document.getElementById('venue-price').textContent = currentVenue.price || '-';
+
+    // Update contact information
+    const phoneElement = document.getElementById('venue-phone');
+    const emailElement = document.getElementById('venue-email');
+
+    if (currentVenue.contact) {
+        if (currentVenue.contact.phone) {
+            phoneElement.textContent = currentVenue.contact.phone;
+            phoneElement.href = `tel:${currentVenue.contact.phone.replace(/\s+/g, '')}`;
+        }
+        if (currentVenue.contact.email) {
+            emailElement.textContent = currentVenue.contact.email;
+            emailElement.href = `mailto:${currentVenue.contact.email}`;
+        }
+    }
+
+    // Update features
+    const featuresContainer = document.getElementById('venue-features');
+    featuresContainer.innerHTML = '';
+
+    if (currentVenue.features && currentVenue.features.length > 0) {
+        currentVenue.features.forEach(feature => {
+            const featureTag = document.createElement('div');
+            featureTag.className = 'feature-tag';
+            featureTag.textContent = feature;
+            featuresContainer.appendChild(featureTag);
+        });
+    } else {
+        featuresContainer.innerHTML = '<div class="feature-tag">Özellik belirtilmemiş</div>';
+    }
+
+    // Update main venue information
+    document.querySelector('.venue-title').textContent = currentVenue.name || 'Mekan Adı';
+    document.querySelector('.venue-location').textContent = currentVenue.location || 'Konum belirtilmemiş';
+    document.querySelector('.venue-description').textContent = currentVenue.description || 'Açıklama belirtilmemiş';
+
+    // Update main image if exists
+    const mainImageElement = document.querySelector('.main-image');
+    if (mainImageElement && currentVenue.image) {
+        mainImageElement.style.backgroundImage = `url(${currentVenue.image})`;
     }
 }
 

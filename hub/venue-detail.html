@@ -432,6 +432,105 @@
                 padding: 1rem;
             }
         }
+
+        .venue-quick-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            color: #ba9585;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .venue-contact {
+            margin-bottom: 2rem;
+        }
+
+        .venue-contact h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-item i {
+            color: #ba9585;
+        }
+
+        .contact-item a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #ba9585;
+        }
+
+        .venue-features {
+            margin-bottom: 2rem;
+        }
+
+        .venue-features h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .feature-tag {
+            background: #f0f0f0;
+            color: #555;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #e9ecef;
+            margin: 2rem 0;
+        }
     </style>
 </head>
 <body>
@@ -516,6 +615,58 @@
 
         <!-- Right Section - Booking Widget -->
         <div class="booking-widget">
+            <div class="venue-quick-info">
+                <div class="info-item">
+                    <i class="fas fa-users"></i>
+                    <div class="info-content">
+                        <div class="info-label">Kapasite</div>
+                        <div class="info-value" id="venue-capacity">-</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <div class="info-content">
+                        <div class="info-label">Alan</div>
+                        <div class="info-value" id="venue-area">-</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-tag"></i>
+                    <div class="info-content">
+                        <div class="info-label">Kategori</div>
+                        <div class="info-value" id="venue-category">-</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div class="info-content">
+                        <div class="info-label">Fiyat</div>
+                        <div class="info-value" id="venue-price">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="venue-contact">
+                <h3>İletişim Bilgileri</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:" id="venue-phone">-</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:" id="venue-email">-</a>
+                </div>
+            </div>
+
+            <div class="venue-features">
+                <h3>Özellikler</h3>
+                <div class="features-grid" id="venue-features">
+                    <!-- Features will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <hr class="divider">
+
             <h2 class="booking-title">Rezervasyon Talebi</h2>
             <div class="date-picker-container">
                 <label for="reservation-date" class="date-picker-label">Tarih Seçin</label>
