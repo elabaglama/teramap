@@ -57,5 +57,15 @@
       "source": "/api/reservations",
       "destination": "/backend/api/reservations"
     }
+  ],
+  "routes": [
+    {
+      "src": "/site.webmanifest",
+      "dest": "/site.webmanifest"
+    },
+    {
+      "src": "/favicon/(.*)",
+      "dest": "/favicon/$1"
+    }
   ]
 } 
