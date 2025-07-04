@@ -1,0 +1,84 @@
+{
+  "venues": [
+    {
+      "id": "postaneistanbul",
+      "name": "Postane Istanbul",
+      "location": "Downtown",
+      "capacity": 200,
+      "type": "paid",
+      "image": "/images/venues/postane.jpg",
+      "overview": "The Grand Ballroom is a premier event space known for its elegant design and versatile layout. Perfect for weddings, corporate events, and galas, it offers state-of-the-art amenities and a dedicated event staff to ensure a seamless experience.",
+      "amenities": [
+        {
+          "name": "Catering",
+          "icon": "catering"
+        },
+        {
+          "name": "A/V Equipment",
+          "icon": "av"
+        },
+        {
+          "name": "Sound System",
+          "icon": "sound"
+        }
+      ]
+    },
+    {
+      "id": "therusticbarn",
+      "name": "The Rustic Barn",
+      "location": "Downtown",
+      "capacity": 180,
+      "type": "free",
+      "image": "/images/venues/postane.jpg",
+      "overview": "A charming venue with rustic appeal and modern amenities.",
+      "amenities": [
+        {
+          "name": "Catering",
+          "icon": "catering"
+        },
+        {
+          "name": "Parking",
+          "icon": "parking"
+        }
+      ]
+    },
+    {
+      "id": "urbanloft",
+      "name": "The Urban Loft",
+      "location": "City Center",
+      "capacity": 150,
+      "type": "paid",
+      "image": "/images/venues/postane.jpg",
+      "overview": "Industrial chic space perfect for modern events.",
+      "amenities": [
+        {
+          "name": "WiFi",
+          "icon": "wifi"
+        },
+        {
+          "name": "Kitchen",
+          "icon": "kitchen"
+        }
+      ]
+    },
+    {
+      "id": "seasideterrace",
+      "name": "The Seaside Terrace",
+      "location": "Coastal",
+      "capacity": 120,
+      "type": "free",
+      "image": "/images/venues/postane.jpg",
+      "overview": "Beautiful outdoor venue with ocean views.",
+      "amenities": [
+        {
+          "name": "Outdoor Setup",
+          "icon": "outdoor"
+        },
+        {
+          "name": "Lighting",
+          "icon": "lighting"
+        }
+      ]
+    }
+  ]
+} 
