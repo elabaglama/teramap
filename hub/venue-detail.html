@@ -249,159 +249,85 @@
         .booking-widget {
             background: white;
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 2rem;
             box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            height: fit-content;
             position: sticky;
             top: 100px;
-            max-width: 300px;
         }
 
-        .widget-header {
-            text-align: center;
+        .booking-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #333;
             margin-bottom: 1.5rem;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 1rem;
         }
 
+        .date-picker-container {
+            margin-bottom: 1.5rem;
+        }
 
+        .date-picker-label {
+            display: block;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
 
-        .calendar-container {
+        .date-picker {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
             margin-bottom: 1rem;
-            max-width: 140px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.3rem;
-        }
-
-        .calendar-nav-group {
-            display: flex;
-            gap: 2px;
-        }
-
-        .month-year {
-            font-weight: 500;
-            color: #333;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            transition: background 0.2s ease;
-        }
-
-        .month-year:hover {
-            background: #f5f5f5;
-        }
-
-        .calendar-nav {
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 0.6rem;
-            cursor: pointer;
-            padding: 2px 4px;
-            border-radius: 3px;
-            transition: all 0.2s ease;
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .calendar-nav:hover {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-        }
-
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.55rem;
-            cursor: default;
-            min-height: 14px;
-            max-height: 14px;
-        }
-
-        .calendar-day.header {
-            font-weight: 600;
-            color: #999;
-            cursor: default;
-            font-size: 0.5rem;
-            text-transform: uppercase;
-        }
-
-        .calendar-day.available {
-            color: #666;
-        }
-
-        .calendar-day.selected {
-            background: #333;
-            color: white;
-            border-radius: 2px;
-            font-weight: 600;
-        }
-
-        .calendar-day.unavailable {
-            color: #ddd;
-        }
-
-        .price-section {
+        .available-dates {
             margin-bottom: 1.5rem;
-            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
         }
 
-        .price-label {
-            color: #666;
-            font-size: 0.8rem;
+        .available-dates-title {
+            font-weight: 600;
+            color: #333;
             margin-bottom: 0.5rem;
         }
 
-        .price-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            color: #333;
-            font-weight: 700;
+        .date-list {
+            list-style: none;
+            padding: 0;
         }
 
-        .book-button {
+        .date-list li {
+            color: #666;
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+
+        .request-btn {
             width: 100%;
-            background: #333;
+            padding: 1rem;
+            background: #ba9585;
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease;
         }
 
-        .book-button:hover {
-            background: #222;
-            transform: translateY(-2px);
+        .request-btn:hover {
+            background: #a88574;
         }
 
-        .book-button:disabled {
+        .request-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
-            transform: none;
         }
-
-
 
         /* Responsive Design */
         @media (max-width: 992px) {
@@ -590,37 +516,27 @@
 
         <!-- Right Section - Booking Widget -->
         <div class="booking-widget">
-            <!-- Calendar -->
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <div class="month-year" id="month-year" style="cursor: pointer;">Temmuz 2024</div>
-                    <div class="calendar-nav-group">
-                        <button class="calendar-nav" id="prev-month">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="calendar-nav" id="next-month">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="calendar-grid" id="calendar-grid">
-                    <!-- Calendar will be generated dynamically -->
-                </div>
+            <h2 class="booking-title">Rezervasyon Talebi</h2>
+            <div class="date-picker-container">
+                <label for="reservation-date" class="date-picker-label">Tarih Seçin</label>
+                <input type="date" id="reservation-date" class="date-picker">
             </div>
-
-            <!-- Price -->
-            <div class="price-section">
-                <div class="price-label">Seçilen tarihler için fiyat</div>
-                <div class="price-value" id="venue-price">Ücretsiz</div>
+            <div class="available-dates">
+                <h3 class="available-dates-title">Müsait Tarihler</h3>
+                <ul class="date-list" id="available-dates-list">
+                    <!-- Will be populated by JavaScript -->
+                </ul>
             </div>
-
-            <!-- Book Button -->
-            <button class="book-button" id="book-button">Şimdi Rezerve Et</button>
+            <button id="request-btn" class="request-btn" disabled>
+                Rezervasyon Talebi Gönder
+            </button>
         </div>
     </div>
 
-    <script src="../js/nav-auth.js"></script>
+    <script type="module" src="../js/firebase-config.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/nav-auth.js"></script>
+    <script type="module" src="../js/venue-reservation.js"></script>
     <script>
         // Get venue ID from URL
         const urlParams = new URLSearchParams(window.location.search);

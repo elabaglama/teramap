@@ -207,11 +207,62 @@ function displayMessages(messages) {
     
     const timestamp = message.timestamp ? 
       formatTime(message.timestamp.toDate()) : '';
-    
-    messageElement.innerHTML = `
-      <div>${message.text}</div>
-      <div class="message-time">${timestamp}</div>
-    `;
+
+    // Handle reservation request messages specially
+    if (message.type === 'reservation_request') {
+      messageElement.classList.add('reservation-request');
+      
+      const formattedDate = new Date(message.requestedDate).toLocaleDateString('tr-TR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      let statusBadge = '';
+      let actionButtons = '';
+      
+      switch(message.status) {
+        case 'pending':
+          statusBadge = '<span class="status-badge pending">Beklemede</span>';
+          // Only show action buttons to venue owner and for pending requests
+          if (!isSent) {
+            actionButtons = `
+              <div class="reservation-actions">
+                <button class="action-btn approve" onclick="handleReservationResponse('${messageDoc.id}', 'approved')">
+                  <i class="fas fa-check"></i> Onayla
+                </button>
+                <button class="action-btn reject" onclick="handleReservationResponse('${messageDoc.id}', 'rejected')">
+                  <i class="fas fa-times"></i> Reddet
+                </button>
+              </div>
+            `;
+          }
+          break;
+        case 'approved':
+          statusBadge = '<span class="status-badge approved">Onaylandı</span>';
+          break;
+        case 'rejected':
+          statusBadge = '<span class="status-badge rejected">Reddedildi</span>';
+          break;
+      }
+
+      messageElement.innerHTML = `
+        <div class="reservation-header">
+          <i class="fas fa-calendar-alt"></i>
+          Rezervasyon Talebi ${statusBadge}
+        </div>
+        <div class="reservation-content">
+          ${message.text}
+        </div>
+        ${actionButtons}
+        <div class="message-time">${timestamp}</div>
+      `;
+    } else {
+      messageElement.innerHTML = `
+        <div>${message.text}</div>
+        <div class="message-time">${timestamp}</div>
+      `;
+    }
     
     messagesContainer.appendChild(messageElement);
   });
@@ -219,6 +270,93 @@ function displayMessages(messages) {
   // Replace messages area content
   messagesArea.innerHTML = '';
   messagesArea.appendChild(messagesContainer);
+
+  // Add styles for reservation messages if not already added
+  if (!document.getElementById('reservation-styles')) {
+    const styles = document.createElement('style');
+    styles.id = 'reservation-styles';
+    styles.textContent = `
+      .message.reservation-request {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        padding: 1rem;
+        border-radius: 12px;
+      }
+
+      .reservation-header {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .reservation-content {
+        white-space: pre-line;
+        color: #495057;
+        margin-bottom: 1rem;
+      }
+
+      .reservation-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .action-btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        transition: all 0.2s ease;
+      }
+
+      .action-btn.approve {
+        background: #28a745;
+        color: white;
+      }
+
+      .action-btn.approve:hover {
+        background: #218838;
+      }
+
+      .action-btn.reject {
+        background: #dc3545;
+        color: white;
+      }
+
+      .action-btn.reject:hover {
+        background: #c82333;
+      }
+
+      .status-badge {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 12px;
+        margin-left: 0.5rem;
+      }
+
+      .status-badge.pending {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .status-badge.approved {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .status-badge.rejected {
+        background: #f8d7da;
+        color: #721c24;
+      }
+    `;
+    document.head.appendChild(styles);
+  }
 }
 
 // Send message
@@ -405,4 +543,33 @@ window.addEventListener('beforeunload', () => {
 window.openConversation = openConversation;
 window.openNewConversationModal = openNewConversationModal;
 window.closeNewConversationModal = closeNewConversationModal;
-window.startNewConversation = startNewConversation; 
+window.startNewConversation = startNewConversation;
+
+// Handle reservation response
+window.handleReservationResponse = async function(messageId, status) {
+  if (!currentConversation) return;
+  
+  try {
+    // Update the message status
+    await updateDoc(doc(db, 'conversations', currentConversation, 'messages', messageId), {
+      status: status
+    });
+    
+    // Send a response message
+    const responseMessage = status === 'approved' 
+      ? 'Rezervasyon talebiniz onaylanmıştır. İyi eğlenceler!'
+      : 'Üzgünüz, rezervasyon talebiniz reddedilmiştir.';
+    
+    await addDoc(collection(db, 'conversations', currentConversation, 'messages'), {
+      text: responseMessage,
+      senderId: currentUser.uid,
+      timestamp: serverTimestamp(),
+      type: 'reservation_response',
+      status: status
+    });
+    
+  } catch (error) {
+    console.error('Error handling reservation response:', error);
+    alert('Rezervasyon yanıtı gönderilirken bir hata oluştu. Lütfen tekrar deneyin.');
+  }
+} 
