@@ -1,71 +1,55 @@
 const fs = require('fs');
 const path = require('path');
 
-// Get all HTML files in the root directory
-const htmlFiles = fs.readdirSync('.')
-  .filter(file => file.endsWith('.html'));
-
-// Add version query parameter to force browser cache refresh
+// Version timestamp for cache busting
 const version = Date.now();
 
-// Favicon code to insert
-const faviconCode = `
+// Favicon HTML template
+const getFaviconHTML = (prefix = '') => `
     <!-- Favicon -->
-    <link rel="icon" href="favicon.ico?v=${version}">
-    <link rel="icon" href="favicon/favicon.svg?v=${version}" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="favicon/favicon.png?v=${version}">
-    <link rel="manifest" href="site.webmanifest?v=${version}">
+    <link rel="icon" href="${prefix}favicon.ico?v=${version}">
+    <link rel="icon" href="${prefix}favicon/favicon.svg?v=${version}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="${prefix}favicon/favicon.png?v=${version}">
+    <link rel="manifest" href="${prefix}site.webmanifest?v=${version}">
 `;
 
-// Process each HTML file
-htmlFiles.forEach(file => {
-  console.log(`Processing ${file}...`);
-  
-  // Read the file content
-  let content = fs.readFileSync(file, 'utf8');
-  
-  // Update the title
-  content = content.replace(/<title>.*?<\/title>/g, '<title>Tera Map</title>');
-  
-  // Check if the file already has favicon code
-  if (!content.includes('<!-- Favicon -->')) {
-    // Find the position to insert the favicon code (before the first <style> or before </head>)
-    const stylePos = content.indexOf('<style>');
-    const headEndPos = content.indexOf('</head>');
+// Function to update favicon links in HTML files
+function updateFavicons(filePath) {
+    let content = fs.readFileSync(filePath, 'utf8');
+    const isSubDirectory = filePath.split(path.sep).length > 2;
+    const prefix = isSubDirectory ? '../' : '';
     
-    let insertPos;
-    if (stylePos !== -1) {
-      insertPos = stylePos;
-    } else if (headEndPos !== -1) {
-      insertPos = headEndPos;
-    } else {
-      console.log(`Could not find insertion point in ${file}`);
-      return;
+    // Replace existing favicon section
+    content = content.replace(
+        /<!-- Favicon -->[\s\S]*?(?=<\/head>|<style>|<script>|<link[^>]*>(?!.*favicon))/i,
+        getFaviconHTML(prefix)
+    );
+    
+    fs.writeFileSync(filePath, content, 'utf8');
+    console.log(`Updated favicons in ${filePath}`);
+}
+
+// Find all HTML files recursively
+function findHtmlFiles(dir) {
+    let results = [];
+    const files = fs.readdirSync(dir);
+    
+    for (const file of files) {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        
+        if (stat.isDirectory() && !file.startsWith('.')) {
+            results = results.concat(findHtmlFiles(filePath));
+        } else if (file.endsWith('.html')) {
+            results.push(filePath);
+        }
     }
     
-    // Insert the favicon code
-    const newContent = 
-      content.slice(0, insertPos) + 
-      faviconCode + 
-      content.slice(insertPos);
-    
-    // Write the updated content back to the file
-    fs.writeFileSync(file, newContent, 'utf8');
-    console.log(`Added favicon to ${file}`);
-  } else {
-    // Replace existing favicon code
-    content = content.replace(/<!-- Favicon -->[\s\S]*?(<style>|<\/head>)/m, 
-      `<!-- Favicon -->
-    <link rel="icon" href="favicon.ico?v=${version}">
-    <link rel="icon" href="favicon/favicon.svg?v=${version}" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="favicon/favicon.png?v=${version}">
-    <link rel="manifest" href="site.webmanifest?v=${version}">
-    $1`);
-    
-    // Write the updated content back to the file
-    fs.writeFileSync(file, content, 'utf8');
-    console.log(`Updated favicon in ${file}`);
-  }
-});
+    return results;
+}
 
-console.log('Done updating favicon links and titles!'); 
+// Update all HTML files
+const htmlFiles = findHtmlFiles('.');
+htmlFiles.forEach(updateFavicons);
+
+console.log('Favicon update complete!'); 
