@@ -115,34 +115,40 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('✨ Simplified animations loaded!');
 
     // Toast notification system
-    function showToast(message, type = 'success') {
-        // Create toast container if it doesn't exist
-        let toastContainer = document.getElementById('toast-container');
-        if (!toastContainer) {
-            toastContainer = document.createElement('div');
-            toastContainer.id = 'toast-container';
-            document.body.appendChild(toastContainer);
+    (function() {
+        // Create toast functions immediately
+        function showToast(message, type = 'success') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                document.body.appendChild(toastContainer);
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+
+            // Add toast to container
+            toastContainer.appendChild(toast);
+
+            // Remove toast after animation
+            setTimeout(() => {
+                toast.classList.add('toast-fade-out');
+                setTimeout(() => {
+                    toast.remove();
+                    if (toastContainer.children.length === 0) {
+                        toastContainer.remove();
+                    }
+                }, 300);
+            }, 3000);
         }
 
-        // Create toast element
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        toast.textContent = message;
-
-        // Add toast to container
-        toastContainer.appendChild(toast);
-
-        // Remove toast after animation
-        setTimeout(() => {
-            toast.classList.add('toast-fade-out');
-            setTimeout(() => {
-                toast.remove();
-                if (toastContainer.children.length === 0) {
-                    toastContainer.remove();
-                }
-            }, 300);
-        }, 3000);
-    }
+        // Make toast functions globally available immediately
+        window.showToast = showToast;
+    })();
 
     // Update the showSuccess function to use toast
     function showSuccess(message) {
