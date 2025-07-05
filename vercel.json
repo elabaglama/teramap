@@ -93,6 +93,14 @@
     {
       "source": "/app/",
       "destination": "/app/index.html"
+    },
+    {
+      "source": "/app/venues",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/app/venues/:id",
+      "destination": "/frontend/index.html"
     }
   ]
 } 
