@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".",
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
   "cleanUrls": true,
   "trailingSlash": false,
   "alias": [
@@ -96,11 +96,11 @@
     },
     {
       "source": "/app/venues",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/app/venues/:id",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     }
   ]
 } 
