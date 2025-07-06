@@ -90,7 +90,7 @@ class VenueDetailApp {
         const amenitiesGrid = document.getElementById('amenities-grid');
         
         if (!this.venue.features || this.venue.features.length === 0) {
-            amenitiesGrid.innerHTML = '<p>No amenities listed</p>';
+            amenitiesGrid.innerHTML = '<p>Listelenen olanak bulunmamaktadır</p>';
             return;
         }
 
@@ -108,10 +108,10 @@ class VenueDetailApp {
     showNotFound() {
         document.querySelector('.venue-detail-main').innerHTML = `
             <div style="text-align: center; padding: 4rem;">
-                <h1>Venue Not Found</h1>
-                <p>The venue you're looking for doesn't exist.</p>
+                <h1>Mekan Bulunamadı</h1>
+                <p>Aradığınız mekan bulunmamaktadır.</p>
                 <a href="../venues.html" class="reserve-btn" style="display: inline-block; text-decoration: none;">
-                    Back to Venues
+                    Mekanlara Dön
                 </a>
             </div>
         `;
@@ -139,10 +139,10 @@ class VenueDetailApp {
         const year = this.currentDate.getFullYear();
         const month = this.currentDate.getMonth();
         
-        // Update month header
+        // Update month header - Turkish month names
         const monthNames = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
+            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
         ];
         document.getElementById('current-month').textContent = `${monthNames[month]} ${year}`;
 
@@ -209,32 +209,35 @@ class VenueDetailApp {
         document.querySelectorAll('.calendar-day.selected').forEach(day => {
             day.classList.remove('selected');
         });
-        
-        // Add selection to clicked date
-        event.target.classList.add('selected');
-        this.selectedDate = new Date(date);
-        
-        // Enable reserve button
-        document.getElementById('reserve-btn').disabled = false;
+
+        this.selectedDate = date;
+        this.generateCalendar(); // Regenerate to show selection
+
+        // Update reserve button
+        const reserveBtn = document.getElementById('reserve-btn');
+        reserveBtn.textContent = `${date.getDate()} ${this.getMonthName(date.getMonth())} tarihini rezerve et`;
+    }
+
+    getMonthName(monthIndex) {
+        const monthNames = [
+            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+        ];
+        return monthNames[monthIndex];
     }
 
     handleReservation() {
         if (!this.selectedDate) {
-            alert('Please select a date first.');
+            alert('Lütfen önce bir tarih seçiniz.');
             return;
         }
 
-        const formattedDate = this.selectedDate.toLocaleDateString('tr-TR');
-        const message = `Reservation request for ${this.venue.name} on ${formattedDate}`;
+        const dateStr = `${this.selectedDate.getDate()} ${this.getMonthName(this.selectedDate.getMonth())} ${this.selectedDate.getFullYear()}`;
         
-        // In a real app, this would make an API call
-        alert(`Reservation request submitted!\n\nVenue: ${this.venue.name}\nDate: ${formattedDate}\n\nWe'll contact you shortly.`);
-        
-        console.log('Reservation details:', {
-            venue: this.venue,
-            date: this.selectedDate,
-            user: 'Current User'
-        });
+        if (confirm(`${this.venue.name} mekanını ${dateStr} tarihinde rezerve etmek istediğinizden emin misiniz?`)) {
+            // Here you would typically make an API call to reserve the venue
+            alert(`Rezervasyon talebiniz alınmıştır! ${dateStr} tarihinde ${this.venue.name} için sizinle iletişime geçeceğiz.`);
+        }
     }
 }
 

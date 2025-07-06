@@ -77,7 +77,7 @@ class VenuesApp {
                 <div class="venue-info">
                     <h3 class="venue-name">${venue.name}</h3>
                     <p class="venue-location">${venue.location}</p>
-                    <p class="venue-capacity">Capacity: ${venue.capacity}</p>
+                    <p class="venue-capacity">Kapasite: ${venue.capacity}</p>
                 </div>
             </div>
         `).join('');
