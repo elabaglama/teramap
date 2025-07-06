@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venues - TeraMap</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/venues.css">
+    <link rel="icon" type="image/png" href="../favicon/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <nav class="app-nav">
+            <div class="app-logo">Ivey</div>
+            <div class="app-nav-links">
+                <a href="#" class="nav-link active">Venues</a>
+                <a href="#" class="nav-link">Messages</a>
+                <a href="#" class="nav-link">Notifications</a>
+            </div>
+            <div class="app-profile">
+                <img src="../images/teams/ela.jpg" alt="Profile" class="profile-image">
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="venues-main">
+        <!-- Filter Section -->
+        <section class="venues-filter">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Tümü</button>
+                <button class="filter-btn" data-filter="paid">Ücretli</button>
+                <button class="filter-btn" data-filter="youth-free">Gençlik Ekiplerine Ücretsiz</button>
+            </div>
+        </section>
+
+        <!-- Venues Grid -->
+        <section class="venues-grid-section">
+            <div class="venues-grid" id="venues-grid">
+                <!-- Venues will be loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/venues.js"></script>
+</body>
+</html> 
