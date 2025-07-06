@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test App</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>TeraMap App Test</h1>
+    <div id="test-results"></div>
+    
+    <script>
+        function addResult(message, isSuccess) {
+            const div = document.createElement('div');
+            div.className = `test-result ${isSuccess ? 'success' : 'error'}`;
+            div.textContent = message;
+            document.getElementById('test-results').appendChild(div);
+        }
+
+        // Test 1: Check if we can access the venues data
+        fetch('/data/venues.json')
+            .then(response => {
+                if (response.ok) {
+                    addResult('✓ Venues data endpoint is accessible', true);
+                    return response.json();
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            })
+            .then(data => {
+                if (data.venues && data.venues.length > 0) {
+                    addResult(`✓ Found ${data.venues.length} venues in data`, true);
+                } else {
+                    addResult('✗ No venues found in data', false);
+                }
+            })
+            .catch(error => {
+                addResult(`✗ Failed to fetch venues data: ${error.message}`, false);
+            });
+
+        // Test 2: Check if app assets exist
+        fetch('/app/assets/index-75f6ef69.js', { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    addResult('✓ App JavaScript bundle is accessible', true);
+                } else {
+                    addResult('✗ App JavaScript bundle not found', false);
+                }
+            })
+            .catch(error => {
+                addResult(`✗ Error checking JavaScript bundle: ${error.message}`, false);
+            });
+
+        fetch('/app/assets/index-b1bd1fed.css', { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    addResult('✓ App CSS bundle is accessible', true);
+                } else {
+                    addResult('✗ App CSS bundle not found', false);
+                }
+            })
+            .catch(error => {
+                addResult(`✗ Error checking CSS bundle: ${error.message}`, false);
+            });
+
+        // Test 3: Check if app directory is accessible
+        fetch('/app/', { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    addResult('✓ App directory is accessible', true);
+                } else {
+                    addResult(`✗ App directory returned ${response.status}`, false);
+                }
+            })
+            .catch(error => {
+                addResult(`✗ Error checking app directory: ${error.message}`, false);
+            });
+    </script>
+</body>
+</html> 
