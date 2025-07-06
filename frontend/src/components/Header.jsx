@@ -13,7 +13,9 @@ const Header = () => {
           <li><a href="/app/notifications">Notifications</a></li>
           <li>
             <div className="profile-avatar">
-              <img src="/images/general/profile-placeholder.jpg" alt="Profile" />
+              <div className="avatar-circle">
+                <i className="fas fa-user"></i>
+              </div>
             </div>
           </li>
         </ul>

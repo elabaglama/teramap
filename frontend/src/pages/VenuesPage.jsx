@@ -19,8 +19,7 @@ const VenuesPage = () => {
 
   const fetchVenues = async () => {
     try {
-      // In a real app, this would be an API call
-      // For now, we'll use the local data
+      // Use absolute path from root
       const response = await fetch('/data/venues.json');
       const data = await response.json();
       setVenues(data.venues);
