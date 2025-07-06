@@ -3,84 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test App</title>
+    <title>TeraMap App Debug</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
         .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
         .success { background-color: #d4edda; color: #155724; }
         .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        .app-container { border: 2px solid #007bff; margin: 20px 0; }
+        #app-iframe { width: 100%; height: 600px; border: 1px solid #ccc; }
     </style>
 </head>
 <body>
-    <h1>TeraMap App Test</h1>
-    <div id="test-results"></div>
+    <h1>TeraMap App Debug Dashboard</h1>
+    
+    <div class="section">
+        <h2>📊 System Tests</h2>
+        <div id="test-results"></div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Direct App Test</h2>
+        <p>Testing the app directly in an iframe:</p>
+        <div class="app-container">
+            <iframe id="app-iframe" src="/app/" title="TeraMap App">
+                Your browser doesn't support iframes.
+            </iframe>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📝 App Content Test</h2>
+        <button onclick="testAppContent()">Fetch App HTML Content</button>
+        <div id="app-content-result"></div>
+    </div>
+
+    <div class="section">
+        <h2>🔍 Network Analysis</h2>
+        <button onclick="analyzeNetworkRequests()">Analyze Network Requests</button>
+        <div id="network-results"></div>
+    </div>
     
     <script>
-        function addResult(message, isSuccess) {
+        function addResult(message, type = 'info') {
             const div = document.createElement('div');
-            div.className = `test-result ${isSuccess ? 'success' : 'error'}`;
-            div.textContent = message;
+            div.className = `test-result ${type}`;
+            div.innerHTML = message;
             document.getElementById('test-results').appendChild(div);
         }
 
-        // Test 1: Check if we can access the venues data
-        fetch('/data/venues.json')
-            .then(response => {
-                if (response.ok) {
-                    addResult('✓ Venues data endpoint is accessible', true);
-                    return response.json();
-                } else {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-            })
-            .then(data => {
-                if (data.venues && data.venues.length > 0) {
-                    addResult(`✓ Found ${data.venues.length} venues in data`, true);
-                } else {
-                    addResult('✗ No venues found in data', false);
-                }
-            })
-            .catch(error => {
-                addResult(`✗ Failed to fetch venues data: ${error.message}`, false);
-            });
+        function addContentToSection(sectionId, content) {
+            const element = document.getElementById(sectionId);
+            element.innerHTML = content;
+        }
 
-        // Test 2: Check if app assets exist
-        fetch('/app/assets/index-75f6ef69.js', { method: 'HEAD' })
-            .then(response => {
-                if (response.ok) {
-                    addResult('✓ App JavaScript bundle is accessible', true);
-                } else {
-                    addResult('✗ App JavaScript bundle not found', false);
-                }
-            })
-            .catch(error => {
-                addResult(`✗ Error checking JavaScript bundle: ${error.message}`, false);
-            });
+        // Test 1: Basic connectivity tests
+        async function runBasicTests() {
+            addResult('🚀 Starting basic connectivity tests...', 'info');
 
-        fetch('/app/assets/index-b1bd1fed.css', { method: 'HEAD' })
-            .then(response => {
+            // Test venues data
+            try {
+                const response = await fetch('/data/venues.json');
                 if (response.ok) {
-                    addResult('✓ App CSS bundle is accessible', true);
+                    const data = await response.json();
+                    addResult(`✅ Venues data: Found ${data.venues?.length || 0} venues`, 'success');
                 } else {
-                    addResult('✗ App CSS bundle not found', false);
+                    addResult(`❌ Venues data: HTTP ${response.status}`, 'error');
                 }
-            })
-            .catch(error => {
-                addResult(`✗ Error checking CSS bundle: ${error.message}`, false);
-            });
+            } catch (error) {
+                addResult(`❌ Venues data: ${error.message}`, 'error');
+            }
 
-        // Test 3: Check if app directory is accessible
-        fetch('/app/', { method: 'HEAD' })
-            .then(response => {
-                if (response.ok) {
-                    addResult('✓ App directory is accessible', true);
-                } else {
-                    addResult(`✗ App directory returned ${response.status}`, false);
+            // Test app assets
+            const assets = [
+                { name: 'JS Bundle', url: '/app/assets/index-75f6ef69.js' },
+                { name: 'CSS Bundle', url: '/app/assets/index-b1bd1fed.css' },
+                { name: 'App HTML', url: '/app/' },
+                { name: 'Hero Image', url: '/app/assets/network-visualization-hero-part2-beac628a.png' }
+            ];
+
+            for (const asset of assets) {
+                try {
+                    const response = await fetch(asset.url, { method: 'HEAD' });
+                    const size = response.headers.get('content-length');
+                    const sizeText = size ? ` (${Math.round(size/1024)}KB)` : '';
+                    
+                    if (response.ok) {
+                        addResult(`✅ ${asset.name}: Accessible${sizeText}`, 'success');
+                    } else {
+                        addResult(`❌ ${asset.name}: HTTP ${response.status}`, 'error');
+                    }
+                } catch (error) {
+                    addResult(`❌ ${asset.name}: ${error.message}`, 'error');
                 }
-            })
-            .catch(error => {
-                addResult(`✗ Error checking app directory: ${error.message}`, false);
+            }
+        }
+
+        // Test 2: Fetch and analyze app content
+        async function testAppContent() {
+            try {
+                addContentToSection('app-content-result', '⏳ Fetching app content...');
+                
+                const response = await fetch('/app/');
+                const content = await response.text();
+                
+                // Analyze the HTML content
+                const hasRoot = content.includes('id="root"');
+                const hasJSBundle = content.includes('index-75f6ef69.js');
+                const hasCSSBundle = content.includes('index-b1bd1fed.css');
+                const hasTitle = content.includes('<title>');
+                
+                let analysis = `
+                    <div class="info">
+                        <h4>📄 HTML Analysis:</h4>
+                        <ul>
+                            <li>${hasRoot ? '✅' : '❌'} React root element found</li>
+                            <li>${hasJSBundle ? '✅' : '❌'} JavaScript bundle reference found</li>
+                            <li>${hasCSSBundle ? '✅' : '❌'} CSS bundle reference found</li>
+                            <li>${hasTitle ? '✅' : '❌'} Title tag found</li>
+                        </ul>
+                        <h4>📜 Full HTML Content:</h4>
+                        <pre>${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+                    </div>
+                `;
+                
+                addContentToSection('app-content-result', analysis);
+            } catch (error) {
+                addContentToSection('app-content-result', `<div class="error">❌ Error: ${error.message}</div>`);
+            }
+        }
+
+        // Test 3: Network request analysis
+        async function analyzeNetworkRequests() {
+            addContentToSection('network-results', '⏳ Analyzing network requests...');
+            
+            const requests = [];
+            const originalFetch = window.fetch;
+            
+            // Monitor fetch requests
+            window.fetch = async function(...args) {
+                const start = Date.now();
+                try {
+                    const response = await originalFetch.apply(this, args);
+                    const end = Date.now();
+                    requests.push({
+                        url: args[0],
+                        status: response.status,
+                        duration: end - start,
+                        ok: response.ok
+                    });
+                    return response;
+                } catch (error) {
+                    const end = Date.now();
+                    requests.push({
+                        url: args[0],
+                        error: error.message,
+                        duration: end - start,
+                        ok: false
+                    });
+                    throw error;
+                }
+            };
+
+            // Test critical app resources
+            try {
+                await fetch('/app/assets/index-75f6ef69.js');
+                await fetch('/app/assets/index-b1bd1fed.css');
+                await fetch('/data/venues.json');
+            } catch (error) {
+                // Ignore errors for now
+            }
+
+            // Restore original fetch
+            window.fetch = originalFetch;
+
+            // Display results
+            let results = '<div class="info"><h4>🌐 Network Request Analysis:</h4><ul>';
+            requests.forEach(req => {
+                const statusIcon = req.ok ? '✅' : '❌';
+                const errorText = req.error ? ` (${req.error})` : '';
+                results += `<li>${statusIcon} ${req.url} - ${req.status || 'Error'} (${req.duration}ms)${errorText}</li>`;
             });
+            results += '</ul></div>';
+
+            addContentToSection('network-results', results);
+        }
+
+        // Monitor iframe loading
+        document.getElementById('app-iframe').onload = function() {
+            addResult('📱 App iframe loaded successfully', 'success');
+            
+            // Try to access iframe content (may be blocked by CORS)
+            try {
+                const iframeDoc = this.contentDocument || this.contentWindow.document;
+                const hasReactRoot = iframeDoc.getElementById('root');
+                const hasContent = hasReactRoot && hasReactRoot.innerHTML.trim().length > 0;
+                
+                addResult(`📱 React app status: ${hasContent ? 'Content rendered' : 'No content or still loading'}`, hasContent ? 'success' : 'info');
+            } catch (error) {
+                addResult('📱 Cannot inspect iframe content (CORS restriction)', 'info');
+            }
+        };
+
+        document.getElementById('app-iframe').onerror = function() {
+            addResult('📱 App iframe failed to load', 'error');
+        };
+
+        // Run tests on page load
+        runBasicTests();
     </script>
 </body>
 </html> 
