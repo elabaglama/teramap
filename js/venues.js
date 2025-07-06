@@ -90,12 +90,20 @@ class VenuesApp {
     }
 
     openVenueDetail(venueId) {
-        // For now, just log the venue ID
-        // In a real app, this would navigate to a detail page
-        console.log('Opening venue detail for:', venueId);
+        // Create URL-friendly slug from venue name/id
+        const venue = this.venues.find(v => v.id === venueId);
+        if (!venue) return;
         
-        // You can add navigation logic here
-        // window.location.href = `/app/venue/${venueId}`;
+        const slugs = {
+            '1': 'postanegalata',
+            '2': 'rahatevebahceli', 
+            '3': 'fenerevleri',
+            '4': 'metrohan',
+            '5': 'borusan'
+        };
+        
+        const slug = slugs[venueId] || venueId;
+        window.location.href = `/app/venues/${slug}`;
     }
 }
 

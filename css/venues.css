@@ -27,6 +27,12 @@
     color: #333;
 }
 
+.logo-image {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
 .app-nav-links {
     display: flex;
     gap: 2rem;

@@ -97,6 +97,10 @@
     {
       "source": "/app/venues",
       "destination": "/app/venues.html"
+    },
+    {
+      "source": "/app/venues/(.*)",
+      "destination": "/app/venue-detail.html"
     }
   ]
 } 

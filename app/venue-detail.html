@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venue Detail - TeraMap</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/venue-detail.css">
+    <link rel="icon" type="image/png" href="../../favicon/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <nav class="app-nav">
+            <div class="app-logo">
+                <img src="../../logo transparent.png" alt="TeraMap Logo" class="logo-image">
+            </div>
+            <div class="app-nav-links">
+                <a href="../venues.html" class="nav-link">Venues</a>
+                <a href="#" class="nav-link">Messages</a>
+                <a href="#" class="nav-link">Notifications</a>
+            </div>
+            <div class="app-profile">
+                <img src="../../images/teams/ela.jpg" alt="Profile" class="profile-image">
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="venue-detail-main">
+        <div class="venue-detail-container">
+            <!-- Left Side - Venue Info -->
+            <div class="venue-info-section">
+                <div class="venue-image-container">
+                    <img id="venue-image" src="" alt="Venue Image" class="venue-main-image">
+                </div>
+                
+                <div class="venue-header">
+                    <h1 id="venue-name" class="venue-title">Loading...</h1>
+                    <p id="venue-location" class="venue-subtitle">Loading...</p>
+                </div>
+
+                <div class="venue-details-grid">
+                    <div class="detail-section">
+                        <h3>Capacity</h3>
+                        <p id="venue-capacity">Loading...</p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Overview</h3>
+                        <p id="venue-description">Loading...</p>
+                    </div>
+                </div>
+
+                <div class="amenities-section">
+                    <h3>Amenities</h3>
+                    <div class="amenities-grid" id="amenities-grid">
+                        <!-- Amenities will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Calendar & Booking -->
+            <div class="booking-section">
+                <div class="calendar-widget">
+                    <div class="calendar-header">
+                        <button id="prev-month" class="calendar-nav">&lt;</button>
+                        <h3 id="current-month">October 2024</h3>
+                        <button id="next-month" class="calendar-nav">&gt;</button>
+                    </div>
+                    
+                    <div class="calendar-grid">
+                        <div class="calendar-weekdays">
+                            <div class="weekday">S</div>
+                            <div class="weekday">M</div>
+                            <div class="weekday">T</div>
+                            <div class="weekday">W</div>
+                            <div class="weekday">T</div>
+                            <div class="weekday">F</div>
+                            <div class="weekday">S</div>
+                        </div>
+                        <div class="calendar-days" id="calendar-days">
+                            <!-- Calendar days will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <button class="reserve-btn" id="reserve-btn">Reserve Venue</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/venue-detail.js"></script>
+</body>
+</html> 
