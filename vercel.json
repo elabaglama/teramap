@@ -95,12 +95,12 @@
       "destination": "/app/index.html"
     },
     {
-      "source": "/app/venues",
-      "destination": "/app/venues.html"
-    },
-    {
       "source": "/app/venues/(.*)",
       "destination": "/app/venue-detail.html"
+    },
+    {
+      "source": "/app/venues",
+      "destination": "/app/venues.html"
     }
   ]
 } 
