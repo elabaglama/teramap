@@ -96,11 +96,15 @@
     },
     {
       "source": "/app/venues",
-      "destination": "/app/venues/index.html"
+      "destination": "/app/index.html"
     },
     {
-      "source": "/app/venues/",
-      "destination": "/app/venues/index.html"
+      "source": "/app/messages",
+      "destination": "/app/index.html"
+    },
+    {
+      "source": "/app/notifications",
+      "destination": "/app/index.html"
     }
   ]
 } 
