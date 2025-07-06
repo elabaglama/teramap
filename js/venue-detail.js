@@ -39,7 +39,7 @@ class VenueDetailApp {
 
     async loadVenues() {
         try {
-            const response = await fetch('../../data/venues.json');
+            const response = await fetch('../data/venues.json');
             const data = await response.json();
             this.venues = data.venues || [];
         } catch (error) {
@@ -74,8 +74,9 @@ class VenueDetailApp {
         // Update page title
         document.title = `${this.venue.name} - TeraMap`;
         
-        // Load venue details
-        document.getElementById('venue-image').src = this.venue.image;
+        // Load venue details (fix image path for app context)
+        const imagePath = this.venue.image.replace('../images/', '../images/');
+        document.getElementById('venue-image').src = imagePath;
         document.getElementById('venue-image').alt = this.venue.name;
         document.getElementById('venue-name').textContent = this.venue.name;
         document.getElementById('venue-location').textContent = this.venue.location;
