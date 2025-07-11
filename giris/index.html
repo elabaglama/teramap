@@ -341,7 +341,7 @@
                     await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
                     window.showToast('Başarıyla giriş yaptınız!', 'success');
                     setTimeout(() => {
-                        window.location.href = '/hub/mekanlar';
+                        window.location.href = '/app/venues';
                     }, 1000);
                 } catch (error) {
                     console.error('Error:', error);
@@ -368,7 +368,7 @@
                     await window.signInWithPopup(window.firebaseAuth, window.googleProvider);
                     window.showToast('Google ile başarıyla giriş yaptınız!', 'success');
                     setTimeout(() => {
-                        window.location.href = '/hub/mekanlar';
+                        window.location.href = '/app/venues';
                     }, 1000);
                 } catch (error) {
                     console.error('Error:', error);
