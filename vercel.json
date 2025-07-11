@@ -95,7 +95,7 @@
     },
     {
       "source": "/app/venues/:slug",
-      "destination": "/app/venue-detail.html"
+      "destination": "/app/venues/index.html"
     },
     {
       "source": "/app/venues",

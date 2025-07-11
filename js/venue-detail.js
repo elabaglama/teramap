@@ -39,7 +39,7 @@ class VenueDetailApp {
 
     async loadVenues() {
         try {
-            const response = await fetch('../data/venues.json');
+            const response = await fetch('/data/venues.json');
             const data = await response.json();
             this.venues = data.venues || [];
         } catch (error) {
