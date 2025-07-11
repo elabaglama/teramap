@@ -14,7 +14,11 @@ class VenuesApp {
 
     async loadVenues() {
         try {
-            const response = await fetch('/data/venues.json');
+            // Check if we're in app directory or subdirectory
+            const path = window.location.pathname;
+            const dataPath = path.includes('/app/') ? '/data/venues.json' : '../data/venues.json';
+            
+            const response = await fetch(dataPath);
             const data = await response.json();
             this.venues = data.venues || [];
         } catch (error) {

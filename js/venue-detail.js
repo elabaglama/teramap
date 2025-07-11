@@ -39,7 +39,12 @@ class VenueDetailApp {
 
     async loadVenues() {
         try {
-            const response = await fetch('/data/venues.json');
+            // Check if we're in a subdirectory and adjust path accordingly
+            const path = window.location.pathname;
+            const depth = path.split('/').length - 1;
+            const dataPath = depth > 3 ? '../../../data/venues.json' : '/data/venues.json';
+            
+            const response = await fetch(dataPath);
             const data = await response.json();
             this.venues = data.venues || [];
         } catch (error) {
@@ -50,7 +55,8 @@ class VenueDetailApp {
 
     extractVenueFromURL() {
         const path = window.location.pathname;
-        const venueSlug = path.split('/').pop();
+        const pathParts = path.split('/');
+        const venueSlug = pathParts[pathParts.length - 1] === '' ? pathParts[pathParts.length - 2] : pathParts[pathParts.length - 1];
         
         // Convert slug back to venue (simple mapping for now)
         const slugToId = {
@@ -64,9 +70,13 @@ class VenueDetailApp {
         const venueId = slugToId[venueSlug];
         this.venue = this.venues.find(v => v.id === venueId);
         
-        // Fix image path
+        // Fix image path based on current directory depth
         if (this.venue) {
-            this.venue.image = this.venue.image.replace(/^\//, '../');
+            const depth = path.split('/').length - 1;
+            if (depth > 3) {
+                // We're in a subdirectory, use relative paths
+                this.venue.image = this.venue.image.replace(/^\//, '../../../');
+            }
         }
     }
 

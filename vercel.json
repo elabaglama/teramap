@@ -94,10 +94,6 @@
       "destination": "/app/index.html"
     },
     {
-      "source": "/app/venues/:slug",
-      "destination": "/app/venues/index.html"
-    },
-    {
       "source": "/app/venues",
       "destination": "/app/venues.html"
     }
