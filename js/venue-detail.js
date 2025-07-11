@@ -39,7 +39,7 @@ class VenueDetailApp {
 
     async loadVenues() {
         try {
-            const response = await fetch('../../data/venues.json');
+            const response = await fetch('/data/venues.json');
             const data = await response.json();
             this.venues = data.venues || [];
         } catch (error) {
@@ -55,7 +55,7 @@ class VenueDetailApp {
         // Convert slug back to venue (simple mapping for now)
         const slugToId = {
             'postanegalata': '1',
-            'rahatevahabcelieve': '2', 
+            'rahatevebahceli': '2', 
             'fenerevleri': '3',
             'metrohan': '4',
             'borusan': '5'
