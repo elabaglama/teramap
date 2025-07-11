@@ -18,7 +18,40 @@
             display: flex;
             min-height: 100vh;
             background-color: #fbfbfb;
-            flex-direction: row-reverse; /* Reverse the direction to move content to right */
+        }
+
+        .welcome-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-color: #ba9585;
+            color: white;
+        }
+
+        .welcome-section .logo {
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section .logo img {
+            width: 220px;
+            height: auto;
+        }
+
+        .welcome-section h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .welcome-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 400px;
         }
 
         .signup-container {
@@ -36,30 +69,6 @@
             background: white;
             border-radius: 15px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo img {
-            width: 180px;
-            height: auto;
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-
-        p {
-            color: #666;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
         }
 
         .form-group {
@@ -131,24 +140,6 @@
             background-color: #a88574;
         }
 
-        .image-section {
-            flex: 1;
-            background-color: #ba9585;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .circle {
-            width: 300px;
-            height: 300px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            position: absolute;
-        }
-
         .auth-options {
             text-align: center;
             margin-top: 1rem;
@@ -191,25 +182,39 @@
         }
 
         @media (max-width: 768px) {
-            .image-section {
-                display: none;
-            }
-            
             body {
                 flex-direction: column;
+            }
+
+            .welcome-section {
+                padding: 2rem 1rem;
+            }
+
+            .welcome-section .logo img {
+                width: 160px;
+            }
+
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+
+            .welcome-section p {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="welcome-section">
+        <div class="logo">
+            <img src="/logo transparent.png" alt="Tera Logo">
+        </div>
+        <h1>Hoş Geldiniz</h1>
+        <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
+    </div>
+
     <div class="signup-container">
         <div class="signup-form">
-            <div class="logo">
-                <img src="/logo transparent.png" alt="Tera Logo">
-            </div>
-            <h1>Hoş Geldiniz</h1>
-            <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
-            
             <div class="coupon-note">
                 <h3>🎟️ Kupon Kodu ile Ücretsiz Kayıt</h3>
                 <p>Kupon kodunuz varsa ücretsiz olarak kayıt olabilirsiniz!</p>
@@ -253,10 +258,6 @@
                 </div>
             </form>
         </div>
-    </div>
-    <div class="image-section">
-        <div class="circle" style="top: 20%; left: 30%;"></div>
-        <div class="circle" style="bottom: 20%; right: 30%;"></div>
     </div>
 
     <script type="module">
