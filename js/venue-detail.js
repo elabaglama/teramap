@@ -39,7 +39,7 @@ class VenueDetailApp {
 
     async loadVenues() {
         try {
-            const response = await fetch('/data/venues.json');
+            const response = await fetch('../data/venues.json');
             const data = await response.json();
             this.venues = data.venues || [];
         } catch (error) {
@@ -63,6 +63,11 @@ class VenueDetailApp {
         
         const venueId = slugToId[venueSlug];
         this.venue = this.venues.find(v => v.id === venueId);
+        
+        // Fix image path
+        if (this.venue) {
+            this.venue.image = this.venue.image.replace(/^\//, '../');
+        }
     }
 
     loadVenueData() {

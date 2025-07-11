@@ -36,8 +36,7 @@
       ]
     }
   ],
-
-    "rewrites": [
+  "rewrites": [
     {
       "source": "/",
       "destination": "/index.html"
@@ -95,7 +94,7 @@
       "destination": "/app/index.html"
     },
     {
-      "source": "/app/venues/(.*)",
+      "source": "/app/venues/:slug",
       "destination": "/app/venue-detail.html"
     },
     {

@@ -14,7 +14,7 @@ class VenuesApp {
 
     async loadVenues() {
         try {
-            const response = await fetch('/data/venues.json');
+            const response = await fetch('../data/venues.json');
             const data = await response.json();
             this.venues = data.venues || [];
         } catch (error) {
@@ -73,7 +73,7 @@ class VenuesApp {
 
         grid.innerHTML = filteredVenues.map((venue, index) => `
             <div class="venue-card" onclick="venuesApp.openVenueDetail('${venue.id}')">
-                <img src="${venue.image}" alt="${venue.name}" class="venue-image" onerror="this.src='/images/general/placeholder.jpg'">
+                <img src="${venue.image.replace(/^\//, '../')}" alt="${venue.name}" class="venue-image" onerror="this.src='../images/general/placeholder.jpg'">
                 <div class="venue-info">
                     <h3 class="venue-name">${venue.name}</h3>
                     <p class="venue-location">${venue.location}</p>
