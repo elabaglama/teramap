@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaydol - Tera</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -16,6 +18,7 @@
             display: flex;
             min-height: 100vh;
             background-color: #fbfbfb;
+            flex-direction: row-reverse; /* Reverse the direction to move content to right */
         }
 
         .signup-container {
@@ -30,6 +33,9 @@
             width: 100%;
             max-width: 400px;
             padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .logo {
@@ -38,7 +44,7 @@
         }
 
         .logo img {
-            width: 120px;
+            width: 180px;
             height: auto;
         }
 
@@ -118,6 +124,7 @@
             font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-bottom: 1rem;
         }
 
         button:hover {
@@ -142,66 +149,54 @@
             position: absolute;
         }
 
-        .error-popup, .payment-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
+        .auth-options {
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
         }
 
-        .error-popup h3 {
-            color: #e74c3c;
+        .auth-options p {
             margin-bottom: 1rem;
+            color: #666;
         }
 
-        .payment-popup h3 {
-            color: #ba9585;
-            margin-bottom: 1rem;
-        }
-
-        .popup-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .popup-buttons button {
-            flex: 1;
-            margin: 0;
-        }
-
-        .btn-secondary {
-            background-color: #ddd;
+        .google-signin {
+            background-color: white;
             color: #333;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .btn-secondary:hover {
-            background-color: #ccc;
+        .google-signin img {
+            width: 18px;
+            height: 18px;
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .login-link a {
+            color: #ba9585;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
             .image-section {
                 display: none;
+            }
+            
+            body {
+                flex-direction: column;
             }
         }
     </style>
@@ -210,7 +205,7 @@
     <div class="signup-container">
         <div class="signup-form">
             <div class="logo">
-                <img src="/logo.png" alt="Tera Logo">
+                <img src="/logo transparent.png" alt="Tera Logo">
             </div>
             <h1>Hoş Geldiniz</h1>
             <p>Keşife çıkmak için bilgilerinizi giriniz.</p>
@@ -220,7 +215,7 @@
                 <p>Kupon kodunuz varsa ücretsiz olarak kayıt olabilirsiniz!</p>
             </div>
             
-            <form id="signupForm" onsubmit="return validateForm(event)">
+            <form id="signupForm" onsubmit="return handleSignup(event)">
                 <div class="form-group">
                     <label for="inviteCode">Kupon Kodu (İsteğe Bağlı)</label>
                     <input type="text" id="inviteCode" name="inviteCode" placeholder="5 haneli kupon kodunuzu girin" maxlength="5" style="text-transform: uppercase;">
@@ -244,177 +239,78 @@
                     <div class="hint">En az 6 karakter, 1 harf ve 1 rakam içermelidir</div>
                 </div>
                 <button type="submit">Kayıt Ol</button>
+
+                <div class="auth-options">
+                    <p>veya</p>
+                    <button type="button" class="google-signin" onclick="signInWithGoogle()">
+                        <img src="https://www.google.com/favicon.ico" alt="Google">
+                        Google ile Devam Et
+                    </button>
+                </div>
+
+                <div class="login-link">
+                    Zaten hesabınız var mı? <a href="/giris">Giriş Yapın</a>
+                </div>
             </form>
         </div>
     </div>
     <div class="image-section">
-        <div class="circle" style="top: 20%; left: 60%;"></div>
-        <div class="circle" style="bottom: 30%; right: 70%;"></div>
+        <div class="circle" style="top: 20%; left: 30%;"></div>
+        <div class="circle" style="bottom: 20%; right: 30%;"></div>
     </div>
 
-    <!-- Error Popup -->
-    <div class="error-popup" id="errorPopup">
-        <h3>Hata</h3>
-        <p id="errorMessage"></p>
-        <button onclick="closeErrorPopup()">Tamam</button>
-    </div>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
 
-    <!-- Payment Popup -->
-    <div class="payment-popup" id="paymentPopup">
-        <h3>💳 Ödeme Gerekli</h3>
-        <p>Kupon kodunuz geçerli değil veya kullanılmış. Kayıt olmak için ödeme yapmanız gerekmektedir.</p>
-        <p><strong>Kayıt Ücreti: ₺99</strong></p>
-        <div class="popup-buttons">
-            <button class="btn-secondary" onclick="closePaymentPopup()">İptal</button>
-            <button onclick="redirectToPayment()">Ödeme Yap</button>
-        </div>
-    </div>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
+            authDomain: "teramapcursor.firebaseapp.com",
+            projectId: "teramapcursor",
+            storageBucket: "teramapcursor.firebasestorage.app",
+            messagingSenderId: "446128373922",
+            appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+        };
 
-    <div class="overlay" id="overlay"></div>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
 
-    <script src="/js/coupon-system.js"></script>
-    <script>
-        // Kupon kodlarını büyük harfe çevir
-        document.getElementById('inviteCode').addEventListener('input', function(e) {
-            e.target.value = e.target.value.toUpperCase();
-        });
-
-        async function validateForm(event) {
+        window.handleSignup = async (event) => {
             event.preventDefault();
             
-            const inviteCode = document.getElementById('inviteCode').value.trim();
-            const password = document.getElementById('password').value;
             const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             const fullName = document.getElementById('fullName').value;
             const communityName = document.getElementById('communityName').value;
+            const inviteCode = document.getElementById('inviteCode').value;
 
-            // Şifre kontrolü
-            if (password.length < 6 || !/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
-                showError('Şifre en az 6 karakter uzunluğunda olmalı ve en az 1 harf ve 1 rakam içermelidir.');
-                return false;
-            }
-
-            // Kupon kodu varsa kontrol et
-            if (inviteCode) {
-                try {
-                    const isValidCoupon = await window.couponSystem.validateCoupon(inviteCode);
-                    if (!isValidCoupon) {
-                        showPaymentPopup();
-                        return false;
-                    }
-                    // Geçerli kupon ile kayıt
-                    await registerWithCoupon(inviteCode, email, password, fullName, communityName);
-                } catch (error) {
-                    showError('Kupon kontrolü sırasında bir hata oluştu. Lütfen tekrar deneyin.');
-                    return false;
-                }
-            } else {
-                // Kupon kodu yok, ödeme gerekli
-                showPaymentPopup();
-                return false;
-            }
-        }
-
-        async function registerWithCoupon(couponCode, email, password, fullName, communityName) {
             try {
-                const userInfo = {
-                    email,
-                    fullName,
-                    communityName,
-                    password // Gerçek uygulamada hash'lenmiş olarak saklanacak
-                };
-
-                // Kupon kodunu kullanılmış olarak işaretle
-                const couponUsed = await window.couponSystem.useCoupon(couponCode, userInfo);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
                 
-                if (!couponUsed) {
-                    showError('Kupon kodu işlenirken bir hata oluştu.');
-                    return;
-                }
-
-                // Kullanıcı kaydı simülasyonu
-                console.log('Kayıt bilgileri:', {
-                    couponCode,
-                    ...userInfo,
-                    registeredAt: new Date().toISOString()
-                });
-
-                // Başarılı kayıt mesajı
-                showSuccessMessage(couponCode);
+                // Here you can add additional user data to Firestore if needed
                 
-                // 2 saniye sonra yönlendir
-                setTimeout(() => {
-                    window.location.href = '/hub/giris?registered=true';
-                }, 2000);
-                
+                // Redirect to success page or dashboard
+                window.location.href = '/hub/messages.html';
             } catch (error) {
-                showError('Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+                alert('Kayıt olurken bir hata oluştu: ' + error.message);
             }
-        }
+        };
 
-        function showSuccessMessage(couponCode) {
-            const successDiv = document.createElement('div');
-            successDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #4CAF50;
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 1001;
-                font-family: Arial, sans-serif;
-            `;
-            successDiv.innerHTML = `
-                <h4 style="margin: 0 0 0.5rem 0;">✅ Kayıt Başarılı!</h4>
-                <p style="margin: 0; font-size: 0.9rem;">Kupon kodu: <strong>${couponCode}</strong> kullanıldı.</p>
-            `;
-            document.body.appendChild(successDiv);
-
-            // 2 saniye sonra kaldır
-            setTimeout(() => {
-                document.body.removeChild(successDiv);
-            }, 2000);
-        }
-
-        function showError(message) {
-            const errorPopup = document.getElementById('errorPopup');
-            const overlay = document.getElementById('overlay');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            errorMessage.textContent = message;
-            errorPopup.style.display = 'block';
-            overlay.style.display = 'block';
-        }
-
-        function showPaymentPopup() {
-            const paymentPopup = document.getElementById('paymentPopup');
-            const overlay = document.getElementById('overlay');
-            
-            paymentPopup.style.display = 'block';
-            overlay.style.display = 'block';
-        }
-
-        function closeErrorPopup() {
-            const errorPopup = document.getElementById('errorPopup');
-            const overlay = document.getElementById('overlay');
-            
-            errorPopup.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-
-        function closePaymentPopup() {
-            const paymentPopup = document.getElementById('paymentPopup');
-            const overlay = document.getElementById('overlay');
-            
-            paymentPopup.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-
-        function redirectToPayment() {
-            window.open('https://www.shopier.com/35983738', '_blank');
-        }
+        window.signInWithGoogle = async () => {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                const user = result.user;
+                
+                // Redirect to success page or dashboard
+                window.location.href = '/hub/messages.html';
+            } catch (error) {
+                alert('Google ile giriş yaparken bir hata oluştu: ' + error.message);
+            }
+        };
     </script>
 </body>
 </html> 
