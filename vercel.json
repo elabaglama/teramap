@@ -99,7 +99,7 @@
     },
     {
       "source": "/app/messages",
-      "destination": "/app/messages/index.html"
+      "destination": "/app/messages.html"
     }
   ]
 } 
