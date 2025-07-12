@@ -94,8 +94,16 @@
       "destination": "/app/index.html"
     },
     {
-      "source": "/app/:path*",
-      "destination": "/app/:path*"
+      "source": "/app/messages",
+      "destination": "/app/pages/messages.html"
+    },
+    {
+      "source": "/app/venues",
+      "destination": "/app/pages/venues.html"
+    },
+    {
+      "source": "/app/static/(.*)",
+      "destination": "/app/static/$1"
     }
   ]
 } 
