@@ -96,6 +96,10 @@
     {
       "source": "/app/venues",
       "destination": "/app/venues.html"
+    },
+    {
+      "source": "/app/messages",
+      "destination": "/app/messages/index.html"
     }
   ]
 } 
