@@ -7,9 +7,11 @@ class VenuesApp {
     }
 
     async init() {
+        this.showLoading();
         await this.loadVenues();
         this.setupEventListeners();
         this.renderVenues();
+        this.hideLoading();
     }
 
     async loadVenues() {
@@ -24,6 +26,30 @@ class VenuesApp {
         } catch (error) {
             console.error('Error loading venues:', error);
             this.venues = [];
+        }
+    }
+
+    showLoading() {
+        const loadingState = document.getElementById('loading-state');
+        const venuesGrid = document.getElementById('venues-grid');
+        
+        if (loadingState) {
+            loadingState.style.display = 'flex';
+        }
+        if (venuesGrid) {
+            venuesGrid.style.display = 'none';
+        }
+    }
+
+    hideLoading() {
+        const loadingState = document.getElementById('loading-state');
+        const venuesGrid = document.getElementById('venues-grid');
+        
+        if (loadingState) {
+            loadingState.style.display = 'none';
+        }
+        if (venuesGrid) {
+            venuesGrid.style.display = 'grid';
         }
     }
 
@@ -61,9 +87,19 @@ class VenuesApp {
         }
     }
 
+    updateVenueCount(count) {
+        const venueCountElement = document.getElementById('venue-count');
+        if (venueCountElement) {
+            venueCountElement.textContent = `${count} mekan bulundu`;
+        }
+    }
+
     renderVenues() {
         const grid = document.getElementById('venues-grid');
         const filteredVenues = this.filterVenues();
+
+        // Update venue count
+        this.updateVenueCount(filteredVenues.length);
 
         if (filteredVenues.length === 0) {
             grid.innerHTML = `
@@ -75,22 +111,44 @@ class VenuesApp {
             return;
         }
 
-        grid.innerHTML = filteredVenues.map((venue, index) => `
-            <div class="venue-card" onclick="venuesApp.openVenueDetail('${venue.id}')">
-                <img src="${venue.image}" alt="${venue.name}" class="venue-image" onerror="this.src='/images/general/placeholder.jpg'">
-                <div class="venue-info">
-                    <h3 class="venue-name">${venue.name}</h3>
-                    <p class="venue-location">${venue.location}</p>
-                    <p class="venue-capacity">Kapasite: ${venue.capacity}</p>
+        grid.innerHTML = filteredVenues.map((venue, index) => {
+            const badge = this.getVenueBadge(venue);
+            return `
+                <div class="venue-card" onclick="venuesApp.openVenueDetail('${venue.id}')">
+                    <div class="venue-image-container">
+                        <img src="${venue.image}" alt="${venue.name}" class="venue-image" onerror="this.src='/images/general/placeholder.jpg'">
+                        ${badge ? `<div class="venue-badge">${badge}</div>` : ''}
+                    </div>
+                    <div class="venue-info">
+                        <h3 class="venue-name">${venue.name}</h3>
+                        <p class="venue-location">${venue.location}</p>
+                        <div class="venue-meta">
+                            <span class="venue-capacity">Kapasite: ${venue.capacity}</span>
+                            <span class="venue-area">Alan: ${venue.area}</span>
+                        </div>
+                        <div class="venue-price-info">
+                            <span class="venue-price-tag">${venue.price}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         // Re-apply animation delays
         const cards = grid.querySelectorAll('.venue-card');
         cards.forEach((card, index) => {
             card.style.animationDelay = `${(index + 1) * 0.1}s`;
         });
+    }
+
+    getVenueBadge(venue) {
+        if (venue.isYouthFree) {
+            return 'Gençlik Ekiplerine Ücretsiz';
+        } else if (venue.isPaid) {
+            return 'Ücretli';
+        } else {
+            return 'Ücretsiz';
+        }
     }
 
     openVenueDetail(venueId) {

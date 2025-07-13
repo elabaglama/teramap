@@ -5,6 +5,40 @@
     object-fit: contain;
 }
 
+/* Back Button */
+.back-button-container {
+    position: fixed;
+    top: 80px;
+    left: 2rem;
+    z-index: 100;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn:hover {
+    background: #f5f5f5;
+    border-color: #91796e;
+    color: #91796e;
+}
+
+.back-icon {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
 /* Venue Detail Main Layout */
 .venue-detail-main {
     margin-top: 70px;
@@ -34,12 +68,26 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .venue-main-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.venue-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(145, 121, 110, 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
 }
 
 .venue-header {
@@ -57,12 +105,36 @@
 .venue-subtitle {
     font-size: 1.1rem;
     color: #666;
-    margin: 0;
+    margin: 0 0 1rem 0;
+}
+
+.venue-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.venue-price {
+    background: #91796e;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.venue-category {
+    background: #f0f0f0;
+    color: #666;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .venue-details-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
     padding: 0 1rem;
 }
@@ -78,6 +150,23 @@
     color: #666;
     line-height: 1.6;
     margin: 0;
+}
+
+.venue-description-section {
+    padding: 0 1rem;
+}
+
+.venue-description-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.venue-description-section p {
+    color: #666;
+    line-height: 1.8;
+    font-size: 1rem;
 }
 
 .amenities-section {
@@ -124,6 +213,63 @@
     color: #333;
 }
 
+/* Contact Section */
+.contact-section {
+    padding: 0 1rem;
+}
+
+.contact-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.contact-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    border-color: #91796e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-icon {
+    width: 20px;
+    height: 20px;
+    color: #91796e;
+    font-size: 1.1rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.contact-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.contact-value {
+    font-weight: 500;
+    color: #333;
+}
+
 /* Right Side - Calendar & Booking */
 .booking-section {
     position: sticky;
@@ -132,6 +278,24 @@
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
+}
+
+.booking-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.booking-header h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.booking-header p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 .calendar-widget {
@@ -198,34 +362,82 @@
     align-items: center;
     justify-content: center;
     font-size: 0.9rem;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    font-weight: 500;
     color: #333;
-    background: transparent;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .calendar-day:hover {
     background-color: #f5f5f5;
+    border-color: #91796e;
 }
 
 .calendar-day.selected {
     background-color: #91796e;
     color: white;
+    border-color: #91796e;
 }
 
 .calendar-day.other-month {
     color: #ccc;
+    background: #f9f9f9;
 }
 
 .calendar-day.available {
     background-color: #e8f5e8;
-    color: #2d7d32;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+/* Reservation Form */
+.reservation-form {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #91796e;
+}
+
+.form-input select {
+    background: white;
+}
+
+.form-input textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 .reserve-btn {
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem;
     background-color: #91796e;
     color: white;
     border: none;
@@ -234,12 +446,13 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: 1rem;
 }
 
 .reserve-btn:hover {
     background-color: #7a645a;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(145, 121, 110, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .reserve-btn:disabled {
@@ -249,20 +462,19 @@
     box-shadow: none;
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
     .venue-detail-container {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .booking-section {
         position: static;
+        margin-top: 2rem;
     }
-    
+
     .venue-details-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
     }
 }
 
@@ -270,21 +482,25 @@
     .venue-detail-main {
         padding: 1rem;
     }
-    
+
     .venue-title {
         font-size: 2rem;
     }
-    
+
     .venue-image-container {
-        height: 250px;
+        height: 300px;
     }
-    
+
     .amenities-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .booking-section {
-        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .back-button-container {
+        left: 1rem;
     }
 }
 
@@ -292,38 +508,48 @@
     .venue-detail-main {
         padding: 0.5rem;
     }
-    
+
     .venue-title {
         font-size: 1.5rem;
     }
-    
+
     .venue-image-container {
-        height: 200px;
+        height: 250px;
     }
-    
+
     .calendar-header h3 {
         font-size: 1rem;
     }
-    
+
     .calendar-day {
         font-size: 0.8rem;
     }
+
+    .back-button-container {
+        display: none;
+    }
 }
 
-/* Loading States */
 .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 1.2rem;
     color: #666;
-    font-style: italic;
 }
 
-/* Animation */
 .venue-detail-main {
-    opacity: 0;
-    animation: fadeIn 0.6s ease forwards;
+    animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
     to {
         opacity: 1;
+        transform: translateY(0);
     }
 } 

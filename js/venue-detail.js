@@ -95,10 +95,36 @@ class VenueDetailApp {
         document.getElementById('venue-name').textContent = this.venue.name;
         document.getElementById('venue-location').textContent = this.venue.location;
         document.getElementById('venue-capacity').textContent = this.venue.capacity;
+        document.getElementById('venue-area').textContent = this.venue.area;
         document.getElementById('venue-description').textContent = this.venue.description;
 
+        // Load meta information
+        this.loadMetaInfo();
+        
         // Load amenities
         this.loadAmenities();
+        
+        // Load contact information
+        this.loadContactInfo();
+    }
+
+    loadMetaInfo() {
+        // Load price and category
+        document.getElementById('venue-price').textContent = this.venue.price;
+        document.getElementById('venue-category').textContent = this.venue.category;
+        
+        // Load badge
+        const badgeElement = document.getElementById('venue-badge');
+        if (this.venue.isYouthFree) {
+            badgeElement.textContent = 'Gençlik Ekiplerine Ücretsiz';
+            badgeElement.style.background = 'rgba(76, 175, 80, 0.9)';
+        } else if (this.venue.isPaid) {
+            badgeElement.textContent = 'Ücretli Kiralama';
+            badgeElement.style.background = 'rgba(255, 152, 0, 0.9)';
+        } else {
+            badgeElement.textContent = 'Ücretsiz';
+            badgeElement.style.background = 'rgba(145, 121, 110, 0.9)';
+        }
     }
 
     loadAmenities() {
@@ -120,12 +146,61 @@ class VenueDetailApp {
         }).join('');
     }
 
+    loadContactInfo() {
+        const contactGrid = document.getElementById('contact-grid');
+        
+        if (!this.venue.contact) {
+            contactGrid.innerHTML = '<p>İletişim bilgisi bulunmamaktadır</p>';
+            return;
+        }
+
+        const contactItems = [];
+        
+        if (this.venue.contact.phone) {
+            contactItems.push(`
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <div class="contact-info">
+                        <span class="contact-label">Telefon</span>
+                        <span class="contact-value">${this.venue.contact.phone}</span>
+                    </div>
+                </div>
+            `);
+        }
+        
+        if (this.venue.contact.email) {
+            contactItems.push(`
+                <div class="contact-item">
+                    <span class="contact-icon">✉️</span>
+                    <div class="contact-info">
+                        <span class="contact-label">E-posta</span>
+                        <span class="contact-value">${this.venue.contact.email}</span>
+                    </div>
+                </div>
+            `);
+        }
+        
+        if (this.venue.location) {
+            contactItems.push(`
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <div class="contact-info">
+                        <span class="contact-label">Konum</span>
+                        <span class="contact-value">${this.venue.location}</span>
+                    </div>
+                </div>
+            `);
+        }
+        
+        contactGrid.innerHTML = contactItems.join('');
+    }
+
     showNotFound() {
         document.querySelector('.venue-detail-main').innerHTML = `
             <div style="text-align: center; padding: 4rem;">
                 <h1>Mekan Bulunamadı</h1>
                 <p>Aradığınız mekan bulunmamaktadır.</p>
-                <a href="../venues.html" class="reserve-btn" style="display: inline-block; text-decoration: none;">
+                <a href="/app/venues" class="reserve-btn" style="display: inline-block; text-decoration: none;">
                     Mekanlara Dön
                 </a>
             </div>
@@ -247,11 +322,36 @@ class VenueDetailApp {
             return;
         }
 
+        const eventType = document.getElementById('event-type').value;
+        const eventDescription = document.getElementById('event-description').value;
+
+        if (!eventType) {
+            alert('Lütfen etkinlik türünü seçiniz.');
+            return;
+        }
+
         const dateStr = `${this.selectedDate.getDate()} ${this.getMonthName(this.selectedDate.getMonth())} ${this.selectedDate.getFullYear()}`;
         
-        if (confirm(`${this.venue.name} mekanını ${dateStr} tarihinde rezerve etmek istediğinizden emin misiniz?`)) {
+        const confirmationMessage = `
+Rezervasyon Talebi:
+- Mekan: ${this.venue.name}
+- Tarih: ${dateStr}
+- Etkinlik Türü: ${eventType}
+${eventDescription ? `- Açıklama: ${eventDescription}` : ''}
+
+Bu bilgilerle rezervasyon yapmak istediğinizden emin misiniz?
+        `.trim();
+        
+        if (confirm(confirmationMessage)) {
             // Here you would typically make an API call to reserve the venue
             alert(`Rezervasyon talebiniz alınmıştır! ${dateStr} tarihinde ${this.venue.name} için sizinle iletişime geçeceğiz.`);
+            
+            // Reset form
+            document.getElementById('event-type').value = '';
+            document.getElementById('event-description').value = '';
+            this.selectedDate = null;
+            this.generateCalendar();
+            document.getElementById('reserve-btn').textContent = 'Mekanı Rezerve Et';
         }
     }
 }
