@@ -279,13 +279,27 @@ class VenueDetailApp {
     }
 
     isDateAvailable(date) {
-        if (!this.venue || !this.venue.availableDates) return false;
+        // Generate random available dates for demonstration
+        const today = new Date();
+        const nextTwoMonths = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
         
-        const dateString = date.toISOString().split('T')[0];
-        return this.venue.availableDates.some(availableDate => {
-            const available = new Date(availableDate).toISOString().split('T')[0];
-            return available === dateString;
-        });
+        // Only show dates from today onwards
+        if (date < today) return false;
+        
+        // Don't show dates more than 2 months in advance
+        if (date > nextTwoMonths) return false;
+        
+        // Create a seed based on date for consistent random generation
+        const seed = date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate();
+        const random = Math.sin(seed) * 10000;
+        const randomValue = random - Math.floor(random);
+        
+        // Random availability with higher chance on weekends
+        const day = date.getDay();
+        const isWeekend = day === 5 || day === 6; // Friday or Saturday
+        
+        // 80% chance for weekends, 40% chance for weekdays
+        return isWeekend ? randomValue > 0.2 : randomValue > 0.6;
     }
 
     isSameDate(date1, date2) {
@@ -332,27 +346,125 @@ class VenueDetailApp {
 
         const dateStr = `${this.selectedDate.getDate()} ${this.getMonthName(this.selectedDate.getMonth())} ${this.selectedDate.getFullYear()}`;
         
-        const confirmationMessage = `
-Rezervasyon Talebi:
-- Mekan: ${this.venue.name}
-- Tarih: ${dateStr}
-- Etkinlik Türü: ${eventType}
-${eventDescription ? `- Açıklama: ${eventDescription}` : ''}
+        // Show modern reservation confirmation popup
+        this.showReservationPopup(dateStr, eventType, eventDescription);
+    }
 
-Bu bilgilerle rezervasyon yapmak istediğinizden emin misiniz?
-        `.trim();
+    showReservationPopup(dateStr, eventType, eventDescription) {
+        // Create modern popup
+        const popup = document.createElement('div');
+        popup.className = 'reservation-popup-overlay';
+        popup.innerHTML = `
+            <div class="reservation-popup">
+                <div class="popup-header">
+                    <h3><i class="fas fa-calendar-check"></i> Rezervasyon Talebi</h3>
+                    <button class="popup-close">&times;</button>
+                </div>
+                <div class="popup-body">
+                    <div class="reservation-summary">
+                        <div class="summary-item">
+                            <div class="item-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="item-details">
+                                <span class="item-label">Mekan</span>
+                                <span class="item-value">${this.venue.name}</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="item-icon"><i class="fas fa-calendar"></i></div>
+                            <div class="item-details">
+                                <span class="item-label">Tarih</span>
+                                <span class="item-value">${dateStr}</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="item-icon"><i class="fas fa-tag"></i></div>
+                            <div class="item-details">
+                                <span class="item-label">Fiyat</span>
+                                <span class="item-value">${this.venue.price}</span>
+                            </div>
+                        </div>
+                        ${eventType ? `
+                        <div class="summary-item">
+                            <div class="item-icon"><i class="fas fa-star"></i></div>
+                            <div class="item-details">
+                                <span class="item-label">Etkinlik Türü</span>
+                                <span class="item-value">${eventType}</span>
+                            </div>
+                        </div>` : ''}
+                    </div>
+                    ${eventDescription ? `
+                    <div class="description-section">
+                        <h4><i class="fas fa-info-circle"></i> Açıklama</h4>
+                        <p>${eventDescription}</p>
+                    </div>` : ''}
+                    <div class="contact-section">
+                        <h4><i class="fas fa-phone"></i> İletişim Bilgileri</h4>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>${this.venue.contact?.phone || 'Bilgi yok'}</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>${this.venue.contact?.email || 'Bilgi yok'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button class="btn-secondary" onclick="this.closest('.reservation-popup-overlay').remove()">İptal</button>
+                    <button class="btn-primary" onclick="venueDetailApp.confirmReservation('${dateStr}')">Rezervasyon Talebini Gönder</button>
+                </div>
+            </div>
+        `;
         
-        if (confirm(confirmationMessage)) {
-            // Here you would typically make an API call to reserve the venue
-            alert(`Rezervasyon talebiniz alınmıştır! ${dateStr} tarihinde ${this.venue.name} için sizinle iletişime geçeceğiz.`);
-            
-            // Reset form
-            document.getElementById('event-type').value = '';
-            document.getElementById('event-description').value = '';
-            this.selectedDate = null;
-            this.generateCalendar();
-            document.getElementById('reserve-btn').textContent = 'Mekanı Rezerve Et';
-        }
+        document.body.appendChild(popup);
+        
+        // Close popup functionality
+        popup.querySelector('.popup-close').onclick = () => popup.remove();
+        popup.onclick = (e) => {
+            if (e.target === popup) popup.remove();
+        };
+    }
+
+    confirmReservation(dateStr) {
+        // Remove popup
+        document.querySelector('.reservation-popup-overlay')?.remove();
+        
+        // Show success message
+        const successPopup = document.createElement('div');
+        successPopup.className = 'success-popup-overlay';
+        successPopup.innerHTML = `
+            <div class="success-popup">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Rezervasyon Talebiniz Alındı!</h3>
+                <p>
+                    ${dateStr} tarihinde <strong>${this.venue.name}</strong> için rezervasyon talebiniz başarıyla alınmıştır.
+                    <br><br>
+                    Mekan sahibi sizinle en kısa sürede iletişime geçecektir.
+                </p>
+                <button class="btn-primary" onclick="this.closest('.success-popup-overlay').remove()">Tamam</button>
+            </div>
+        `;
+        
+        document.body.appendChild(successPopup);
+        
+        // Reset form
+        const eventTypeEl = document.getElementById('event-type');
+        const eventDescEl = document.getElementById('event-description');
+        if (eventTypeEl) eventTypeEl.value = '';
+        if (eventDescEl) eventDescEl.value = '';
+        
+        this.selectedDate = null;
+        this.generateCalendar();
+        document.getElementById('reserve-btn').textContent = 'Mekanı Rezerve Et';
+        
+        // Auto close after 5 seconds
+        setTimeout(() => {
+            successPopup.remove();
+        }, 5000);
     }
 }
 
