@@ -272,7 +272,7 @@
                 // Here you can add additional user data to Firestore if needed
                 
                 // Redirect to success page or dashboard
-                window.location.href = '/hub/messages.html';
+                window.location.href = '/app/venues';
             } catch (error) {
                 alert('Kayıt olurken bir hata oluştu: ' + error.message);
             }
@@ -284,7 +284,7 @@
                 const user = result.user;
                 
                 // Redirect to success page or dashboard
-                window.location.href = '/hub/messages.html';
+                window.location.href = '/app/venues';
             } catch (error) {
                 alert('Google ile giriş yaparken bir hata oluştu: ' + error.message);
             }

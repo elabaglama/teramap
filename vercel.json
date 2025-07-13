@@ -57,34 +57,7 @@
       "source": "/giris",
       "destination": "/giris/index.html"
     },
-    {
-      "source": "/hub",
-      "destination": "/hub/index.html"
-    },
-    {
-      "source": "/hub/",
-      "destination": "/hub/index.html"
-    },
-    {
-      "source": "/hub/giris",
-      "destination": "/hub/giris.html"
-    },
-    {
-      "source": "/hub/kaydol",
-      "destination": "/hub/kaydol.html"
-    },
-    {
-      "source": "/hub/mekanlar",
-      "destination": "/hub/mekanlar.html"
-    },
-    {
-      "source": "/hub/profil",
-      "destination": "/hub/profil.html"
-    },
-    {
-      "source": "/hub/venue-detail",
-      "destination": "/hub/venue-detail.html"
-    },
+
     {
       "source": "/app",
       "destination": "/app/index.html"
