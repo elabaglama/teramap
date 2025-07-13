@@ -6,25 +6,25 @@ class VenueDetailApp {
         this.selectedDate = null;
         this.venues = [];
         this.amenityIcons = {
-            'Catering': '🍽️',
-            'A/V Equipment': '📺',
-            'Sound System': '🔊',
-            'Sergi': '🎨',
-            'Performans': '🎭',
-            'Kültür': '📚',
-            'Teknik': '⚙️',
-            'Sahne': '🎪',
-            'Bahçe': '🌳',
-            'Modern': '🏢',
-            'Özel': '⭐',
-            'Küçük': '🏠',
-            'Sanat': '🎨',
-            'Manzara': '🏞️',
-            'Workshop': '👥',
-            'Geniş': '🏟️',
-            'Konser': '🎵',
-            'Prestijli': '👑',
-            'Profesyonel': '💼'
+            'Catering': '<i class="fas fa-utensils"></i>',
+            'A/V Equipment': '<i class="fas fa-tv"></i>',
+            'Sound System': '<i class="fas fa-volume-up"></i>',
+            'Sergi': '<i class="fas fa-palette"></i>',
+            'Performans': '<i class="fas fa-theater-masks"></i>',
+            'Kültür': '<i class="fas fa-book"></i>',
+            'Teknik': '<i class="fas fa-cogs"></i>',
+            'Sahne': '<i class="fas fa-microphone"></i>',
+            'Bahçe': '<i class="fas fa-tree"></i>',
+            'Modern': '<i class="fas fa-building"></i>',
+            'Özel': '<i class="fas fa-star"></i>',
+            'Küçük': '<i class="fas fa-home"></i>',
+            'Sanat': '<i class="fas fa-paint-brush"></i>',
+            'Manzara': '<i class="fas fa-mountain"></i>',
+            'Workshop': '<i class="fas fa-users"></i>',
+            'Geniş': '<i class="fas fa-expand"></i>',
+            'Konser': '<i class="fas fa-music"></i>',
+            'Prestijli': '<i class="fas fa-crown"></i>',
+            'Profesyonel': '<i class="fas fa-briefcase"></i>'
         };
         this.init();
     }
@@ -136,7 +136,7 @@ class VenueDetailApp {
         }
 
         amenitiesGrid.innerHTML = this.venue.features.map(feature => {
-            const icon = this.amenityIcons[feature] || '📍';
+            const icon = this.amenityIcons[feature] || '<i class="fas fa-check"></i>';
             return `
                 <div class="amenity-item">
                     <span class="amenity-icon">${icon}</span>

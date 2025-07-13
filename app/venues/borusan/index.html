@@ -17,17 +17,22 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo"><a href="/"><img src="../../../images/general/teramaplogo.png" alt="TERA MAP" class="logo-img"></a></div>
-            <ul class="nav-links">
-                <li><a href="/">Ana Sayfa</a></li>
-                <li><a href="/venues" class="active">Mekanlar</a></li>
-                <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
-                <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="https://elabaglama.notion.site/?pvs=105" id="auth-link">Üye Ol</a></li>
-            </ul>
-        </nav>
+    <header class="venue-header">
+        <div class="venue-nav-container">
+            <div class="venue-logo">
+                <a href="/">
+                    <span class="logo-text">home</span>
+                </a>
+            </div>
+            <nav class="venue-nav">
+                <a href="/app/venues" class="nav-item active">Venues</a>
+                <a href="/app/messages" class="nav-item">Messages</a>
+                <a href="/app/notifications" class="nav-item">Notifications</a>
+            </nav>
+            <div class="venue-profile">
+                <img src="../../../app/static/images/profile.jpg" alt="Profile" class="profile-image">
+            </div>
+        </div>
     </header>
 
     <!-- Main Content -->
@@ -39,25 +44,25 @@
                     <img id="venue-image" src="" alt="Mekan Resmi" class="venue-main-image">
                 </div>
                 
-                <div class="venue-header">
+                <div class="venue-header-info">
                     <h1 id="venue-name" class="venue-title">Yükleniyor...</h1>
                     <p id="venue-location" class="venue-subtitle">Yükleniyor...</p>
                 </div>
 
-                <div class="venue-details-grid">
-                    <div class="detail-section">
-                        <h3>Kapasite</h3>
+                <div class="venue-info-grid">
+                    <div class="capacity-section">
+                        <h3>Capacity</h3>
                         <p id="venue-capacity">Yükleniyor...</p>
                     </div>
                     
-                    <div class="detail-section">
-                        <h3>Genel Bakış</h3>
+                    <div class="overview-section">
+                        <h3>Overview</h3>
                         <p id="venue-description">Yükleniyor...</p>
                     </div>
                 </div>
 
                 <div class="amenities-section">
-                    <h3>Olanaklar</h3>
+                    <h3>Amenities</h3>
                     <div class="amenities-grid" id="amenities-grid">
                         <!-- Amenities will be loaded here -->
                     </div>
@@ -69,19 +74,19 @@
                 <div class="calendar-widget">
                     <div class="calendar-header">
                         <button id="prev-month" class="calendar-nav">&lt;</button>
-                        <h3 id="current-month">Ekim 2024</h3>
+                        <h3 id="current-month">October 2024</h3>
                         <button id="next-month" class="calendar-nav">&gt;</button>
                     </div>
                     
                     <div class="calendar-grid">
                         <div class="calendar-weekdays">
-                            <div class="weekday">P</div>
-                            <div class="weekday">Pt</div>
                             <div class="weekday">S</div>
-                            <div class="weekday">Ç</div>
-                            <div class="weekday">P</div>
-                            <div class="weekday">C</div>
-                            <div class="weekday">Ct</div>
+                            <div class="weekday">M</div>
+                            <div class="weekday">T</div>
+                            <div class="weekday">W</div>
+                            <div class="weekday">T</div>
+                            <div class="weekday">F</div>
+                            <div class="weekday">S</div>
                         </div>
                         <div class="calendar-days" id="calendar-days">
                             <!-- Calendar days will be generated here -->
@@ -89,7 +94,7 @@
                     </div>
                 </div>
 
-                <button class="reserve-btn" id="reserve-btn">Mekanı Rezerve Et</button>
+                <button class="reserve-btn" id="reserve-btn">Reserve Venue</button>
             </div>
         </div>
     </main>
