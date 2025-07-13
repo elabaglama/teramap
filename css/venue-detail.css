@@ -442,7 +442,7 @@
 
 /* Legacy styles for compatibility */
 .logo-image {
-    height: 40px;
+    height: 28px;
     width: auto;
     object-fit: contain;
 }
