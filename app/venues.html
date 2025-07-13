@@ -6,6 +6,7 @@
     <title>Mekanlar - TeraMap</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/venues.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico">
     <link rel="icon" href="/favicon/favicon.svg" type="image/svg+xml">
@@ -18,7 +19,9 @@
     <header class="app-header">
         <nav class="app-nav">
             <div class="app-logo">
-                <img src="/logo transparent.png" alt="TeraMap Logo" class="logo-image">
+                <a href="/">
+                    <img src="/logo transparent.png" alt="TeraMap Logo" class="logo-image">
+                </a>
             </div>
             <div class="app-nav-links">
                 <a href="#" class="nav-link active">Mekanlar</a>
@@ -26,18 +29,16 @@
                 <a href="#" class="nav-link">Bildirimler</a>
             </div>
             <div class="app-profile">
-                <img src="/images/teams/ela.jpg" alt="Profil" class="profile-image">
+                <div class="profile-placeholder" id="profile-btn">
+                    <i class="fas fa-user"></i>
+                </div>
             </div>
         </nav>
     </header>
 
     <!-- Main Content -->
     <main class="venues-main">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1>Mekanlar</h1>
-            <p>İstanbul'daki özel etkinlik mekanlarını keşfedin</p>
-        </div>
+
 
         <!-- Filter Section -->
         <section class="venues-filter">
@@ -66,5 +67,46 @@
     </main>
 
     <script src="/js/venues.js"></script>
+    
+    <!-- Auth Guard for Direct Access -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
+            authDomain: "teramapcursor.firebaseapp.com",
+            projectId: "teramapcursor",
+            storageBucket: "teramapcursor.appspot.com",
+            messagingSenderId: "446128373922",
+            appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        // Check auth state on page load
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // No user logged in, redirect to register
+                window.location.href = '/kaydol';
+            }
+        });
+        
+        // Profile button click handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileBtn = document.getElementById('profile-btn');
+            if (profileBtn) {
+                profileBtn.addEventListener('click', function() {
+                    const user = auth.currentUser;
+                    if (user) {
+                        window.location.href = '/profil';
+                    } else {
+                        window.location.href = '/kaydol';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html> 

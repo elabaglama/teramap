@@ -459,7 +459,7 @@
                 <li><a href="/mekanlar" class="active">Mekanlar</a></li>
                 <li><a href="/genclik-ekipleri">Gençlik Ekipleri</a></li>
                 <li><a href="/iletisim">İletişim</a></li>
-                <li><a href="/kaydol" class="explore-btn">Keşfet</a></li>
+                <li><a href="#" class="explore-btn" id="explore-btn">Keşfet</a></li>
             </ul>
         </nav>
     </header>
@@ -1198,5 +1198,43 @@
     <script src="js/script.js"></script>
     <script src="js/nav-fix.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
+    
+    <!-- Firebase Authentication Check for Explore Button -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
+            authDomain: "teramapcursor.firebaseapp.com",
+            projectId: "teramapcursor",
+            storageBucket: "teramapcursor.appspot.com",
+            messagingSenderId: "446128373922",
+            appId: "1:446128373922:web:d04b8e9eb1863f053f57fb"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const exploreBtn = document.getElementById('explore-btn');
+            
+            if (exploreBtn) {
+                exploreBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Check if user is authenticated
+                    const user = auth.currentUser;
+                    if (user) {
+                        // User is logged in - redirect to venues
+                        window.location.href = '/app/venues';
+                    } else {
+                        // User is not logged in - redirect to register
+                        window.location.href = '/kaydol';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html> 

@@ -67,6 +67,28 @@
     align-items: center;
 }
 
+.profile-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ba9585;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.profile-placeholder:hover {
+    background-color: #a08073;
+    transform: scale(1.05);
+}
+
+.profile-placeholder i {
+    color: white;
+    font-size: 18px;
+}
+
 .profile-image {
     width: 40px;
     height: 40px;

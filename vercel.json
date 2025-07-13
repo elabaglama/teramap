@@ -72,7 +72,7 @@
     },
     {
       "source": "/app/venues",
-      "destination": "/app/pages/venues.html"
+      "destination": "/app/venues.html"
     },
     {
       "source": "/app/static/(.*)",
