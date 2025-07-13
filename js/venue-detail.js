@@ -2,9 +2,10 @@
 class VenueDetailApp {
     constructor() {
         this.venue = null;
-        this.currentDate = new Date();
+        this.currentDate = new Date(2025, 6); // Start from July 2025
         this.selectedDate = null;
         this.venues = [];
+        this.bookedDates = []; // Will be populated with venue's available dates
         this.amenityIcons = {
             'Catering': '<i class="fas fa-utensils"></i>',
             'A/V Equipment': '<i class="fas fa-tv"></i>',
@@ -24,7 +25,33 @@ class VenueDetailApp {
             'Geniş': '<i class="fas fa-expand"></i>',
             'Konser': '<i class="fas fa-music"></i>',
             'Prestijli': '<i class="fas fa-crown"></i>',
-            'Profesyonel': '<i class="fas fa-briefcase"></i>'
+            'Profesyonel': '<i class="fas fa-briefcase"></i>',
+            'Sürdürülebilirlik': '<i class="fas fa-leaf"></i>',
+            'Sosyal İnovasyon': '<i class="fas fa-lightbulb"></i>',
+            'Ortak Çalışma': '<i class="fas fa-handshake"></i>',
+            'Teras Bahçesi': '<i class="fas fa-seedling"></i>',
+            'Podcast Stüdyosu': '<i class="fas fa-podcast"></i>',
+            'Kütüphane': '<i class="fas fa-book-open"></i>',
+            'Cafe': '<i class="fas fa-coffee"></i>',
+            'Özel Mutfak': '<i class="fas fa-utensils"></i>',
+            'Salon': '<i class="fas fa-couch"></i>',
+            'Terası': '<i class="fas fa-building"></i>',
+            'Sessiz Çevre': '<i class="fas fa-volume-mute"></i>',
+            'Otopark': '<i class="fas fa-car"></i>',
+            'Tarihi Mimari': '<i class="fas fa-landmark"></i>',
+            'Haliç Manzarası': '<i class="fas fa-water"></i>',
+            'Sergi Alanı': '<i class="fas fa-image"></i>',
+            'Projeksiyon': '<i class="fas fa-video"></i>',
+            'Ses Sistemi': '<i class="fas fa-volume-up"></i>',
+            'Profesyonel Ses-Işık': '<i class="fas fa-magic"></i>',
+            'Çoklu Salon': '<i class="fas fa-door-open"></i>',
+            'Deniz Manzarası': '<i class="fas fa-ship"></i>',
+            'Profesyonel Teknik Ekip': '<i class="fas fa-user-cog"></i>',
+            'Boğaz Manzarası': '<i class="fas fa-water"></i>',
+            'Çağdaş Sanat': '<i class="fas fa-palette"></i>',
+            'MüzeCafe': '<i class="fas fa-coffee"></i>',
+            'Profesyonel Galeri': '<i class="fas fa-images"></i>',
+            'Teknik Altyapı': '<i class="fas fa-server"></i>'
         };
         this.init();
     }
@@ -95,8 +122,10 @@ class VenueDetailApp {
         document.getElementById('venue-name').textContent = this.venue.name;
         document.getElementById('venue-location').textContent = this.venue.location;
         document.getElementById('venue-capacity').textContent = this.venue.capacity;
-        document.getElementById('venue-area').textContent = this.venue.area;
         document.getElementById('venue-description').textContent = this.venue.description;
+
+        // Set up available dates for calendar
+        this.bookedDates = this.venue.availableDates ? this.venue.availableDates.map(date => new Date(date)) : [];
 
         // Load meta information
         this.loadMetaInfo();
@@ -141,6 +170,71 @@ class VenueDetailApp {
                 <div class="amenity-item">
                     <span class="amenity-icon">${icon}</span>
                     <span class="amenity-name">${feature}</span>
+                </div>
+            `;
+        }).join('');
+
+        // Add suitable for section
+        this.loadSuitableFor();
+    }
+
+    loadSuitableFor() {
+        if (!this.venue.suitableFor || this.venue.suitableFor.length === 0) {
+            return;
+        }
+
+        // Create suitable for section if it doesn't exist
+        const amenitiesSection = document.querySelector('.amenities-section');
+        let suitableSection = document.querySelector('.suitable-for-section');
+        
+        if (!suitableSection) {
+            suitableSection = document.createElement('div');
+            suitableSection.className = 'suitable-for-section';
+            suitableSection.innerHTML = `
+                <h3>Bu Mekan Şunlar İçin Uygun</h3>
+                <div class="suitable-for-grid" id="suitable-for-grid"></div>
+            `;
+            amenitiesSection.parentNode.insertBefore(suitableSection, amenitiesSection.nextSibling);
+        }
+
+        const suitableGrid = document.getElementById('suitable-for-grid');
+        const suitableIcons = {
+            'Workshop': '<i class="fas fa-tools"></i>',
+            'Seminer': '<i class="fas fa-chalkboard-teacher"></i>',
+            'Lansman': '<i class="fas fa-rocket"></i>',
+            'Sosyal Girişim Etkinlikleri': '<i class="fas fa-heart"></i>',
+            'Eğitim': '<i class="fas fa-graduation-cap"></i>',
+            'Panel': '<i class="fas fa-comments"></i>',
+            'Özel Lansman': '<i class="fas fa-star"></i>',
+            'Küçük Workshop': '<i class="fas fa-user-friends"></i>',
+            'Ekip Toplantıları': '<i class="fas fa-users-cog"></i>',
+            'Kitap Lansmanı': '<i class="fas fa-book"></i>',
+            'İntim Eğitimler': '<i class="fas fa-user-graduate"></i>',
+            'Sanat Sergisi': '<i class="fas fa-palette"></i>',
+            'Kültürel Etkinlik': '<i class="fas fa-theater-masks"></i>',
+            'Atölye': '<i class="fas fa-hammer"></i>',
+            'Film Gösterimi': '<i class="fas fa-film"></i>',
+            'Müzik Dinletisi': '<i class="fas fa-music"></i>',
+            'Büyük Konferans': '<i class="fas fa-microphone-alt"></i>',
+            'Kongre': '<i class="fas fa-building"></i>',
+            'Fuar': '<i class="fas fa-store"></i>',
+            'Kurumsal Lansman': '<i class="fas fa-briefcase"></i>',
+            'Sempozyum': '<i class="fas fa-university"></i>',
+            'Ödül Töreni': '<i class="fas fa-trophy"></i>',
+            'Sanat Lansmanı': '<i class="fas fa-paint-brush"></i>',
+            'Teknoloji Etkinliği': '<i class="fas fa-laptop"></i>',
+            'Prestijli Lansman': '<i class="fas fa-crown"></i>',
+            'Özel Davet': '<i class="fas fa-glass-cheers"></i>',
+            'Kurumsal Etkinlik': '<i class="fas fa-building"></i>',
+            'Medya Lansmanı': '<i class="fas fa-camera"></i>'
+        };
+
+        suitableGrid.innerHTML = this.venue.suitableFor.map(suitable => {
+            const icon = suitableIcons[suitable] || '<i class="fas fa-check-circle"></i>';
+            return `
+                <div class="suitable-item">
+                    <span class="suitable-icon">${icon}</span>
+                    <span class="suitable-name">${suitable}</span>
                 </div>
             `;
         }).join('');
@@ -279,27 +373,25 @@ class VenueDetailApp {
     }
 
     isDateAvailable(date) {
-        // Generate random available dates for demonstration
         const today = new Date();
-        const nextTwoMonths = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
         
-        // Only show dates from today onwards
-        if (date < today) return false;
+        // Past dates are not available
+        if (date < today) {
+            return false;
+        }
+
+        // Only dates from July 2025 onwards are bookable
+        const minDate = new Date(2025, 6, 1); // July 1, 2025
+        if (date < minDate) {
+            return false;
+        }
         
-        // Don't show dates more than 2 months in advance
-        if (date > nextTwoMonths) return false;
-        
-        // Create a seed based on date for consistent random generation
-        const seed = date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate();
-        const random = Math.sin(seed) * 10000;
-        const randomValue = random - Math.floor(random);
-        
-        // Random availability with higher chance on weekends
-        const day = date.getDay();
-        const isWeekend = day === 5 || day === 6; // Friday or Saturday
-        
-        // 80% chance for weekends, 40% chance for weekdays
-        return isWeekend ? randomValue > 0.2 : randomValue > 0.6;
+        // Check if this date is in venue's available dates
+        return this.bookedDates.some(availableDate => 
+            availableDate.getFullYear() === date.getFullYear() &&
+            availableDate.getMonth() === date.getMonth() &&
+            availableDate.getDate() === date.getDate()
+        );
     }
 
     isSameDate(date1, date2) {
@@ -324,8 +416,8 @@ class VenueDetailApp {
 
     getMonthName(monthIndex) {
         const monthNames = [
-            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
         ];
         return monthNames[monthIndex];
     }

@@ -2,26 +2,30 @@
     "venues": [
         {
             "id": "1",
-            "name": "Postane Galata",
-            "location": "Galata, Beyoğlu",
+            "name": "Postane İstanbul",
+            "location": "Bereketzade Mah. Camekan Sk. No:9, Galata, Beyoğlu",
             "image": "/images/venues/postane.jpg",
-            "category": "Gençlik Ekiplerine Ücretsiz",
-            "capacity": "50-80 kişi",
-            "area": "20 m²",
-            "price": "Ücretsiz",
-            "isPaid": false,
+            "category": "Sosyal Etki Odaklı",
+            "capacity": "60-80 kişi",
+            "area": "210 m²",
+            "price": "Uygun Fiyat",
+            "isPaid": true,
             "isYouthFree": true,
             "coordinates": [28.9744, 41.0267],
-            "description": "Galata'nın kalbinde, tarihi bir bölümde konumlanmış ve genç atmosferiyle sergiler, performanslar ve sahne etkinlikleri için ideal bir ortam sunuyor.",
-            "features": ["Sergi", "Performans", "Kültür", "Teknik", "Sahne"],
+            "description": "Galata'nın kalbinde, sosyal, çevresel ve kentsel etki odaklı çalışmalara ev sahipliği yapmayı amaçlayan tarihi bir mekan. Ortak kültürel üretimlere, sürdürülebilir projelere ve sosyal inovasyona odaklanır.",
+            "features": ["Sürdürülebilirlik", "Sosyal İnovasyon", "Ortak Çalışma", "Teras Bahçesi", "Podcast Stüdyosu", "Kütüphane", "Cafe"],
+            "suitableFor": ["Workshop", "Seminer", "Lansman", "Sosyal Girişim Etkinlikleri", "Eğitim", "Panel"],
             "availableDates": [
-                "2024-12-15T00:00:00.000Z",
-                "2024-12-20T00:00:00.000Z",
-                "2025-01-05T00:00:00.000Z"
+                "2025-07-15T00:00:00.000Z",
+                "2025-07-20T00:00:00.000Z",
+                "2025-08-05T00:00:00.000Z",
+                "2025-08-12T00:00:00.000Z",
+                "2025-09-10T00:00:00.000Z"
             ],
             "contact": {
-                "phone": "+90 212 555 0101",
-                "email": "info@postanegalata.com"
+                "phone": "+90 212 244 3434",
+                "email": "info@postane.co",
+                "website": "https://postane.co"
             }
         },
         {
@@ -29,95 +33,109 @@
             "name": "Rahat ve Bahçeli Ev",
             "location": "Sarıyer, İstanbul",
             "image": "/images/venues/airbnb1.png",
-            "category": "Ücretli Kiralama",
-            "capacity": "35 kişi",
+            "category": "Özel Etkinlik Evi",
+            "capacity": "25-35 kişi",
             "area": "120 m²",
             "price": "Ücretli",
             "isPaid": true,
             "isYouthFree": false,
             "coordinates": [29.0464, 41.1061],
-            "description": "Şehrin merkezinde, huzurlu bir bahçeyle çevrilmiş modern düzenlemeli güzel bir mekan. Küçük grup etkinlikleri için ideal bir ortam sunuyor.",
-            "features": ["Bahçe", "Modern", "Özel", "Küçük"],
+            "description": "Şehrin gürültüsünden uzak, huzurlu bir bahçeyle çevrilmiş özel ev. İntim etkinlikler ve küçük grup buluşmaları için mükemmel bir atmosfer sunar.",
+            "features": ["Bahçe", "Özel Mutfak", "Salon", "Terası", "Sessiz Çevre", "Otopark"],
+            "suitableFor": ["Özel Lansman", "Küçük Workshop", "Ekip Toplantıları", "Kitap Lansmanı", "İntim Eğitimler"],
             "availableDates": [
-                "2024-12-18T00:00:00.000Z",
-                "2024-12-25T00:00:00.000Z",
-                "2025-01-10T00:00:00.000Z"
+                "2025-07-18T00:00:00.000Z",
+                "2025-07-25T00:00:00.000Z",
+                "2025-08-10T00:00:00.000Z",
+                "2025-08-18T00:00:00.000Z",
+                "2025-09-15T00:00:00.000Z"
             ],
             "contact": {
                 "phone": "+90 212 555 0102",
-                "email": "info@bahatbahceli.com"
+                "email": "info@rahatbahceli.com"
             }
         },
         {
             "id": "3",
-            "name": "Fener Evleri 1: Haliç Sanat",
+            "name": "Fener Evleri Kültür Merkezi",
             "location": "Fener, Fatih",
             "image": "/images/venues/halic.jpg",
-            "category": "Gençlik Ekiplerine Ücretsiz",
+            "category": "Kültür ve Sanat Merkezi",
             "capacity": "50-70 kişi",
             "area": "180 m²",
-            "price": "Ücretsiz",
-            "isPaid": false,
+            "price": "Uygun Fiyat",
+            "isPaid": true,
             "isYouthFree": true,
             "coordinates": [28.9497, 41.0267],
-            "description": "Haliç manzarasıyla eşsiz bir konuma sahip olan Bizans-era etkilerinin hâlinde yer alan bu mekan, sanat sergileri ve küçük değişik etkinlikler için ideal.",
-            "features": ["Sanat", "Manzara", "Sergi", "Workshop"],
+            "description": "Haliç manzarasına hakim tarihi Fener semtinde yer alan kültür merkezi. Bizantiyn döneminden kalma tarihi dokuya sahip, sanat ve kültür etkinlikleri için eşsiz bir atmosfer sunuyor.",
+            "features": ["Tarihi Mimari", "Haliç Manzarası", "Sergi Alanı", "Sahne", "Projeksiyon", "Ses Sistemi"],
+            "suitableFor": ["Sanat Sergisi", "Kültürel Etkinlik", "Atölye", "Panel", "Film Gösterimi", "Müzik Dinletisi"],
             "availableDates": [
-                "2024-12-22T00:00:00.000Z",
-                "2024-12-28T00:00:00.000Z",
-                "2025-01-15T00:00:00.000Z"
+                "2025-07-22T00:00:00.000Z",
+                "2025-07-28T00:00:00.000Z",
+                "2025-08-15T00:00:00.000Z",
+                "2025-08-22T00:00:00.000Z",
+                "2025-09-05T00:00:00.000Z"
             ],
             "contact": {
                 "phone": "+90 212 555 0103",
-                "email": "info@fenerhalic.com"
+                "email": "info@fenerkultur.com"
             }
         },
         {
             "id": "4",
-            "name": "Metrohan Sanat Merkezi",
-            "location": "Karaköy, Beyoğlu",
+            "name": "Haliç Kongre Merkezi",
+            "location": "Sütlüce Mah. Karaağaç Cad. No:19, Beyoğlu",
             "image": "/images/venues/metrohan.jpg",
-            "category": "Gençlik Ekiplerine Ücretsiz",
-            "capacity": "100-150 kişi",
-            "area": "300 m²",
-            "price": "Ücretsiz",
-            "isPaid": false,
-            "isYouthFree": true,
+            "category": "Kongre ve Etkinlik Merkezi",
+            "capacity": "100-3000 kişi",
+            "area": "9,172 m²",
+            "price": "Profesyonel Ücretlendirme",
+            "isPaid": true,
+            "isYouthFree": false,
             "coordinates": [28.9769, 41.0255],
-            "description": "Modern sanat merkezi olarak hizmet veren geniş bir mekan. Büyük etkinlikler ve sergiler için mükemmel.",
-            "features": ["Modern", "Geniş", "Sergi", "Konser", "Workshop"],
+            "description": "İstanbul'un deniz kıyısındaki tek kongre merkezi. 5 teknoloji harikası oditoryum, 23 çok amaçlı salon ve geniş fuaye alanlarıyla her ölçekte etkinliğe ev sahipliği yapar.",
+            "features": ["Profesyonel Ses-Işık", "Çoklu Salon", "Catering", "Otopark", "Deniz Manzarası", "Profesyonel Teknik Ekip"],
+            "suitableFor": ["Büyük Konferans", "Kongre", "Fuar", "Kurumsal Lansman", "Sempozyum", "Ödül Töreni"],
             "availableDates": [
-                "2024-12-16T00:00:00.000Z",
-                "2024-12-30T00:00:00.000Z",
-                "2025-01-08T00:00:00.000Z"
+                "2025-07-16T00:00:00.000Z",
+                "2025-07-30T00:00:00.000Z",
+                "2025-08-08T00:00:00.000Z",
+                "2025-08-25T00:00:00.000Z",
+                "2025-09-12T00:00:00.000Z"
             ],
             "contact": {
-                "phone": "+90 212 555 0104",
-                "email": "info@metrohan.com"
+                "phone": "+90 212 311 1111",
+                "email": "info@halic.com",
+                "website": "https://halic.com"
             }
         },
         {
             "id": "5",
-            "name": "Borusan Sanat",
-            "location": "Perşembe Pazarı, Karaköy",
+            "name": "Borusan Contemporary",
+            "location": "Baltalimanı Hisar Cad. Perili Köşk No:5, Rumelihisarı, Sarıyer",
             "image": "/images/venues/borusan.jpg",
-            "category": "Ücretli Kiralama",
-            "capacity": "80-120 kişi",
-            "area": "250 m²",
-            "price": "Ücretli",
+            "category": "Çağdaş Sanat Merkezi",
+            "capacity": "80-150 kişi",
+            "area": "350 m²",
+            "price": "Prestij Fiyatlandırma",
             "isPaid": true,
             "isYouthFree": false,
-            "coordinates": [28.9783, 41.0259],
-            "description": "Prestijli sanat merkezi. Profesyonel etkinlikler ve sergiler için ideal.",
-            "features": ["Prestijli", "Profesyonel", "Sanat", "Konser"],
+            "coordinates": [29.0583, 41.0833],
+            "description": "Boğaz manzarasına hakim Perili Köşk'te yer alan çağdaş sanat merkezi. Medya sanatları, teknoloji ve yenilikçi sanat projelerine odaklanmış prestijli bir mekan.",
+            "features": ["Boğaz Manzarası", "Çağdaş Sanat", "MüzeCafe", "Terası", "Profesyonel Galeri", "Teknik Altyapı"],
+            "suitableFor": ["Sanat Lansmanı", "Teknoloji Etkinliği", "Prestijli Lansman", "Özel Davet", "Kurumsal Etkinlik", "Medya Lansmanı"],
             "availableDates": [
-                "2024-12-19T00:00:00.000Z",
-                "2025-01-02T00:00:00.000Z",
-                "2025-01-20T00:00:00.000Z"
+                "2025-07-19T00:00:00.000Z",
+                "2025-08-02T00:00:00.000Z",
+                "2025-08-20T00:00:00.000Z",
+                "2025-09-07T00:00:00.000Z",
+                "2025-09-21T00:00:00.000Z"
             ],
             "contact": {
-                "phone": "+90 212 555 0105",
-                "email": "info@borusansanat.com"
+                "phone": "+90 212 393 52 00",
+                "email": "info@borusancontemporary.com",
+                "website": "https://borusancontemporary.com"
             }
         }
     ]

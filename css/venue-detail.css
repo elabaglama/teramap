@@ -188,6 +188,52 @@
     font-size: 0.9rem;
 }
 
+/* Suitable For Section */
+.suitable-for-section {
+    margin-top: 2rem;
+}
+
+.suitable-for-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.suitable-for-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.suitable-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #e8f5e8;
+    border-radius: 8px;
+    border-left: 4px solid #4caf50;
+    transition: all 0.3s ease;
+}
+
+.suitable-item:hover {
+    background: #d4edda;
+    transform: translateY(-2px);
+}
+
+.suitable-icon {
+    width: 20px;
+    height: 20px;
+    color: #2e7d32;
+}
+
+.suitable-name {
+    font-weight: 500;
+    color: #1b5e20;
+    font-size: 0.9rem;
+}
+
 /* Right Side - Calendar & Booking */
 .booking-section {
     position: sticky;
