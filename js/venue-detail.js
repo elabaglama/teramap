@@ -138,8 +138,7 @@ class VenueDetailApp {
     }
 
     loadMetaInfo() {
-        // Load price and category
-        document.getElementById('venue-price').textContent = this.venue.price;
+        // Load category
         document.getElementById('venue-category').textContent = this.venue.category;
         
         // Load badge

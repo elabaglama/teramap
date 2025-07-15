@@ -126,9 +126,6 @@ class VenuesApp {
                             <span class="venue-capacity">Kapasite: ${venue.capacity}</span>
                             <span class="venue-area">Alan: ${venue.area}</span>
                         </div>
-                        <div class="venue-price-info">
-                            <span class="venue-price-tag">${venue.price}</span>
-                        </div>
                     </div>
                 </div>
             `;
