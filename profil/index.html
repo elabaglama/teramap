@@ -5,76 +5,309 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil - Tera Map</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/venues.css">
     <style>
         .profile-container {
-            max-width: 600px;
-            margin: 120px auto;
+            max-width: 800px;
+            margin: 100px auto;
             padding: 2rem;
             background: white;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .profile-photo-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+        }
+        
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ba9585;
+        }
+        
+        .photo-upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #ba9585;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .profile-sections {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .section {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .section h3 {
+            margin: 0 0 1rem 0;
+            color: #333;
+            font-size: 1.2rem;
+        }
+        
         .form-group {
             margin-bottom: 1rem;
         }
+        
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
+            color: #555;
         }
+        
         .form-group input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
             box-sizing: border-box;
+            font-size: 14px;
         }
-        .save-btn {
-            width: 100%;
-            padding: 14px;
-            background: #ba9585;
-            color: white;
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ba9585;
+            box-shadow: 0 0 0 2px rgba(186, 149, 133, 0.2);
+        }
+        
+        .btn {
+            padding: 12px 24px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #ba9585;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #a08374;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            margin-left: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-link {
+            background: none;
+            color: #ba9585;
+            text-decoration: underline;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .message {
+            margin-top: 1rem;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: end;
+        }
+        
+        .input-group .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .verification-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 12px;
+            margin-top: 0.5rem;
+        }
+        
+        .verification-status.verified {
+            color: #28a745;
+        }
+        
+        .verification-status.unverified {
+            color: #dc3545;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo"><img src="../images/general/teramaplogo.png" alt="TERA MAP" style="height: 40px;"></div>
-            <ul class="nav-links">
-                <li><a href="/">Ana Sayfa</a></li>
-                <li><a href="/mekanlar">Mekanlar</a></li>
-                <li><a href="#" onclick="logout()">Çıkış Yap</a></li>
-            </ul>
+    <!-- App Header with memory rules applied -->
+    <header class="app-header">
+        <nav class="app-nav">
+            <div class="app-logo">
+                <img src="../images/general/teramaplogo.png" alt="TERA MAP" class="logo-image">
+            </div>
+            <div class="app-nav-links">
+                <a href="../venues" class="nav-link">Mekanlar</a>
+                <a href="../messages" class="nav-link">Mesajlar</a>
+                <a href="#" class="nav-link">Bildirimler</a>
+            </div>
+            <div class="profile-menu">
+                <div class="profile-circle" onclick="toggleProfileMenu()">
+                    <img src="../static/images/profile.jpg" alt="Profil" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                </div>
+            </div>
         </nav>
     </header>
 
     <div class="profile-container">
-        <h1>Profil Bilgileri</h1>
-        <form id="profile-form">
-            <div class="form-group">
-                <label>Ad Soyad</label>
-                <input type="text" id="display-name" required>
+        <div class="profile-header">
+            <div class="profile-photo-container">
+                <img id="profile-photo" class="profile-photo" src="../static/images/profile.jpg" alt="Profil Fotoğrafı">
+                <button class="photo-upload-btn" onclick="document.getElementById('photo-input').click()">📷</button>
+                <input type="file" id="photo-input" accept="image/*" style="display: none;">
             </div>
-            <div class="form-group">
-                <label>E-posta</label>
-                <input type="email" id="email" required>
+            <h1 id="display-name-header">Kullanıcı Adı</h1>
+            <p id="user-email-header">email@example.com</p>
+        </div>
+
+        <div class="profile-sections">
+            <!-- Basic Info Section -->
+            <div class="section">
+                <h3>Temel Bilgiler</h3>
+                <form id="basic-info-form">
+                    <div class="form-group">
+                        <label for="display-name">Ad Soyad</label>
+                        <input type="text" id="display-name" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                </form>
+                <div id="basic-info-message"></div>
             </div>
-            <div class="form-group">
-                <label>Yeni Şifre</label>
-                <input type="password" id="new-password" placeholder="Değiştirmek istiyorsanız girin">
+
+            <!-- Email Section -->
+            <div class="section">
+                <h3>E-posta Adresi</h3>
+                <form id="email-form">
+                    <div class="input-group">
+                        <div class="form-group">
+                            <label for="new-email">Yeni E-posta</label>
+                            <input type="email" id="new-email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Değiştir</button>
+                    </div>
+                    <div class="verification-status" id="verification-status">
+                        <span>📧</span>
+                        <span id="verification-text">E-posta doğrulanmamış</span>
+                        <button type="button" class="btn-link" id="send-verification" onclick="sendEmailVerification()">Doğrulama linki gönder</button>
+                    </div>
+                </form>
+                <div id="email-message"></div>
             </div>
-            <button type="submit" class="save-btn">Kaydet</button>
-        </form>
-        <div id="message" style="margin-top: 1rem;"></div>
+
+            <!-- Password Section -->
+            <div class="section">
+                <h3>Şifre Değiştir</h3>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="current-password">Mevcut Şifre</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Yeni Şifre</label>
+                        <input type="password" id="new-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Yeni Şifre Tekrar</label>
+                        <input type="password" id="confirm-password" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Şifre Değiştir</button>
+                </form>
+                <div id="password-message"></div>
+            </div>
+
+            <!-- Logout Section -->
+            <div class="section">
+                <h3>Hesap İşlemleri</h3>
+                <button type="button" class="btn btn-secondary" onclick="logout()">Çıkış Yap</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-        import { getAuth, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            signOut, 
+            updateProfile, 
+            updateEmail, 
+            updatePassword, 
+            sendEmailVerification, 
+            reauthenticateWithCredential, 
+            EmailAuthProvider 
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { 
+            getStorage, 
+            ref, 
+            uploadBytes, 
+            getDownloadURL 
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js';
         
         const firebaseConfig = {
           apiKey: "AIzaSyDaCK1u1z1mw4NrYW7-2rgP5AtriCybbYo",
@@ -87,32 +320,221 @@
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const storage = getStorage(app);
         
         let currentUser = null;
         
+        // Utility Functions
+        function showMessage(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="message ${type}">${message}</div>`;
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 5000);
+        }
+        
+        function setLoading(elementId, isLoading) {
+            const element = document.getElementById(elementId);
+            if (isLoading) {
+                element.classList.add('loading');
+            } else {
+                element.classList.remove('loading');
+            }
+        }
+        
+        // Auth State Observer
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                document.getElementById('display-name').value = user.displayName || '';
-                document.getElementById('email').value = user.email || '';
+                loadUserData(user);
+                updateVerificationStatus(user);
             } else {
                 window.location.href = '/giris';
             }
         });
         
-        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+        // Load user data into form
+        function loadUserData(user) {
+            document.getElementById('display-name').value = user.displayName || '';
+            document.getElementById('display-name-header').textContent = user.displayName || 'Kullanıcı Adı';
+            document.getElementById('user-email-header').textContent = user.email || '';
+            document.getElementById('new-email').value = user.email || '';
+            
+            if (user.photoURL) {
+                document.getElementById('profile-photo').src = user.photoURL;
+            }
+        }
+        
+        // Update email verification status
+        function updateVerificationStatus(user) {
+            const statusElement = document.getElementById('verification-status');
+            const textElement = document.getElementById('verification-text');
+            const sendButton = document.getElementById('send-verification');
+            
+            if (user.emailVerified) {
+                statusElement.className = 'verification-status verified';
+                textElement.textContent = 'E-posta doğrulanmış ✓';
+                sendButton.style.display = 'none';
+            } else {
+                statusElement.className = 'verification-status unverified';
+                textElement.textContent = 'E-posta doğrulanmamış ⚠️';
+                sendButton.style.display = 'inline';
+            }
+        }
+        
+        // Basic Info Update
+        document.getElementById('basic-info-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser) return;
+            
+            setLoading('basic-info-form', true);
             
             try {
                 const displayName = document.getElementById('display-name').value;
                 await updateProfile(currentUser, { displayName });
-                document.getElementById('message').innerHTML = '<div style="color: green;">Profil güncellendi!</div>';
+                document.getElementById('display-name-header').textContent = displayName;
+                showMessage('basic-info-message', 'Ad soyad güncellendi!', 'success');
             } catch (error) {
-                document.getElementById('message').innerHTML = '<div style="color: red;">Hata: ' + error.message + '</div>';
+                showMessage('basic-info-message', 'Hata: ' + error.message, 'error');
+            }
+            
+            setLoading('basic-info-form', false);
+        });
+        
+        // Email Update
+        document.getElementById('email-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+            
+            setLoading('email-form', true);
+            
+            try {
+                const newEmail = document.getElementById('new-email').value;
+                
+                // Re-authenticate user for sensitive operation
+                const currentPassword = prompt('Güvenlik için mevcut şifrenizi girin:');
+                if (!currentPassword) {
+                    setLoading('email-form', false);
+                    return;
+                }
+                
+                const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
+                await reauthenticateWithCredential(currentUser, credential);
+                
+                await updateEmail(currentUser, newEmail);
+                document.getElementById('user-email-header').textContent = newEmail;
+                
+                // Send verification email to new address
+                await sendEmailVerification(currentUser);
+                showMessage('email-message', 'E-posta adresi güncellendi! Yeni adresinize doğrulama linki gönderildi.', 'success');
+                updateVerificationStatus(currentUser);
+                
+            } catch (error) {
+                let errorMessage = 'E-posta güncelleme hatası: ' + error.message;
+                if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Mevcut şifre hatalı!';
+                } else if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'Bu e-posta adresi zaten kullanımda!';
+                }
+                showMessage('email-message', errorMessage, 'error');
+            }
+            
+            setLoading('email-form', false);
+        });
+        
+        // Password Update
+        document.getElementById('password-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+            
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (newPassword !== confirmPassword) {
+                showMessage('password-message', 'Yeni şifreler eşleşmiyor!', 'error');
+                return;
+            }
+            
+            setLoading('password-form', true);
+            
+            try {
+                // Re-authenticate user
+                const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
+                await reauthenticateWithCredential(currentUser, credential);
+                
+                await updatePassword(currentUser, newPassword);
+                showMessage('password-message', 'Şifre başarıyla değiştirildi!', 'success');
+                
+                // Clear form
+                document.getElementById('password-form').reset();
+                
+            } catch (error) {
+                let errorMessage = 'Şifre değiştirme hatası: ' + error.message;
+                if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Mevcut şifre hatalı!';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Yeni şifre çok zayıf! En az 6 karakter olmalı.';
+                }
+                showMessage('password-message', errorMessage, 'error');
+            }
+            
+            setLoading('password-form', false);
+        });
+        
+        // Photo Upload
+        document.getElementById('photo-input').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file || !currentUser) return;
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Lütfen bir resim dosyası seçin!');
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Dosya boyutu çok büyük! Maksimum 5MB olmalı.');
+                return;
+            }
+            
+            try {
+                // Create a unique filename
+                const timestamp = Date.now();
+                const fileName = `profile_photos/${currentUser.uid}_${timestamp}`;
+                const storageRef = ref(storage, fileName);
+                
+                // Upload file
+                showMessage('basic-info-message', 'Fotoğraf yükleniyor...', 'info');
+                const snapshot = await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+                
+                // Update user profile
+                await updateProfile(currentUser, { photoURL: downloadURL });
+                
+                // Update UI
+                document.getElementById('profile-photo').src = downloadURL;
+                showMessage('basic-info-message', 'Profil fotoğrafı güncellendi!', 'success');
+                
+            } catch (error) {
+                showMessage('basic-info-message', 'Fotoğraf yükleme hatası: ' + error.message, 'error');
             }
         });
         
+        // Send Email Verification
+        window.sendEmailVerification = async function() {
+            if (!currentUser) return;
+            
+            try {
+                await sendEmailVerification(currentUser);
+                showMessage('email-message', 'Doğrulama linki e-posta adresinize gönderildi!', 'success');
+            } catch (error) {
+                showMessage('email-message', 'Doğrulama linki gönderme hatası: ' + error.message, 'error');
+            }
+        };
+        
+        // Logout
         window.logout = async function() {
             try {
                 await signOut(auth);
@@ -120,6 +542,12 @@
             } catch (error) {
                 console.error('Logout error:', error);
             }
+        };
+        
+        // Profile menu toggle (placeholder)
+        window.toggleProfileMenu = function() {
+            // Profile menu functionality can be added here
+            console.log('Profile menu clicked');
         };
     </script>
 </body>
