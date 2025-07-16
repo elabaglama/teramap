@@ -252,7 +252,18 @@
     font-size: 0.85rem;
 }
 
+.venue-price-info {
+    margin-top: 0.5rem;
+}
 
+.venue-price-tag {
+    background: #91796e;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
 
 /* Loading State */
 .loading-state {
