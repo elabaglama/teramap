@@ -98,8 +98,8 @@ class VenuesApp {
         const grid = document.getElementById('venues-grid');
         const filteredVenues = this.filterVenues();
 
-        // Update venue count
-        this.updateVenueCount(filteredVenues.length);
+        // Removed venue count update since we removed the display
+        // this.updateVenueCount(filteredVenues.length);
 
         if (filteredVenues.length === 0) {
             grid.innerHTML = `

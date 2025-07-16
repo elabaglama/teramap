@@ -200,7 +200,7 @@
 .venue-image-container {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 160px;
 }
 
 .venue-image {
@@ -223,7 +223,7 @@
 }
 
 .venue-info {
-    padding: 1.5rem;
+    padding: 1.2rem;
 }
 
 .venue-name {
