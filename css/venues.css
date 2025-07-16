@@ -178,7 +178,7 @@
 
 .venues-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     gap: 2rem;
     padding: 1rem 0;
 }
@@ -191,7 +191,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     animation: fadeInUp 0.6s ease-out;
-    max-width: 300px;
+    max-width: 500px;
 }
 
 .venue-card:hover {
@@ -201,8 +201,8 @@
 
 .venue-image-container {
     position: relative;
-    width: 300px;
-    height: 30px;
+    width: 500px;
+    height: 70px;
 }
 
 .venue-image {
@@ -343,7 +343,7 @@
     
     .venue-image-container {
         width: 100%;
-        height: 30px;
+        height: 70px;
     }
     
     .venue-card {
