@@ -79,8 +79,10 @@ class VenuesApp {
     filterVenues() {
         switch (this.currentFilter) {
             case 'paid':
-                return this.venues.filter(venue => venue.isPaid);
+                // Only show venues that are paid but NOT free for youth teams
+                return this.venues.filter(venue => venue.isPaid && !venue.isYouthFree);
             case 'youth-free':
+                // Show venues that are free for youth teams
                 return this.venues.filter(venue => venue.isYouthFree);
             default:
                 return this.venues;
