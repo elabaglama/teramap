@@ -3,7 +3,7 @@
         {
             "id": "1",
             "name": "Postane İstanbul",
-            "location": "Bereketzade Mah. Camekan Sk. No:9, Galata, Beyoğlu",
+            "location": "Beyoğlu, İstanbul",
             "image": "/images/venues/postane.jpg",
             "category": "Sosyal Etki Odaklı",
             "capacity": "60-80 kişi",
@@ -58,7 +58,7 @@
         {
             "id": "3",
             "name": "Fener Evleri Kültür Merkezi",
-            "location": "Fener, Fatih",
+            "location": "Fatih, İstanbul",
             "image": "/images/venues/halic.jpg",
             "category": "Kültür ve Sanat Merkezi",
             "capacity": "50-70 kişi",
@@ -84,8 +84,8 @@
         },
         {
             "id": "4",
-            "name": "Haliç Kongre Merkezi",
-            "location": "Sütlüce Mah. Karaağaç Cad. No:19, Beyoğlu",
+            "name": "Metrohan",
+            "location": "Beyoğlu, İstanbul",
             "image": "/images/venues/metrohan.jpg",
             "category": "Kongre ve Etkinlik Merkezi",
             "capacity": "100-3000 kişi",
@@ -113,7 +113,7 @@
         {
             "id": "5",
             "name": "Borusan Contemporary",
-            "location": "Baltalimanı Hisar Cad. Perili Köşk No:5, Rumelihisarı, Sarıyer",
+            "location": "Sarıyer, İstanbul",
             "image": "/images/venues/borusan.jpg",
             "category": "Çağdaş Sanat Merkezi",
             "capacity": "80-150 kişi",
