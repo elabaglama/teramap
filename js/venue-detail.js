@@ -126,6 +126,14 @@ class VenueDetailApp {
 
         // Set up available dates for calendar
         this.bookedDates = this.venue.availableDates ? this.venue.availableDates.map(date => new Date(date)) : [];
+        
+        // Debug logging for available dates
+        console.log(`🏢 Venue: ${this.venue.name}`);
+        console.log(`📊 Available dates:`, this.bookedDates.map(d => d.toDateString()));
+        
+        if (this.bookedDates.length === 0) {
+            console.warn('⚠️ No available dates found for this venue');
+        }
 
         // Load meta information
         this.loadMetaInfo();
@@ -351,22 +359,23 @@ class VenueDetailApp {
             // Add classes based on date
             if (date.getMonth() !== month) {
                 dayElement.classList.add('other-month');
-            }
-            
-            if (this.isDateAvailable(date)) {
-                dayElement.classList.add('available');
-            }
-            
-            if (this.selectedDate && this.isSameDate(date, this.selectedDate)) {
-                dayElement.classList.add('selected');
-            }
-
-            // Add click handler
-            dayElement.addEventListener('click', () => {
-                if (date.getMonth() === month && this.isDateAvailable(date)) {
-                    this.selectDate(date);
+            } else {
+                // Only add interactive states for current month days
+                if (this.isDateAvailable(date)) {
+                    dayElement.classList.add('available');
                 }
-            });
+                
+                if (this.selectedDate && this.isSameDate(date, this.selectedDate)) {
+                    dayElement.classList.add('selected');
+                }
+
+                // Add click handler only for current month available dates
+                dayElement.addEventListener('click', () => {
+                    if (this.isDateAvailable(date)) {
+                        this.selectDate(date);
+                    }
+                });
+            }
 
             calendarDays.appendChild(dayElement);
         }
@@ -374,6 +383,7 @@ class VenueDetailApp {
 
     isDateAvailable(date) {
         const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize to start of day
         
         // Past dates are not available
         if (date < today) {
@@ -387,11 +397,18 @@ class VenueDetailApp {
         }
         
         // Check if this date is in venue's available dates
-        return this.bookedDates.some(availableDate => 
+        const isAvailable = this.bookedDates.some(availableDate => 
             availableDate.getFullYear() === date.getFullYear() &&
             availableDate.getMonth() === date.getMonth() &&
             availableDate.getDate() === date.getDate()
         );
+        
+        // Debug logging
+        if (isAvailable) {
+            console.log(`📅 Available date found: ${date.toDateString()}`);
+        }
+        
+        return isAvailable;
     }
 
     isSameDate(date1, date2) {
@@ -401,6 +418,8 @@ class VenueDetailApp {
     }
 
     selectDate(date) {
+        console.log(`🎯 Date selected: ${date.toDateString()}`);
+        
         // Remove previous selection
         document.querySelectorAll('.calendar-day.selected').forEach(day => {
             day.classList.remove('selected');
@@ -409,9 +428,18 @@ class VenueDetailApp {
         this.selectedDate = date;
         this.generateCalendar(); // Regenerate to show selection
 
-        // Update reserve button
+        // Update reserve button with Turkish month name
         const reserveBtn = document.getElementById('reserve-btn');
-        reserveBtn.textContent = `${date.getDate()} ${this.getMonthName(date.getMonth())} tarihini rezerve et`;
+        const dayOfMonth = date.getDate();
+        const monthName = this.getMonthName(date.getMonth());
+        const year = date.getFullYear();
+        
+        reserveBtn.textContent = `${dayOfMonth} ${monthName} ${year} tarihini rezerve et`;
+        reserveBtn.style.background = '#4caf50';
+        reserveBtn.style.fontWeight = '600';
+        
+        // Show visual feedback
+        reserveBtn.classList.add('btn-active');
     }
 
     getMonthName(monthIndex) {
@@ -428,84 +456,86 @@ class VenueDetailApp {
             return;
         }
 
-        const eventType = document.getElementById('event-type').value;
-        const eventDescription = document.getElementById('event-description').value;
-
-        if (!eventType) {
-            alert('Lütfen etkinlik türünü seçiniz.');
-            return;
-        }
-
-        const dateStr = `${this.selectedDate.getDate()} ${this.getMonthName(this.selectedDate.getMonth())} ${this.selectedDate.getFullYear()}`;
+        const dayOfMonth = this.selectedDate.getDate();
+        const monthName = this.getMonthName(this.selectedDate.getMonth());
+        const year = this.selectedDate.getFullYear();
+        const dateStr = `${dayOfMonth} ${monthName} ${year}`;
+        
+        console.log(`🎉 Reservation requested for: ${dateStr}`);
         
         // Show modern reservation confirmation popup
-        this.showReservationPopup(dateStr, eventType, eventDescription);
+        this.showReservationPopup(dateStr);
     }
 
-    showReservationPopup(dateStr, eventType, eventDescription) {
+    showReservationPopup(dateStr) {
         // Create modern popup
         const popup = document.createElement('div');
         popup.className = 'reservation-popup-overlay';
+        popup.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        `;
+        
         popup.innerHTML = `
-            <div class="reservation-popup">
+            <div class="reservation-popup" style="
+                background: white;
+                padding: 2rem;
+                border-radius: 12px;
+                max-width: 400px;
+                width: 90%;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            ">
                 <div class="popup-header">
-                    <h3><i class="fas fa-calendar-check"></i> Rezervasyon Talebi</h3>
-                    <button class="popup-close">&times;</button>
+                    <h3 style="color: #4caf50; margin-bottom: 1rem;">
+                        <i class="fas fa-calendar-check"></i> Rezervasyon Talebi
+                    </h3>
                 </div>
                 <div class="popup-body">
                     <div class="reservation-summary">
-                        <div class="summary-item">
-                            <div class="item-icon"><i class="fas fa-map-marker-alt"></i></div>
-                            <div class="item-details">
-                                <span class="item-label">Mekan</span>
-                                <span class="item-value">${this.venue.name}</span>
-                            </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Mekan:</strong> ${this.venue.name}
                         </div>
-                        <div class="summary-item">
-                            <div class="item-icon"><i class="fas fa-calendar"></i></div>
-                            <div class="item-details">
-                                <span class="item-label">Tarih</span>
-                                <span class="item-value">${dateStr}</span>
-                            </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Tarih:</strong> ${dateStr}
                         </div>
-                        <div class="summary-item">
-                            <div class="item-icon"><i class="fas fa-tag"></i></div>
-                            <div class="item-details">
-                                <span class="item-label">Fiyat</span>
-                                <span class="item-value">${this.venue.price}</span>
-                            </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Fiyat:</strong> ${this.venue.price}
                         </div>
-                        ${eventType ? `
-                        <div class="summary-item">
-                            <div class="item-icon"><i class="fas fa-star"></i></div>
-                            <div class="item-details">
-                                <span class="item-label">Etkinlik Türü</span>
-                                <span class="item-value">${eventType}</span>
-                            </div>
-                        </div>` : ''}
                     </div>
-                    ${eventDescription ? `
-                    <div class="description-section">
-                        <h4><i class="fas fa-info-circle"></i> Açıklama</h4>
-                        <p>${eventDescription}</p>
-                    </div>` : ''}
-                    <div class="contact-section">
+                    <div class="contact-section" style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
                         <h4><i class="fas fa-phone"></i> İletişim Bilgileri</h4>
-                        <div class="contact-info">
-                            <div class="contact-item">
-                                <i class="fas fa-phone"></i>
-                                <span>${this.venue.contact?.phone || 'Bilgi yok'}</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-envelope"></i>
-                                <span>${this.venue.contact?.email || 'Bilgi yok'}</span>
-                            </div>
-                        </div>
+                        <div>${this.venue.contact?.phone || 'Bilgi yok'}</div>
+                        <div>${this.venue.contact?.email || 'Bilgi yok'}</div>
                     </div>
                 </div>
-                <div class="popup-footer">
-                    <button class="btn-secondary" onclick="this.closest('.reservation-popup-overlay').remove()">İptal</button>
-                    <button class="btn-primary" onclick="venueDetailApp.confirmReservation('${dateStr}')">Rezervasyon Talebini Gönder</button>
+                <div class="popup-footer" style="margin-top: 1.5rem;">
+                    <button class="btn-secondary" onclick="this.closest('.reservation-popup-overlay').remove()" style="
+                        background: #ccc;
+                        color: #333;
+                        border: none;
+                        padding: 0.75rem 1.5rem;
+                        border-radius: 6px;
+                        margin-right: 1rem;
+                        cursor: pointer;
+                    ">İptal</button>
+                    <button class="btn-primary" onclick="venueDetailApp.confirmReservation('${dateStr}')" style="
+                        background: #4caf50;
+                        color: white;
+                        border: none;
+                        padding: 0.75rem 1.5rem;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        font-weight: 600;
+                    ">Rezervasyon Talebini Gönder</button>
                 </div>
             </div>
         `;
@@ -513,45 +543,74 @@ class VenueDetailApp {
         document.body.appendChild(popup);
         
         // Close popup functionality
-        popup.querySelector('.popup-close').onclick = () => popup.remove();
         popup.onclick = (e) => {
             if (e.target === popup) popup.remove();
         };
     }
 
     confirmReservation(dateStr) {
+        console.log(`✅ Reservation confirmed for: ${dateStr}`);
+        
         // Remove popup
         document.querySelector('.reservation-popup-overlay')?.remove();
         
         // Show success message
         const successPopup = document.createElement('div');
-        successPopup.className = 'success-popup-overlay';
+        successPopup.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        `;
+        
         successPopup.innerHTML = `
-            <div class="success-popup">
-                <div class="success-icon">
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 12px;
+                max-width: 400px;
+                width: 90%;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            ">
+                <div style="font-size: 3rem; color: #4caf50; margin-bottom: 1rem;">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <h3>Rezervasyon Talebiniz Alındı!</h3>
-                <p>
-                    ${dateStr} tarihinde <strong>${this.venue.name}</strong> için rezervasyon talebiniz başarıyla alınmıştır.
+                <h3 style="color: #4caf50; margin-bottom: 1rem;">Rezervasyon Talebiniz Alındı!</h3>
+                <p style="margin-bottom: 1.5rem;">
+                    <strong>${dateStr}</strong> tarihinde <strong>${this.venue.name}</strong> için rezervasyon talebiniz başarıyla alınmıştır.
                     <br><br>
                     Mekan sahibi sizinle en kısa sürede iletişime geçecektir.
                 </p>
-                <button class="btn-primary" onclick="this.closest('.success-popup-overlay').remove()">Tamam</button>
+                <button onclick="this.closest('div').remove()" style="
+                    background: #4caf50;
+                    color: white;
+                    border: none;
+                    padding: 0.75rem 2rem;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: 600;
+                ">Tamam</button>
             </div>
         `;
         
         document.body.appendChild(successPopup);
         
-        // Reset form
-        const eventTypeEl = document.getElementById('event-type');
-        const eventDescEl = document.getElementById('event-description');
-        if (eventTypeEl) eventTypeEl.value = '';
-        if (eventDescEl) eventDescEl.value = '';
-        
+        // Reset selection
         this.selectedDate = null;
         this.generateCalendar();
-        document.getElementById('reserve-btn').textContent = 'Mekanı Rezerve Et';
+        
+        const reserveBtn = document.getElementById('reserve-btn');
+        reserveBtn.textContent = 'Mekanı Rezerve Et';
+        reserveBtn.style.background = '#8b7355';
+        reserveBtn.style.fontWeight = '500';
+        reserveBtn.classList.remove('btn-active');
         
         // Auto close after 5 seconds
         setTimeout(() => {

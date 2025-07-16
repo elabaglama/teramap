@@ -676,25 +676,38 @@
 }
 
 .calendar-day.available {
-    background: #f9f9f9;
-    color: #333;
-    border: 1px solid #e8e8e8;
-}
-
-.calendar-day.available:hover {
-    background: #f0f0f0;
-    border-color: #8b7355;
-}
-
-.calendar-day.selected {
-    background: #8b7355;
-    color: white;
+    background: #e8f5e8;
+    color: #2c5530;
+    border: 1px solid #8bc34a;
+    cursor: pointer;
     font-weight: 500;
 }
 
-.calendar-day.disabled {
+.calendar-day.available:hover {
+    background: #8b7355;
+    color: white;
+    border-color: #8b7355;
+    transform: scale(1.05);
+}
+
+.calendar-day.selected {
+    background: #4caf50;
+    color: white;
+    font-weight: 600;
+    border: 2px solid #2e7d2e;
+    transform: scale(1.1);
+}
+
+.calendar-day.other-month {
+    color: #ccc;
+    cursor: default;
+    background: transparent;
+}
+
+.calendar-day:not(.available):not(.selected):not(.other-month) {
     color: #ddd;
     cursor: not-allowed;
+    background: #f9f9f9;
 }
 
 .reserve-btn {
@@ -707,7 +720,22 @@
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+}
+
+.reserve-btn:hover {
+    background: #6d5940;
+    transform: translateY(-1px);
+}
+
+.reserve-btn.btn-active {
+    background: #4caf50;
+    font-weight: 600;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+}
+
+.reserve-btn.btn-active:hover {
+    background: #45a049;
 }
 
 .reserve-btn:hover {
