@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesajlar - TeraMap</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/venue-detail.css">
+    <link rel="stylesheet" href="/css/venues.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .messages-container {
@@ -187,24 +187,24 @@
     </style>
 </head>
 <body>
-    <header class="venue-header">
-        <div class="venue-nav-container">
-            <div class="venue-logo">
+    <header class="app-header">
+        <nav class="app-nav">
+            <div class="app-logo">
                 <a href="/">
-                    <img src="../../logo transparent.png" alt="TERA MAP" class="logo-img">
+                    <img src="../../logo transparent.png" alt="TeraMap Logo" class="logo-image">
                 </a>
             </div>
-            <nav class="venue-nav">
-                <a href="/app/venues" class="nav-item">Venues</a>
-                <a href="/app/pages/messages" class="nav-item active">Messages</a>
-                <a href="/app/notifications" class="nav-item">Notifications</a>
-            </nav>
-            <div class="venue-profile">
+            <div class="app-nav-links">
+                <a href="/app/venues" class="nav-link">Mekanlar</a>
+                <a href="/app/pages/messages" class="nav-link active">Mesajlar</a>
+                <a href="#" class="nav-link">Bildirimler</a>
+            </div>
+            <div class="app-profile">
                 <div class="profile-placeholder" onclick="window.location.href='/profil'">
                     <i class="fas fa-user"></i>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
 
     <div class="messages-container">
