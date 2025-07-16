@@ -28,6 +28,14 @@
     font-style: italic;
 }
 
+.logo-img {
+    max-height: 40px;
+    max-width: 100%;
+    width: auto;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
 .venue-nav {
     display: flex;
     gap: 2rem;
@@ -442,7 +450,7 @@
 
 /* Legacy styles for compatibility */
 .logo-image {
-    height: 28px;
+    height: 40px;
     width: auto;
     object-fit: contain;
 }
