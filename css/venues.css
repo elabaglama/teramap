@@ -199,21 +199,29 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* More specific selectors to prevent conflicts */
-.venues-main .venue-image-container {
+.venue-image-container {
     position: relative;
     width: 350px;
-    height: 200px;
+    height: 150px;
 }
 
-.venues-main .venue-image {
+.venue-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
 .venue-badge {
-    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(145, 121, 110, 0.9);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
 }
 
 .venue-info {
@@ -342,9 +350,9 @@
         gap: 1rem;
     }
     
-    .venues-main .venue-image-container {
+    .venue-image-container {
         width: 100%;
-        height: 200px;
+        height: 150px;
     }
     
     .venue-card {
@@ -432,6 +440,293 @@
         opacity: 1;
         transform: translateY(0);
     }
-} 
+}
 
- 
+/* Venue Detail Page Styles */
+.venue-detail-main {
+    margin-top: 70px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.venue-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 4rem;
+    align-items: start;
+}
+
+.venue-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.venue-image-container {
+    width: 100%;
+    height: 400px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.venue-main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.venue-header-info {
+    margin-bottom: 1rem;
+}
+
+.venue-title {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.venue-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+}
+
+.venue-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.capacity-section h3,
+.overview-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.capacity-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.capacity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.overview-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    text-align: justify;
+}
+
+.amenities-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.suitable-for-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.suitable-for-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.suitable-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #e8f5e8;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #2d5a2d;
+    transition: all 0.3s ease;
+}
+
+.suitable-item:hover {
+    background: #d4f1d4;
+    transform: translateY(-2px);
+}
+
+.suitable-item i {
+    color: #28a745;
+    font-size: 1rem;
+}
+
+.booking-sidebar {
+    position: sticky;
+    top: 90px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    height: fit-content;
+}
+
+.booking-sidebar h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.calendar-container {
+    margin-bottom: 2rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.calendar-nav {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.calendar-nav:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.calendar-month {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calendar-day.header {
+    font-weight: 600;
+    color: #666;
+    cursor: default;
+}
+
+.calendar-day.available {
+    background: #f8f9fa;
+    color: #333;
+}
+
+.calendar-day.available:hover {
+    background: #ba9585;
+    color: white;
+}
+
+.calendar-day.selected {
+    background: #ba9585;
+    color: white;
+}
+
+.calendar-day.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.reserve-btn {
+    width: 100%;
+    background: #ba9585;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reserve-btn:hover {
+    background: #a08073;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .venue-detail-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .venue-detail-main {
+        padding: 1rem;
+    }
+    
+    .venue-title {
+        font-size: 2rem;
+    }
+    
+    .venue-info-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .amenities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .suitable-for-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+} 
