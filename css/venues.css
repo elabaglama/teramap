@@ -200,7 +200,7 @@
 .venue-image-container {
     position: relative;
     width: 100%;
-    height: 160px;
+    height: 140px;
 }
 
 .venue-image {
@@ -223,33 +223,34 @@
 }
 
 .venue-info {
-    padding: 1.2rem;
+    padding: 1rem;
 }
 
 .venue-name {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #333;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 .venue-location {
     color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
 }
 
 .venue-meta {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    margin-bottom: 1rem;
+    gap: 0.2rem;
+    margin-bottom: 0.8rem;
 }
 
 .venue-capacity,
 .venue-area {
     color: #666;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 .venue-price-info {
