@@ -609,9 +609,14 @@
     text-align: center;
 }
 
-.calendar-container {
+.calendar-container,
+.calendar-widget {
     margin-bottom: 1.5rem;
     max-width: 280px;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
 }
 
 .calendar-header {
