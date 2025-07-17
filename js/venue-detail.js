@@ -71,12 +71,41 @@ class VenueDetailApp {
             const depth = path.split('/').length - 1;
             const dataPath = depth > 3 ? '../../../data/venues.json' : '/data/venues.json';
             
+            console.log(`🔍 Loading venues from: ${dataPath}`);
+            console.log(`📍 Current path: ${path}, depth: ${depth}`);
+            
             const response = await fetch(dataPath);
+            
+            if (!response.ok) {
+                console.error(`❌ Failed to load venues: ${response.status} ${response.statusText}`);
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
             const data = await response.json();
             this.venues = data.venues || [];
+            
+            console.log(`✅ Loaded ${this.venues.length} venues successfully`);
+            console.log('📋 Venues:', this.venues.map(v => `${v.id}: ${v.name}`));
+            
         } catch (error) {
-            console.error('Error loading venues:', error);
-            this.venues = [];
+            console.error('❌ Error loading venues:', error);
+            console.warn('🔄 Trying alternative path: /data/venues.json');
+            
+            // Fallback to absolute path
+            try {
+                const response = await fetch('/data/venues.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    this.venues = data.venues || [];
+                    console.log(`✅ Fallback successful: Loaded ${this.venues.length} venues`);
+                } else {
+                    throw new Error('Fallback also failed');
+                }
+            } catch (fallbackError) {
+                console.error('❌ Both paths failed:', fallbackError);
+                this.venues = [];
+                alert('Mekan verileri yüklenemedi. Sayfayı yenileyin.');
+            }
         }
     }
 
@@ -84,6 +113,9 @@ class VenueDetailApp {
         const path = window.location.pathname;
         const pathParts = path.split('/');
         const venueSlug = pathParts[pathParts.length - 1] === '' ? pathParts[pathParts.length - 2] : pathParts[pathParts.length - 1];
+        
+        console.log(`🔗 Extracting venue from URL: ${path}`);
+        console.log(`📝 Venue slug: ${venueSlug}`);
         
         // Convert slug back to venue (simple mapping for now)
         const slugToId = {
@@ -95,7 +127,16 @@ class VenueDetailApp {
         };
         
         const venueId = slugToId[venueSlug];
+        console.log(`🏷️ Venue ID: ${venueId} for slug: ${venueSlug}`);
+        
         this.venue = this.venues.find(v => v.id === venueId);
+        
+        if (this.venue) {
+            console.log(`✅ Venue found: ${this.venue.name}`);
+        } else {
+            console.error(`❌ No venue found for slug: ${venueSlug}, ID: ${venueId}`);
+            console.log('📋 Available venues:', this.venues.map(v => `${v.id}: ${v.name}`));
+        }
         
         // Fix image path based on current directory depth
         if (this.venue) {
@@ -298,10 +339,18 @@ class VenueDetailApp {
     }
 
     showNotFound() {
+        console.error('❌ Showing not found page');
+        console.log('🔍 Debug info:', {
+            currentPath: window.location.pathname,
+            venuesLoaded: this.venues.length,
+            venueFound: !!this.venue
+        });
+        
         document.querySelector('.venue-detail-main').innerHTML = `
             <div style="text-align: center; padding: 4rem;">
                 <h1>Mekan Bulunamadı</h1>
                 <p>Aradığınız mekan bulunmamaktadır.</p>
+                <p><small>Debug: ${this.venues.length} mekan yüklendi, mevcut path: ${window.location.pathname}</small></p>
                 <a href="/app/venues" class="reserve-btn" style="display: inline-block; text-decoration: none;">
                     Mekanlara Dön
                 </a>
@@ -331,6 +380,10 @@ class VenueDetailApp {
         const year = this.currentDate.getFullYear();
         const month = this.currentDate.getMonth();
         
+        console.log(`📅 Generating calendar for: ${month + 1}/${year}`);
+        console.log(`🏢 Current venue:`, this.venue?.name);
+        console.log(`📊 Available dates count:`, this.bookedDates?.length || 0);
+        
         // Update month header - Turkish month names
         const monthNames = [
             'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
@@ -345,7 +398,13 @@ class VenueDetailApp {
         startDate.setDate(startDate.getDate() - firstDay.getDay());
 
         const calendarDays = document.getElementById('calendar-days');
+        if (!calendarDays) {
+            console.error('❌ Calendar days container not found!');
+            return;
+        }
+        
         calendarDays.innerHTML = '';
+        let availableCount = 0;
 
         // Generate 42 days (6 weeks)
         for (let i = 0; i < 42; i++) {
@@ -363,6 +422,7 @@ class VenueDetailApp {
                 // Only add interactive states for current month days
                 if (this.isDateAvailable(date)) {
                     dayElement.classList.add('available');
+                    availableCount++;
                 }
                 
                 if (this.selectedDate && this.isSameDate(date, this.selectedDate)) {
@@ -379,6 +439,8 @@ class VenueDetailApp {
 
             calendarDays.appendChild(dayElement);
         }
+        
+        console.log(`✅ Calendar generated with ${availableCount} available dates for ${monthNames[month]}`);
     }
 
     isDateAvailable(date) {
