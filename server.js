@@ -416,6 +416,10 @@ app.get('/profil', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'profil', 'index.html'));
 });
 
+app.get('/admin', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin', 'index.html'));
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server ${PORT} portunda çalışıyor`);
