@@ -244,21 +244,30 @@ class VenueDetailApp {
     }
 
     loadMetaInfo() {
-        // Load price and category
-        document.getElementById('venue-price').textContent = this.venue.price;
-        document.getElementById('venue-category').textContent = this.venue.category;
+        // Load price and category - with null checks
+        const priceElement = document.getElementById('venue-price');
+        const categoryElement = document.getElementById('venue-category');
+        const badgeElement = document.getElementById('venue-badge');
+        
+        if (priceElement) {
+            priceElement.textContent = this.venue.price;
+        }
+        if (categoryElement) {
+            categoryElement.textContent = this.venue.category;
+        }
         
         // Load badge
-        const badgeElement = document.getElementById('venue-badge');
-        if (this.venue.isYouthFree) {
-            badgeElement.textContent = 'Gençlik Ekiplerine Ücretsiz';
-            badgeElement.style.background = 'rgba(76, 175, 80, 0.9)';
-        } else if (this.venue.isPaid) {
-            badgeElement.textContent = 'Ücretli Kiralama';
-            badgeElement.style.background = 'rgba(255, 152, 0, 0.9)';
-        } else {
-            badgeElement.textContent = 'Ücretsiz';
-            badgeElement.style.background = 'rgba(145, 121, 110, 0.9)';
+        if (badgeElement) {
+            if (this.venue.isYouthFree) {
+                badgeElement.textContent = 'Gençlik Ekiplerine Ücretsiz';
+                badgeElement.style.background = 'rgba(76, 175, 80, 0.9)';
+            } else if (this.venue.isPaid) {
+                badgeElement.textContent = 'Ücretli Kiralama';
+                badgeElement.style.background = 'rgba(255, 152, 0, 0.9)';
+            } else {
+                badgeElement.textContent = 'Ücretsiz';
+                badgeElement.style.background = 'rgba(145, 121, 110, 0.9)';
+            }
         }
     }
 
@@ -348,6 +357,12 @@ class VenueDetailApp {
 
     loadContactInfo() {
         const contactGrid = document.getElementById('contact-grid');
+        
+        // If contact-grid doesn't exist, skip this function
+        if (!contactGrid) {
+            console.log('💡 Contact grid not found, skipping contact info load');
+            return;
+        }
         
         if (!this.venue.contact) {
             contactGrid.innerHTML = '<p>İletişim bilgisi bulunmamaktadır</p>';
