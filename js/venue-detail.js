@@ -57,11 +57,51 @@ class VenueDetailApp {
     }
 
     async init() {
-        await this.loadVenues();
-        this.extractVenueFromURL();
-        this.loadVenueData();
-        this.setupEventListeners();
-        this.generateCalendar();
+        try {
+            console.log('🚀 Initializing VenueDetailApp...');
+            
+            await this.loadVenues();
+            console.log('📋 Venues loaded, extracting from URL...');
+            
+            this.extractVenueFromURL();
+            console.log('🔗 URL extraction complete');
+            
+            this.loadVenueData();
+            console.log('📄 Venue data loaded');
+            
+            this.setupEventListeners();
+            console.log('👂 Event listeners set up');
+            
+            this.generateCalendar();
+            console.log('📅 Calendar generated');
+            
+            console.log('✅ VenueDetailApp initialization complete!');
+            
+        } catch (error) {
+            console.error('❌ Error during initialization:', error);
+            console.error('Stack trace:', error.stack);
+            
+            // Show user-friendly error
+            const mainElement = document.querySelector('.venue-detail-main');
+            if (mainElement) {
+                mainElement.innerHTML = `
+                    <div style="text-align: center; padding: 4rem; background: #ffe6e6; border-radius: 8px; margin: 2rem;">
+                        <h2 style="color: #d32f2f;">⚠️ Uygulama Başlatılamadı</h2>
+                        <p>Sayfa yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin.</p>
+                        <p><small>Hata: ${error.message}</small></p>
+                        <button onclick="window.location.reload()" style="
+                            background: #d32f2f; 
+                            color: white; 
+                            border: none; 
+                            padding: 1rem 2rem; 
+                            border-radius: 6px; 
+                            cursor: pointer;
+                            margin-top: 1rem;
+                        ">Sayfayı Yenile</button>
+                    </div>
+                `;
+            }
+        }
     }
 
     async loadVenues() {
@@ -71,10 +111,20 @@ class VenueDetailApp {
             const depth = path.split('/').length - 1;
             const dataPath = depth > 3 ? '../../../data/venues.json' : '/data/venues.json';
             
-            console.log(`🔍 Loading venues from: ${dataPath}`);
+            // Add cache busting
+            const cacheBuster = '?v=' + Date.now();
+            const fullPath = dataPath + cacheBuster;
+            
+            console.log(`🔍 Loading venues from: ${fullPath}`);
             console.log(`📍 Current path: ${path}, depth: ${depth}`);
             
-            const response = await fetch(dataPath);
+            const response = await fetch(fullPath, {
+                method: 'GET',
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            });
             
             if (!response.ok) {
                 console.error(`❌ Failed to load venues: ${response.status} ${response.statusText}`);
@@ -93,7 +143,14 @@ class VenueDetailApp {
             
             // Fallback to absolute path
             try {
-                const response = await fetch('/data/venues.json');
+                const cacheBuster = '?v=' + Date.now();
+                const response = await fetch('/data/venues.json' + cacheBuster, {
+                    method: 'GET',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
+                });
                 if (response.ok) {
                     const data = await response.json();
                     this.venues = data.venues || [];
