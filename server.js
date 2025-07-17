@@ -3,6 +3,11 @@ const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
 const session = require('express-session');
+
+// Veritabanı ve e-posta servisleri
+const { createReservation, getAllReservations } = require('./backend/database');
+const { sendReservationConfirmation, sendAdminNotification } = require('./backend/email-service');
+
 const app = express();
 
 app.use(express.json());
@@ -322,38 +327,79 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-// Rezervasyon kaydet (herkese açık)
+// Rezervasyon kaydet (herkese açık) - Veritabanı + E-posta
 app.post('/api/reservation', async (req, res) => {
     try {
         const { venue, date, name, email, phone } = req.body;
+        
+        // Validasyon
         if (!venue || !date || !name || !email) {
-            return res.status(400).json({ success: false, message: 'Eksik bilgi' });
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Eksik bilgi: Mekan, tarih, isim ve e-posta zorunludur' 
+            });
         }
-        const newReservation = {
-            id: Date.now().toString(),
-            venue,
-            date,
-            name,
-            email,
-            phone,
-            createdAt: new Date().toISOString()
-        };
-        // Dosya yolu
-        const filePath = path.join(__dirname, 'data', 'reservations.json');
-        let reservations = [];
-        try {
-            const file = await fs.readFile(filePath, 'utf8');
-            reservations = JSON.parse(file);
-        } catch (err) {
-            // Dosya yoksa boş başlat
-            reservations = [];
+
+        // E-posta format kontrolü
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Geçersiz e-posta formatı' 
+            });
         }
-        reservations.push(newReservation);
-        await fs.writeFile(filePath, JSON.stringify(reservations, null, 2));
-        res.json({ success: true, reservation: newReservation });
+
+        // Rezervasyonu veritabanına kaydet
+        const reservation = await createReservation({ venue, date, name, email, phone });
+        console.log('✅ Rezervasyon veritabanına kaydedildi:', reservation.id);
+
+        // E-posta bildirimleri gönder (asenkron)
+        Promise.all([
+            sendReservationConfirmation(reservation),
+            sendAdminNotification(reservation)
+        ]).then(([customerResult, adminResult]) => {
+            console.log('📧 Müşteri e-postası:', customerResult.success ? 'Gönderildi' : 'Başarısız');
+            console.log('📧 Admin e-postası:', adminResult.success ? 'Gönderildi' : 'Başarısız');
+        }).catch(error => {
+            console.error('E-posta gönderme hatası:', error);
+        });
+
+        // Başarılı yanıt
+        res.json({ 
+            success: true, 
+            reservation: {
+                id: reservation.id,
+                venue: reservation.venue,
+                date: reservation.date,
+                name: reservation.name,
+                email: reservation.email,
+                phone: reservation.phone,
+                status: reservation.status,
+                created_at: reservation.created_at
+            },
+            message: 'Rezervasyon başarıyla alındı! E-posta ile onay gönderilecek.'
+        });
+
     } catch (error) {
-        console.error('Rezervasyon kaydetme hatası:', error);
-        res.status(500).json({ success: false, message: 'Rezervasyon kaydedilemedi' });
+        console.error('❌ Rezervasyon kaydetme hatası:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Rezervasyon kaydedilemedi. Lütfen tekrar deneyin.' 
+        });
+    }
+});
+
+// Rezervasyonları listele (admin için)
+app.get('/api/reservations', requireAuth, async (req, res) => {
+    try {
+        const reservations = await getAllReservations();
+        res.json({ success: true, reservations });
+    } catch (error) {
+        console.error('❌ Rezervasyonları listeleme hatası:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Rezervasyonlar yüklenemedi' 
+        });
     }
 });
 
