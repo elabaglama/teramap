@@ -322,6 +322,41 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
+// Rezervasyon kaydet (herkese açık)
+app.post('/api/reservation', async (req, res) => {
+    try {
+        const { venue, date, name, email, phone } = req.body;
+        if (!venue || !date || !name || !email) {
+            return res.status(400).json({ success: false, message: 'Eksik bilgi' });
+        }
+        const newReservation = {
+            id: Date.now().toString(),
+            venue,
+            date,
+            name,
+            email,
+            phone,
+            createdAt: new Date().toISOString()
+        };
+        // Dosya yolu
+        const filePath = path.join(__dirname, 'data', 'reservations.json');
+        let reservations = [];
+        try {
+            const file = await fs.readFile(filePath, 'utf8');
+            reservations = JSON.parse(file);
+        } catch (err) {
+            // Dosya yoksa boş başlat
+            reservations = [];
+        }
+        reservations.push(newReservation);
+        await fs.writeFile(filePath, JSON.stringify(reservations, null, 2));
+        res.json({ success: true, reservation: newReservation });
+    } catch (error) {
+        console.error('Rezervasyon kaydetme hatası:', error);
+        res.status(500).json({ success: false, message: 'Rezervasyon kaydedilemedi' });
+    }
+});
+
 // Korumalı rotalar
 app.get('/mekanlar', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'mekanlar', 'index.html'));
