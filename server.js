@@ -403,6 +403,12 @@ app.get('/api/reservations', requireAuth, async (req, res) => {
     }
 });
 
+// SMTP durumunu döndür
+app.get('/api/smtp-status', (req, res) => {
+    const smtpConfigured = Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
+    res.json({ smtpConfigured });
+});
+
 // Korumalı rotalar
 app.get('/mekanlar', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'mekanlar', 'index.html'));

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Basit Rezervasyon Listesi</title>
+</head>
+<body>
+    <h1>Admin Panel (Basit)</h1>
+    <div id="smtp-warning" style="color: red; font-weight: bold;"></div>
+    <table border="1" cellpadding="8" cellspacing="0" id="reservations-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mekan</th>
+                <th>Tarih</th>
+                <th>İsim</th>
+                <th>E-posta</th>
+                <th>Telefon</th>
+                <th>Durum</th>
+                <th>Oluşturulma</th>
+            </tr>
+        </thead>
+        <tbody id="reservations-body">
+            <tr><td colspan="8">Yükleniyor...</td></tr>
+        </tbody>
+    </table>
+    <script>
+    // SMTP kontrolü için backend'den bilgi al
+    fetch('/api/smtp-status')
+      .then(r => r.json())
+      .then(data => {
+        if (!data.smtpConfigured) {
+          document.getElementById('smtp-warning').textContent = 'UYARI: SMTP ayarı yapılmamış, e-posta gönderilmiyor!';
+        }
+      });
+
+    // Rezervasyonları çek
+    fetch('/api/reservations')
+      .then(r => r.json())
+      .then(data => {
+        const tbody = document.getElementById('reservations-body');
+        if (!data.success || !data.reservations || data.reservations.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8">Kayıt yok</td></tr>';
+          return;
+        }
+        tbody.innerHTML = data.reservations.map(r => `
+          <tr>
+            <td>${r.id}</td>
+            <td>${r.venue}</td>
+            <td>${r.date}</td>
+            <td>${r.name}</td>
+            <td>${r.email}</td>
+            <td>${r.phone || '-'}</td>
+            <td>${r.status}</td>
+            <td>${r.created_at}</td>
+          </tr>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('reservations-body').innerHTML = '<tr><td colspan="8">Hata oluştu</td></tr>';
+      });
+    </script>
+</body>
+</html> 
