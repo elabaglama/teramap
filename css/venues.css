@@ -738,6 +738,24 @@
     background: #45a049;
 }
 
+/* Venue Badge Styles */
+.venue-badge-section {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.venue-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(139, 115, 85, 0.9);
+    color: white;
+}
+
 .reserve-btn:hover {
     background: #a08073;
     transform: translateY(-2px);
