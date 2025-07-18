@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const session = require('express-session');
 
 // Veritabanı ve e-posta servisleri
-const { createReservation, getAllReservations } = require('./backend/database');
+const { createReservation, getAllReservations, getAvailableDates } = require('./backend/database');
 const { sendReservationConfirmation, sendAdminNotification } = require('./backend/email-service');
 
 const app = express();
@@ -407,6 +407,21 @@ app.get('/api/reservations', requireAuth, async (req, res) => {
 app.get('/api/smtp-status', (req, res) => {
     const smtpConfigured = Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
     res.json({ smtpConfigured });
+});
+
+// Mekanın boş günlerini döndüren endpoint
+app.get('/api/venue-available-dates', async (req, res) => {
+    const venue = req.query.venue;
+    if (!venue) {
+        return res.status(400).json({ success: false, message: 'venue parametresi gerekli' });
+    }
+    try {
+        const availableDates = await getAvailableDates(venue);
+        res.json({ success: true, venue, availableDates });
+    } catch (error) {
+        console.error('Boş günler alınırken hata:', error);
+        res.status(500).json({ success: false, message: 'Boş günler alınamadı' });
+    }
 });
 
 // Korumalı rotalar

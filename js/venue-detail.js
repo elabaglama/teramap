@@ -205,7 +205,7 @@ class VenueDetailApp {
         }
     }
 
-    loadVenueData() {
+    async loadVenueData() {
         if (!this.venue) {
             this.showNotFound();
             return;
@@ -222,8 +222,29 @@ class VenueDetailApp {
         document.getElementById('venue-capacity').textContent = this.venue.capacity;
         document.getElementById('venue-description').textContent = this.venue.description;
 
-        // Set up available dates for calendar
-        this.bookedDates = this.venue.availableDates ? this.venue.availableDates.map(date => new Date(date)) : [];
+        // Venue detaylarını yükledikten sonra boş günleri çek
+        if (this.venue && this.venue.name) {
+            try {
+                const response = await fetch(`/api/venue-available-dates?venue=${encodeURIComponent(this.venue.name)}`);
+                const data = await response.json();
+                if (data.success && Array.isArray(data.availableDates)) {
+                    // YYYY-MM-DD stringlerini Date nesnesine çevir
+                    this.bookedDates = data.availableDates.map(dateStr => {
+                        const [year, month, day] = dateStr.split('-').map(Number);
+                        return new Date(year, month - 1, day);
+                    });
+                    console.log('📅 Boş günler yüklendi:', this.bookedDates);
+                } else {
+                    this.bookedDates = [];
+                    console.warn('Boş gün verisi alınamadı veya format hatalı.');
+                }
+            } catch (err) {
+                this.bookedDates = [];
+                console.error('Boş günler çekilirken hata:', err);
+            }
+            // Takvimi güncelle
+            this.generateCalendar();
+        }
         
         // Debug logging for available dates
         console.log(`🏢 Venue: ${this.venue.name}`);

@@ -129,10 +129,36 @@ function logEmail(reservationId, recipient, subject, type, status = 'sent') {
     });
 }
 
+// Google Sheets'ten mekanın boş günlerini çek
+const { google } = require('googleapis');
+const sheets = google.sheets('v4');
+const sheetsAuth = new google.auth.GoogleAuth({
+  keyFile: __dirname + '/service-account.json',
+  scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+});
+
+async function getAvailableDates(venue) {
+  const client = await sheetsAuth.getClient();
+  const spreadsheetId = '1P6Fn6cm7XCHtPpWCs2ea0SXnnlq_5khV1GP9pZSyPqs';
+  const range = 'Sayfa1!A2:B'; // Başlık hariç
+
+  const res = await sheets.spreadsheets.values.get({
+    auth: client,
+    spreadsheetId,
+    range,
+  });
+
+  const rows = res.data.values;
+  if (!rows || !rows.length) return [];
+  // Sadece ilgili mekanın günlerini döndür
+  return rows.filter(row => row[0] === venue).map(row => row[1]);
+}
+
 module.exports = {
     db,
     createReservation,
     getAllReservations,
     updateReservationStatus,
-    logEmail
+    logEmail,
+    getAvailableDates
 }; 
